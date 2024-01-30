@@ -1,0 +1,58 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+name: CI
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    env:
+      RUSTFLAGS: -D warnings
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2.7.2
+      - name: Lint (clippy)
+        run: cargo clippy --all-features --all-targets
+      - name: Lint (rustfmt)
+        run: cargo xfmt --check
+      - name: Run rustdoc
+        env:
+          RUSTC_BOOTSTRAP: 1 # for feature(doc_cfg)
+          RUSTDOCFLAGS: -Dwarnings --cfg doc_cfg
+        run: cargo doc --all-features --workspace
+      - name: Check for differences
+        run: git diff --exit-code
+
+  build:
+    name: Build and test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        rust-version: ["1.60", stable]
+      fail-fast: false
+    env:
+      RUSTFLAGS: -D warnings
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust-version }}
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@cargo-hack
+      - uses: taiki-e/install-action@nextest
+      - name: Build
+        run: cargo hack build --feature-powerset
+      - name: Test
+        run: cargo hack nextest run --feature-powerset
+      - name: Run doctests
+        run: cargo test --doc --all-features
