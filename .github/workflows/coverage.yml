@@ -18,7 +18,7 @@ jobs:
       RUSTFLAGS: -D warnings
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-      - uses: dtolnay/rust-toolchain@nightly  # Use nightly to get access to coverage --doc
+      - uses: dtolnay/rust-toolchain@nightly # Use nightly to get access to coverage --doc
         with:
           components: llvm-tools-preview
       - uses: Swatinem/rust-cache@a95ba195448af2da9b00fb742d14ffaaf3c21f43 # v2
@@ -27,8 +27,10 @@ jobs:
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
 
-      - name: Collect coverage data
-        run:  ./scripts/commands.sh coverage
+      - name: Collect coverage data with nextest
+        run: cargo llvm-cov nextest --all-features --all-targets --lcov --output-path lcov.info
+      - name: Collect coverage data for doctests
+        run: llvm-cov test --all-features --doc --lcov --output-path lcov-doctest.info
       - name: Upload coverage data to codecov
         uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3
         with:
