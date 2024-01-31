@@ -243,7 +243,7 @@ impl fmt::Display for TypedUuidTag {
 
 impl AsRef<str> for TypedUuidTag {
     fn as_ref(&self) -> &str {
-        &self.0
+        self.0
     }
 }
 
