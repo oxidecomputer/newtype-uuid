@@ -215,6 +215,8 @@ pub trait TypedUuidKind: Send + Sync + 'static {
     /// Returns the corresponding tag for this kind.
     ///
     /// The tag forms a runtime representation of this type.
+    ///
+    /// The tag is required to be a static string.
     fn tag() -> TypedUuidTag;
 }
 
@@ -226,8 +228,61 @@ pub struct TypedUuidTag(&'static str);
 
 impl TypedUuidTag {
     /// Creates a new `TypedUuidTag` from a static string.
+    ///
+    /// The string must be non-empty, and consist of:
+    /// - ASCII letters
+    /// - digits (only after the first character)
+    /// - underscores
+    /// - hyphens (only after the first character)
+    ///
+    /// # Panics
+    ///
+    /// Panics if the above conditions aren't met. (This is a const fn, so it can't return an
+    /// error.)
     pub const fn new(tag: &'static str) -> Self {
-        Self(tag)
+        match Self::try_new(tag) {
+            Ok(tag) => tag,
+            Err(message) => panic!("{}", message),
+        }
+    }
+
+    /// Attempts to create a new `TypedUuidTag` from a static string.
+    ///
+    /// The string must be non-empty, and consist of:
+    /// - ASCII letters
+    /// - digits (only after the first character)
+    /// - underscores
+    /// - hyphens (only after the first character)
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the above conditions aren't met.
+    pub const fn try_new(tag: &'static str) -> Result<Self, &'static str> {
+        if tag.is_empty() {
+            return Err("tag must not be empty");
+        }
+
+        let bytes = tag.as_bytes();
+        if !(bytes[0].is_ascii_alphabetic() || bytes[0] == b'_') {
+            return Err("first character of tag must be an ASCII letter or underscore");
+        }
+
+        let mut bytes = match bytes {
+            [_, rest @ ..] => rest,
+            [] => panic!("already checked that it's non-empty"),
+        };
+        while let [rest @ .., last] = &bytes {
+            if !(last.is_ascii_alphanumeric() || *last == b'_' || *last == b'-') {
+                break;
+            }
+            bytes = rest;
+        }
+
+        if !bytes.is_empty() {
+            return Err("tag must only contain ASCII letters, digits, underscores, or hyphens");
+        }
+
+        Ok(Self(tag))
     }
 
     /// Returns the tag as a string.
@@ -327,5 +382,26 @@ impl<T: TypedUuidKind> GenericUuid for TypedUuid<T> {
     #[inline]
     fn as_untyped_uuid(&self) -> &Uuid {
         &self.uuid
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_validate_tags() {
+        for &valid_tag in &[
+            "a", "a-", "a_", "a-b", "a_b", "a1", "a1-", "a1_", "a1-b", "a1_b", "_a",
+        ] {
+            TypedUuidTag::try_new(valid_tag).expect("tag is valid");
+            // Should not panic
+            TypedUuidTag::new(valid_tag);
+        }
+
+        for invalid_tag in &["", "1", "-", "a1b!", "a1-b!", "a1_b:", "\u{1f4a9}"] {
+            assert!(TypedUuidTag::try_new(invalid_tag).is_err());
+            assert!(std::panic::catch_unwind(|| TypedUuidTag::new(invalid_tag)).is_err());
+        }
     }
 }
