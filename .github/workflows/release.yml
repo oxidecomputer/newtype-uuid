@@ -4,7 +4,7 @@ name: Publish release
 on:
   push:
     tags:
-      - '*'
+      - "*"
 
 jobs:
   create-release:
@@ -22,8 +22,8 @@ jobs:
       - uses: taiki-e/create-gh-release-action@v1
         with:
           changelog: CHANGELOG.md
-          title: cancel-safe-futures $version
+          title: newtype-uuid $version
           branch: main
-          prefix: cancel-safe-futures
+          prefix: newtype-uuid
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
