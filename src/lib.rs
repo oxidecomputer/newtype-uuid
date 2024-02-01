@@ -36,8 +36,8 @@
 //! # Implementations
 //!
 //! In general, [`TypedUuid`] uses the same wire and serialization formats as [`Uuid`]. This means
-//! that data on the wire does not change; [`TypedUuid`] is intended to be helpful within Rust code,
-//! not across serialization boundaries.
+//! that persistent representations of [`TypedUuid`] are the same as [`Uuid`]; [`TypedUuid`] is
+//! intended to be helpful within Rust code, not across serialization boundaries.
 //!
 //! - The `Display` and `FromStr` impls are forwarded to the underlying [`Uuid`].
 //! - If the `serde` feature is enabled, `TypedUuid` will serialize and deserialize using the same
@@ -67,6 +67,11 @@
 //!
 //! The MSRV of this crate is **Rust 1.60.** In general, this crate will follow the MSRV of the
 //! underlying `uuid` crate.
+//!
+//! # Alternatives
+//!
+//! - [`typed-uuid`](https://crates.io/crates/typed-uuid): generally similar, but with a few design
+//!   decisions that are different.
 
 #![forbid(unsafe_code)]
 #![warn(missing_docs)]

@@ -44,8 +44,8 @@ assert_eq!(format!("{:?}", uuid), "dffc3068-1cd6-47d5-b2f3-636b41b07084 (my_kind
 ## Implementations
 
 In general, `TypedUuid` uses the same wire and serialization formats as `Uuid`. This means
-that data on the wire does not change; `TypedUuid` is intended to be helpful within Rust code,
-not across serialization boundaries.
+that persistent representations of `TypedUuid` are the same as `Uuid`; `TypedUuid` is
+intended to be helpful within Rust code, not across serialization boundaries.
 
 - The `Display` and `FromStr` impls are forwarded to the underlying `Uuid`.
 - If the `serde` feature is enabled, `TypedUuid` will serialize and deserialize using the same
@@ -75,6 +75,11 @@ permits conversions between typed and untyped UUIDs.
 
 The MSRV of this crate is **Rust 1.60.** In general, this crate will follow the MSRV of the
 underlying `uuid` crate.
+
+## Alternatives
+
+- [`typed-uuid`](https://crates.io/crates/typed-uuid): generally similar, but with a few design
+  decisions that are different.
 
 ## License
 
