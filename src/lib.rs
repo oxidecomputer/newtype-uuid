@@ -68,6 +68,7 @@
 //! The MSRV of this crate is **Rust 1.60.** In general, this crate will follow the MSRV of the
 //! underlying `uuid` crate.
 
+#![forbid(unsafe_code)]
 #![warn(missing_docs)]
 #![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg, doc_auto_cfg))]
