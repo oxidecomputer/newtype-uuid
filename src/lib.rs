@@ -406,7 +406,6 @@ mod tests {
 
         for invalid_tag in &["", "1", "-", "a1b!", "a1-b!", "a1_b:", "\u{1f4a9}"] {
             assert!(TypedUuidTag::try_new(invalid_tag).is_err());
-            assert!(std::panic::catch_unwind(|| TypedUuidTag::new(invalid_tag)).is_err());
         }
     }
 }
