@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.2.1] - 2024-02-02
+
+Documentation improvements.
+
 ## [0.2.0] - 2024-02-01
 
 ### Breaking changes
@@ -14,5 +18,6 @@
 
 Initial release.
 
+[0.2.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.2.1
 [0.2.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.2.0
 [0.1.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.1.0

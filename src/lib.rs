@@ -19,7 +19,11 @@
 //!
 //! impl TypedUuidKind for MyKind {
 //!     fn tag() -> TypedUuidTag {
-//!         TypedUuidTag::new("my_kind")
+//!         // Tags are required to be ASCII identifiers, with underscores
+//!         // and dashes also supported. The validity of a tag can be checked
+//!         // at compile time by assigning it to a const, like so:
+//!         const TAG: TypedUuidTag = TypedUuidTag::new("my_kind");
+//!         TAG
 //!     }
 //! }
 //!
@@ -214,6 +218,29 @@ mod schemars08_imp {
 ///
 /// If the `schemars08` feature is enabled, and [`JsonSchema`] is implemented for a kind `T`, then
 /// [`TypedUuid`]`<T>` will also implement [`JsonSchema`].
+///
+/// # Notes
+///
+/// If you have a large number of UUID kinds, it can be repetitive to implement this trait for each
+/// kind. Here's a template for a macro that can help:
+///
+/// ```
+/// macro_rules! impl_typed_uuid_kind {
+///     ($($kind:ident => $tag:literal),* $(,)?) => {
+///         $(
+///             pub enum $kind {}
+///
+///             impl TypedUuidKind for $kind {
+///                 #[inline]
+///                 fn tag() -> TypedUuidTag {
+///                     const TAG: TypedUuidTag = TypedUuidTag::new($tag);
+///                     TAG
+///                 }
+///             }
+///         )*
+///     };
+/// }
+/// ```
 ///
 /// [`JsonSchema`]: schemars::JsonSchema
 pub trait TypedUuidKind: Send + Sync + 'static {

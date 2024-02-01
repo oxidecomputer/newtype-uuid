@@ -27,7 +27,11 @@ enum MyKind {}
 
 impl TypedUuidKind for MyKind {
     fn tag() -> TypedUuidTag {
-        TypedUuidTag::new("my_kind")
+        // Tags are required to be ASCII identifiers, with underscores
+        // and dashes also supported. The validity of a tag can be checked
+        // at compile time by assigning it to a const, like so:
+        const TAG: TypedUuidTag = TypedUuidTag::new("my_kind");
+        TAG
     }
 }
 
