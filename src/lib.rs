@@ -240,6 +240,12 @@ mod schemars08_imp {
 ///         )*
 ///     };
 /// }
+///
+/// // Invoke this macro with:
+/// impl_typed_uuid_kind! {
+///     Kind1 => "kind1",
+///     Kind2 => "kind2",
+/// }
 /// ```
 ///
 /// [`JsonSchema`]: schemars::JsonSchema
@@ -272,7 +278,7 @@ impl TypedUuidTag {
     /// Panics if the above conditions aren't met. (This is a const fn, so it can't return an
     /// error.)
     pub const fn new(tag: &'static str) -> Self {
-        match Self::try_new(tag) {
+        match Self::try_new_impl(tag) {
             Ok(tag) => tag,
             Err(message) => panic!("{}", message),
         }
@@ -288,8 +294,18 @@ impl TypedUuidTag {
     ///
     /// # Errors
     ///
-    /// Returns an error if the above conditions aren't met.
-    pub const fn try_new(tag: &'static str) -> Result<Self, &'static str> {
+    /// Returns a [`TagError`] if the above conditions aren't met.
+    pub const fn try_new(tag: &'static str) -> Result<Self, TagError> {
+        match Self::try_new_impl(tag) {
+            Ok(tag) => Ok(tag),
+            Err(message) => Err(TagError {
+                input: tag,
+                message,
+            }),
+        }
+    }
+
+    const fn try_new_impl(tag: &'static str) -> Result<Self, &'static str> {
         if tag.is_empty() {
             return Err("tag must not be empty");
         }
@@ -318,7 +334,7 @@ impl TypedUuidTag {
     }
 
     /// Returns the tag as a string.
-    pub fn as_str(&self) -> &'static str {
+    pub const fn as_str(&self) -> &'static str {
         self.0
     }
 }
@@ -334,6 +350,29 @@ impl AsRef<str> for TypedUuidTag {
         self.0
     }
 }
+
+/// An error that occurred while creating a [`TypedUuidTag`].
+#[derive(Clone, Debug)]
+pub struct TagError {
+    /// The input string.
+    pub input: &'static str,
+
+    /// The error message.
+    pub message: &'static str,
+}
+
+impl fmt::Display for TagError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(
+            f,
+            "error creating tag from '{}': {}",
+            self.input, self.message
+        )
+    }
+}
+
+#[cfg(feature = "std")]
+impl std::error::Error for TagError {}
 
 /// An error that occurred while parsing a [`TypedUuid`].
 #[derive(Clone, Debug)]
@@ -432,7 +471,7 @@ mod tests {
         }
 
         for invalid_tag in &["", "1", "-", "a1b!", "a1-b!", "a1_b:", "\u{1f4a9}"] {
-            assert!(TypedUuidTag::try_new(invalid_tag).is_err());
+            TypedUuidTag::try_new(invalid_tag).unwrap_err();
         }
     }
 }

@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.3.0] - 2024-02-02
+
+### Breaking changes
+
+- `TypedUuidTag::try_new` returns a new `TagError` type rather than just a raw `&'static str`.
+
+### Changed
+
+- `TypedUuidTag::as_str` is now a `const fn`.
+
 ## [0.2.1] - 2024-02-02
 
 Documentation improvements.
@@ -18,6 +28,7 @@ Documentation improvements.
 
 Initial release.
 
+[0.3.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.3.0
 [0.2.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.2.1
 [0.2.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.2.0
 [0.1.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.1.0
