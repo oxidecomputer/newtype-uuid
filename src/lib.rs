@@ -225,6 +225,8 @@ mod schemars08_imp {
 /// kind. Here's a template for a macro that can help:
 ///
 /// ```
+/// use newtype_uuid::{TypedUuidKind, TypedUuidTag};
+///
 /// macro_rules! impl_typed_uuid_kind {
 ///     ($($kind:ident => $tag:literal),* $(,)?) => {
 ///         $(
