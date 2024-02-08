@@ -22,6 +22,15 @@ serde = { version = "1", optional = true, features = ["derive"] }
 schemars = { version = "0.8", features = ["uuid1"], optional = true }
 uuid = { version = "1.7.0", default-features = false }
 
+# These are actually dev-dependencies, but we don't want to pull them in unless schemars08 is
+# enabled. They get enabled by the internal-schemars08-tests feature.
+dropshot = { version = "0.10.0", optional = true }
+expectorate = { version = "1.0.6", optional = true }
+prettyplease = { version = "0.2.16", optional = true }
+serde_json = { version = "1.0.113", optional = true }
+syn = { version = "2.0.48", optional = true }
+typify = { version = "0.0.15", optional = true }
+
 [features]
 default = ["uuid/default", "std"]
 std = ["uuid/std", "alloc"]
@@ -29,3 +38,4 @@ alloc = []
 v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
 schemars08 = ["dep:schemars", "std"]
+internal-schemars08-tests = ["schemars08", "serde", "dep:dropshot", "dep:expectorate", "dep:prettyplease", "dep:serde_json", "dep:syn", "dep:typify"]

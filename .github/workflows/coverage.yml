@@ -27,10 +27,8 @@ jobs:
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
 
-      - name: Collect coverage data with nextest
-        run: cargo llvm-cov nextest --all-features --all-targets --lcov --output-path lcov.info
-      - name: Collect coverage data for doctests
-        run: cargo llvm-cov test --all-features --doc --lcov --output-path lcov-doctest.info
+      - name: Collect coverage data
+        run: ./scripts/commands.sh coverage
       - name: Upload coverage data to codecov
         uses: codecov/codecov-action@f30e4959ba63075080d4f7f90cacc18d9f3fafd7 # v4
         with:
