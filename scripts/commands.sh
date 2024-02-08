@@ -6,7 +6,7 @@ set -e -o pipefail
 
 CARGO="${CARGO:-cargo}"
 EXCLUDED_FEATURES_BY_DEFAULT=(internal-schemars08-tests)
-EXCLUDED_FEATURES_NO_STD=(std internal-docs default)
+EXCLUDED_FEATURES_NO_STD=(std internal-schemars08-tests schemars08 serde default alloc)
 
 trap 'echo_err "Error occurred at $0 command: $BASH_COMMAND"' ERR
 trap 'echo_err "Exiting $0"' EXIT
