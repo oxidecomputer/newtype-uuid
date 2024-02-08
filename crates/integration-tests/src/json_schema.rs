@@ -45,10 +45,7 @@ fn test_json_schema_snapshot() {
     let schema = schemars::schema_for!(MyPathStruct);
     let schema_json = serde_json::to_string_pretty(&schema).unwrap();
     println!("{}", std::env::current_dir().unwrap().display());
-    expectorate::assert_contents(
-        "tests/integration-tests/outputs/typed-uuid-schema.json",
-        &schema_json,
-    );
+    expectorate::assert_contents("outputs/typed-uuid-schema.json", &schema_json);
 
     // Now attempt to use typify to convert the JSON schema into Rust code.
     let mut type_space = typify::TypeSpace::default();
@@ -58,7 +55,7 @@ fn test_json_schema_snapshot() {
     let tokens = type_space.to_stream();
     let file: syn::File = syn::parse2(tokens).expect("parsing tokens succeeded");
     let output = prettyplease::unparse(&file);
-    expectorate::assert_contents("tests/integration-tests/outputs/schema-rust.rs", &output);
+    expectorate::assert_contents("outputs/schema-rust.rs", &output);
 }
 
 #[test]
@@ -68,8 +65,5 @@ fn test_openapi_snapshot() {
     let openapi = api.openapi("my-api", "1.0.0");
     let json_value = openapi.json().expect("serialization to json worked");
     let api_json = serde_json::to_string_pretty(&json_value).unwrap();
-    expectorate::assert_contents(
-        "tests/integration-tests/outputs/typed-uuid-openapi.json",
-        &api_json,
-    );
+    expectorate::assert_contents("outputs/typed-uuid-openapi.json", &api_json);
 }

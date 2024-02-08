@@ -688,6 +688,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "integration-tests"
+version = "0.1.0"
+dependencies = [
+ "dropshot",
+ "expectorate",
+ "newtype-uuid",
+ "prettyplease",
+ "schemars",
+ "serde",
+ "serde_json",
+ "syn 2.0.48",
+ "typify",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -810,14 +825,8 @@ dependencies = [
 name = "newtype-uuid"
 version = "0.3.0"
 dependencies = [
- "dropshot",
- "expectorate",
- "prettyplease",
  "schemars",
  "serde",
- "serde_json",
- "syn 2.0.48",
- "typify",
  "uuid",
 ]
 
