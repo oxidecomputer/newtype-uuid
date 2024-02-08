@@ -18,7 +18,7 @@ jobs:
         env:
           RUSTC_BOOTSTRAP: 1  # for feature(doc_cfg)
           RUSTDOCFLAGS: -Dwarnings --cfg doc_cfg
-        run: cargo doc --all-features --workspace
+        run: cargo doc --all-features --workspace --exclude integration-tests
       - name: Organize
         run: |
           rm -rf target/gh-pages
