@@ -17,4 +17,15 @@ syn = { version = "2.0.48", optional = true }
 typify = { version = "0.0.15", optional = true }
 
 [features]
-internal-schemars08-tests = ["newtype-uuid/schemars08", "newtype-uuid/serde", "dep:dropshot", "dep:expectorate", "dep:prettyplease", "dep:serde_json", "dep:syn", "dep:typify"]
+internal-schemars08-tests = [
+    "newtype-uuid/schemars08",
+    "newtype-uuid/serde",
+    "dep:dropshot",
+    "dep:expectorate",
+    "dep:prettyplease",
+    "dep:schemars",
+    "dep:serde_json",
+    "dep:serde",
+    "dep:syn",
+    "dep:typify",
+]
