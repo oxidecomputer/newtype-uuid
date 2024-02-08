@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MyPathStruct",
+  "type": "object",
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/definitions/TypedUuidForMyKind"
+    }
+  },
+  "definitions": {
+    "TypedUuidForMyKind": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

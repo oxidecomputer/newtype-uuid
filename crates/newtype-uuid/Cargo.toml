@@ -1,0 +1,31 @@
+[package]
+name = "newtype-uuid"
+version = "0.3.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/oxidecomputer/newtype-uuid"
+description = "Newtype wrapper around UUIDs"
+documentation = "https://docs.rs/newtype-uuid"
+readme = "README.md"
+keywords = ["uuid", "unique", "guid", "newtype"]
+categories = ["data-structures", "uuid"]
+rust-version = "1.60"
+resolver = "2"
+exclude = [".cargo/**/*", ".github/**/*", "scripts/**/*"]
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg=doc_cfg"]
+
+[dependencies]
+serde = { version = "1", optional = true, features = ["derive"] }
+schemars = { version = "0.8", features = ["uuid1"], optional = true }
+uuid = { version = "1.7.0", default-features = false }
+
+[features]
+default = ["uuid/default", "std"]
+std = ["uuid/std", "alloc"]
+alloc = []
+v4 = ["uuid/v4"]
+serde = ["dep:serde", "uuid/serde"]
+schemars08 = ["dep:schemars", "std"]

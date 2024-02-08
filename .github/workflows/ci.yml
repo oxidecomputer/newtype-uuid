@@ -32,7 +32,7 @@ jobs:
       - name: Check for differences
         run: git diff --exit-code
 
-  build:
+  build-and-test:
     name: Build and test
     runs-on: ${{ matrix.os }}
     strategy:
@@ -51,8 +51,31 @@ jobs:
       - uses: taiki-e/install-action@cargo-hack
       - uses: taiki-e/install-action@nextest
       - name: Build
-        run: cargo hack build --feature-powerset
+        run: ./scripts/commands.sh build
       - name: Test
-        run: cargo hack nextest run --feature-powerset
+        run: ./scripts/commands.sh nextest
+      - name: Run extended tests (only on stable)
+        if: matrix.rust-version == 'stable'
+        run: ./scripts/commands.sh nextest-all-features
       - name: Run doctests
-        run: cargo test --doc --all-features
+        if: matrix.rust-version == 'stable'
+        run: ./scripts/commands.sh doctest
+
+  no-std:
+    name: Build no_std for ${{ matrix.target }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - thumbv7m-none-eabi
+        rust-version: [stable]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust-version }}
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@a95ba195448af2da9b00fb742d14ffaaf3c21f43 # v2
+      - uses: taiki-e/install-action@cargo-hack
+      - run: ./scripts/commands.sh build-no-std --target ${{ matrix.target }}
