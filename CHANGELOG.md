@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.0] - 2024-02-15
+## [1.0.1] - 2024-02-15
 
 ### Breaking changes
 
@@ -9,6 +9,10 @@
 ### Changed
 
 - Added `#[must_use]` annotations to constructors.
+
+## [1.0.0] - 2024-02-15
+
+(This version was not published due to a CI issue.)
 
 ## [0.3.0] - 2024-02-02
 
@@ -38,6 +42,7 @@ Documentation improvements.
 
 Initial release.
 
+[1.0.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.0.1
 [1.0.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.0.0
 [0.3.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.3.0
 [0.2.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-0.2.1
