@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["cfg_if","dyn_clone","getrandom","itoa","libc","newtype_uuid","proc_macro2","quote","ryu","schemars","schemars_derive","serde","serde_derive","serde_derive_internals","serde_json","unicode_ident","uuid"];

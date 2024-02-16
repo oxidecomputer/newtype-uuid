@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Represents marker types that can be used as a type parameter for `TypedUuid`."><title>TypedUuidKind in newtype_uuid - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-ac92e1bbe349e143.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="newtype_uuid" data-themes="" data-resource-suffix="" data-rustdoc-version="1.76.0 (07dca489a 2024-02-04)" data-channel="1.76.0" data-search-js="search-2b6ce74ff89ae146.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../static.files/storage-f2adc0d6ca4d09fb.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-305769736d49e732.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-feafe1bb7466e4bd.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc trait"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../newtype_uuid/index.html">newtype_uuid</a><span class="version">1.0.1</span></h2></div><h2 class="location"><a href="#">TypedUuidKind</a></h2><div class="sidebar-elems"><section><h3><a href="#required-methods">Required Methods</a></h3><ul class="block"><li><a href="#tymethod.tag">tag</a></li></ul><h3><a href="#object-safety">Object Safety</a></h3><h3><a href="#implementors">Implementors</a></h3></section><h2><a href="index.html">In crate newtype_uuid</a></h2></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../newtype_uuid/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Trait <a href="index.html">newtype_uuid</a>::<wbr><a class="trait" href="#">TypedUuidKind</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/newtype_uuid/lib.rs.html#261-268">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><pre class="rust item-decl"><code>pub trait TypedUuidKind: <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/marker/trait.Send.html" title="trait core::marker::Send">Send</a> + <a class="trait" href="https://doc.rust-lang.org/1.76.0/core/marker/trait.Sync.html" title="trait core::marker::Sync">Sync</a> + 'static {
+    // Required method
+    fn <a href="#tymethod.tag" class="fn">tag</a>() -&gt; <a class="struct" href="struct.TypedUuidTag.html" title="struct newtype_uuid::TypedUuidTag">TypedUuidTag</a>;
+}</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Represents marker types that can be used as a type parameter for <a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a>.</p>
+<p>Generally, an implementation of this will be a zero-sized type that can never be constructed. An
+empty struct or enum works well for this.</p>
+<h2 id="implementations-1"><a href="#implementations-1">Implementations</a></h2>
+<p>If the <code>schemars08</code> feature is enabled, and <a href="../schemars/trait.JsonSchema.html" title="trait schemars::JsonSchema"><code>JsonSchema</code></a> is implemented for a kind <code>T</code>, then
+<a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a><code>&lt;T&gt;</code> will also implement <a href="../schemars/trait.JsonSchema.html" title="trait schemars::JsonSchema"><code>JsonSchema</code></a>.</p>
+<h2 id="notes"><a href="#notes">Notes</a></h2>
+<p>If you have a large number of UUID kinds, it can be repetitive to implement this trait for each
+kind. Here’s a template for a macro that can help:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>newtype_uuid::{TypedUuidKind, TypedUuidTag};
+
+<span class="macro">macro_rules! </span>impl_typed_uuid_kind {
+    ($(<span class="macro-nonterminal">$kind</span>:ident =&gt; <span class="macro-nonterminal">$tag</span>:literal),* $(,)<span class="question-mark">?</span>) =&gt; {
+        $(
+            <span class="kw">pub enum </span><span class="macro-nonterminal">$kind </span>{}
+
+            <span class="kw">impl </span>TypedUuidKind <span class="kw">for </span><span class="macro-nonterminal">$kind </span>{
+                <span class="attr">#[inline]
+                </span><span class="kw">fn </span>tag() -&gt; TypedUuidTag {
+                    <span class="kw">const </span>TAG: TypedUuidTag = TypedUuidTag::new(<span class="macro-nonterminal">$tag</span>);
+                    TAG
+                }
+            }
+        )*
+    };
+}
+
+<span class="comment">// Invoke this macro with:
+</span><span class="macro">impl_typed_uuid_kind! </span>{
+    Kind1 =&gt; <span class="string">"kind1"</span>,
+    Kind2 =&gt; <span class="string">"kind2"</span>,
+}</code></pre></div>
+</div></details><h2 id="required-methods" class="section-header">Required Methods<a href="#required-methods" class="anchor">§</a></h2><div class="methods"><details class="toggle method-toggle" open><summary><section id="tymethod.tag" class="method"><a class="src rightside" href="../src/newtype_uuid/lib.rs.html#267">source</a><h4 class="code-header">fn <a href="#tymethod.tag" class="fn">tag</a>() -&gt; <a class="struct" href="struct.TypedUuidTag.html" title="struct newtype_uuid::TypedUuidTag">TypedUuidTag</a></h4></section></summary><div class="docblock"><p>Returns the corresponding tag for this kind.</p>
+<p>The tag forms a runtime representation of this type.</p>
+<p>The tag is required to be a static string.</p>
+</div></details></div><h2 id="object-safety" class="section-header">Object Safety<a href="#object-safety" class="anchor">§</a></h2><div class="object-safety-info">This trait is <b>not</b> <a href="https://doc.rust-lang.org/1.76.0/reference/items/traits.html#object-safety">object safe</a>.</div><h2 id="implementors" class="section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"></div><script src="../trait.impl/newtype_uuid/trait.TypedUuidKind.js" async></script></section></div></main></body></html>
