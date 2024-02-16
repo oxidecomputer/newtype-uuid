@@ -304,7 +304,6 @@ impl TypedUuidTag {
     /// # Errors
     ///
     /// Returns a [`TagError`] if the above conditions aren't met.
-    #[must_use]
     pub const fn try_new(tag: &'static str) -> Result<Self, TagError> {
         match Self::try_new_impl(tag) {
             Ok(tag) => Ok(tag),
@@ -484,7 +483,7 @@ mod tests {
         ] {
             TypedUuidTag::try_new(valid_tag).expect("tag is valid");
             // Should not panic
-            TypedUuidTag::new(valid_tag);
+            _ = TypedUuidTag::new(valid_tag);
         }
 
         for invalid_tag in &["", "1", "-", "a1b!", "a1-b!", "a1_b:", "\u{1f4a9}"] {
