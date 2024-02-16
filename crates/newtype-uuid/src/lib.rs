@@ -490,7 +490,7 @@ mod tests {
 
     // This test just ensures that `GenericUuid` is object-safe.
     #[test]
-    #[cfg(feature = "v4")]
+    #[cfg(all(feature = "v4", feature = "std"))]
     fn test_generic_uuid_object_safe() {
         let uuid = Uuid::new_v4();
         let box_uuid = Box::new(uuid) as Box<dyn GenericUuid>;
