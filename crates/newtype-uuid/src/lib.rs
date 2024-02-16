@@ -472,6 +472,9 @@ impl<T: TypedUuidKind> GenericUuid for TypedUuid<T> {
     }
 }
 
+#[cfg(feature = "derive")]
+pub use newtype_uuid_derive::TypedUuidKind;
+
 #[cfg(test)]
 mod tests {
     use super::*;

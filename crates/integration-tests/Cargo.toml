@@ -17,6 +17,8 @@ syn = { version = "2.0.48", optional = true }
 typify = { version = "0.0.15", optional = true }
 
 [features]
+default = ["derive"]
+derive = ["newtype-uuid/derive"]
 internal-schemars08-tests = [
     "newtype-uuid/schemars08",
     "newtype-uuid/serde",
@@ -28,4 +30,7 @@ internal-schemars08-tests = [
     "dep:serde",
     "dep:syn",
     "dep:typify",
+]
+internal-derive-tests = [
+    "newtype-uuid/derive",
 ]

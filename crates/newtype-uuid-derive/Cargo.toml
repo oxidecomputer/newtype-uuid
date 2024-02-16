@@ -1,0 +1,23 @@
+[package]
+name = "newtype-uuid-derive"
+version = "1.0.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/oxidecomputer/newtype-uuid"
+description = "Derive macros for the `newtype-uuid` crate."
+documentation = "https://docs.rs/newtype-uuid-derive"
+readme = "README.md"
+keywords = ["uuid", "unique", "guid", "newtype", "derive"]
+categories = ["data-structures", "uuid"]
+rust-version = "1.60"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1.0.78"
+quote = "1.0.35"
+syn = "2.0.48"
+
+[dev-dependencies]
+newtype-uuid = { path = "../newtype-uuid", version = "1" }

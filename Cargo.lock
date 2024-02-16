@@ -825,9 +825,20 @@ dependencies = [
 name = "newtype-uuid"
 version = "1.0.1"
 dependencies = [
+ "newtype-uuid-derive",
  "schemars",
  "serde",
  "uuid",
+]
+
+[[package]]
+name = "newtype-uuid-derive"
+version = "1.0.0"
+dependencies = [
+ "newtype-uuid",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.48",
 ]
 
 [[package]]
