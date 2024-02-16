@@ -285,6 +285,7 @@ impl TypedUuidTag {
     /// # Panics
     ///
     /// Panics if the above conditions aren't met. Use [`Self::try_new`] to handle errors instead.
+    #[must_use]
     pub const fn new(tag: &'static str) -> Self {
         match Self::try_new_impl(tag) {
             Ok(tag) => tag,
@@ -303,6 +304,7 @@ impl TypedUuidTag {
     /// # Errors
     ///
     /// Returns a [`TagError`] if the above conditions aren't met.
+    #[must_use]
     pub const fn try_new(tag: &'static str) -> Result<Self, TagError> {
         match Self::try_new_impl(tag) {
             Ok(tag) => Ok(tag),
@@ -416,11 +418,13 @@ impl std::error::Error for ParseError {
 /// from and to untyped UUIDs should be careful and explicit.
 pub trait GenericUuid {
     /// Creates a new instance of `Self` from an untyped [`Uuid`].
+    #[must_use]
     fn from_untyped_uuid(uuid: Uuid) -> Self
     where
         Self: Sized;
 
     /// Converts `self` into an untyped [`Uuid`].
+    #[must_use]
     fn into_untyped_uuid(self) -> Uuid
     where
         Self: Sized;
