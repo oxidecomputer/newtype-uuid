@@ -103,8 +103,9 @@ fn gen_typed_uuid_kind(input: DeriveInput) -> Result<impl ToTokens, syn::Error> 
 fn validate_tag(tag: syn::LitStr) -> Result<syn::LitStr, syn::Error> {
     let tag_str = tag.value();
     let mut chars = tag_str.chars();
-    let Some(c) = chars.next() else {
-        return Err(syn::Error::new_spanned(tag, "tag must not be empty"));
+    let c = match chars.next() {
+        Some(c) => c,
+        None => return Err(syn::Error::new_spanned(tag, "tag must not be empty")),
     };
 
     if !c.is_ascii_alphabetic() && c != '_' {
