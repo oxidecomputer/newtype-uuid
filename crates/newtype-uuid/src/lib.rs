@@ -65,12 +65,18 @@
 //!   default.*
 //! - `v4`: Enables the `new_v4` method for generating UUIDs. *Not enabled by default.*
 //! - `schemars08`: Enables support for generating JSON schemas via schemars 0.8. *Not enabled by
-//!   default.*
+//!   default.* Note that the format of the generated schema is **not currently part** of the stable
+//!   API, though we hope to stabilize it in the future.
 //!
 //! # Minimum supported Rust version (MSRV)
 //!
 //! The MSRV of this crate is **Rust 1.60.** In general, this crate will follow the MSRV of the
 //! underlying `uuid` crate.
+//!
+//! Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
+//! each minor version are:
+//!
+//! * Version **1.0.x**: Rust 1.60
 //!
 //! # Alternatives
 //!
@@ -105,6 +111,7 @@ impl<T: TypedUuidKind> TypedUuid<T> {
     /// Creates a new, random UUID v4 of this type.
     #[inline]
     #[cfg(feature = "v4")]
+    #[must_use]
     pub fn new_v4() -> Self {
         Self::from_untyped_uuid(Uuid::new_v4())
     }
@@ -277,8 +284,7 @@ impl TypedUuidTag {
     ///
     /// # Panics
     ///
-    /// Panics if the above conditions aren't met. (This is a const fn, so it can't return an
-    /// error.)
+    /// Panics if the above conditions aren't met. Use [`Self::try_new`] to handle errors instead.
     pub const fn new(tag: &'static str) -> Self {
         match Self::try_new_impl(tag) {
             Ok(tag) => tag,
@@ -355,6 +361,7 @@ impl AsRef<str> for TypedUuidTag {
 
 /// An error that occurred while creating a [`TypedUuidTag`].
 #[derive(Clone, Debug)]
+#[non_exhaustive]
 pub struct TagError {
     /// The input string.
     pub input: &'static str,
@@ -378,6 +385,7 @@ impl std::error::Error for TagError {}
 
 /// An error that occurred while parsing a [`TypedUuid`].
 #[derive(Clone, Debug)]
+#[non_exhaustive]
 pub struct ParseError {
     /// The underlying error.
     pub error: uuid::Error,
@@ -408,16 +416,19 @@ impl std::error::Error for ParseError {
 /// from and to untyped UUIDs should be careful and explicit.
 pub trait GenericUuid {
     /// Creates a new instance of `Self` from an untyped [`Uuid`].
-    fn from_untyped_uuid(uuid: Uuid) -> Self;
+    fn from_untyped_uuid(uuid: Uuid) -> Self
+    where
+        Self: Sized;
 
     /// Converts `self` into an untyped [`Uuid`].
-    fn to_untyped_uuid(self) -> Uuid;
+    fn into_untyped_uuid(self) -> Uuid
+    where
+        Self: Sized;
 
     /// Returns the inner [`Uuid`].
     ///
-    /// Generally, [`to_untyped_uuid`](GenericUuid::to_untyped_uuid) should
-    /// be preferred. However, in some cases it may be necessary to use this
-    /// method to satisfy lifetime constraints.
+    /// Generally, [`to_untyped_uuid`](GenericUuid::into_untyped_uuid) should be preferred. However,
+    /// in some cases it may be necessary to use this method to satisfy lifetime constraints.
     fn as_untyped_uuid(&self) -> &Uuid;
 }
 
@@ -428,7 +439,7 @@ impl GenericUuid for Uuid {
     }
 
     #[inline]
-    fn to_untyped_uuid(self) -> Uuid {
+    fn into_untyped_uuid(self) -> Uuid {
         self
     }
 
@@ -448,7 +459,7 @@ impl<T: TypedUuidKind> GenericUuid for TypedUuid<T> {
     }
 
     #[inline]
-    fn to_untyped_uuid(self) -> Uuid {
+    fn into_untyped_uuid(self) -> Uuid {
         self.uuid
     }
 
@@ -475,5 +486,14 @@ mod tests {
         for invalid_tag in &["", "1", "-", "a1b!", "a1-b!", "a1_b:", "\u{1f4a9}"] {
             TypedUuidTag::try_new(invalid_tag).unwrap_err();
         }
+    }
+
+    // This test just ensures that `GenericUuid` is object-safe.
+    #[test]
+    #[cfg(feature = "v4")]
+    fn test_generic_uuid_object_safe() {
+        let uuid = Uuid::new_v4();
+        let box_uuid = Box::new(uuid) as Box<dyn GenericUuid>;
+        assert_eq!(box_uuid.as_untyped_uuid(), &uuid);
     }
 }
