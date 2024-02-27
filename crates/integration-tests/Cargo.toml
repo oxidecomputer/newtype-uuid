@@ -31,6 +31,3 @@ internal-schemars08-tests = [
     "dep:syn",
     "dep:typify",
 ]
-internal-derive-tests = [
-    "newtype-uuid/derive",
-]
