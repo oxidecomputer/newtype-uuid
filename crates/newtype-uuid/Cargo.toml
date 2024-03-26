@@ -20,7 +20,7 @@ rustdoc-args = ["--cfg=doc_cfg"]
 [dependencies]
 serde = { version = "1", optional = true, features = ["derive"] }
 schemars = { version = "0.8", features = ["uuid1"], optional = true }
-uuid = { version = "1.7.0", default-features = false }
+uuid = { version = "1.8.0", default-features = false }
 
 [features]
 default = ["uuid/default", "std"]
