@@ -12,7 +12,7 @@ expectorate = { version = "1.0.6", optional = true }
 prettyplease = { version = "0.2.16", optional = true }
 schemars = { version = "0.8.0", optional = true }
 serde = { version = "1", optional = true }
-serde_json = { version = "1.0.113", optional = true }
+serde_json = { version = "1.0.115", optional = true }
 syn = { version = "2.0.48", optional = true }
 typify = { version = "0.0.15", optional = true }
 
