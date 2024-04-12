@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `TypedUuid::nil()` and `max()` constructors.
+- `TypedUuid` is now `#[repr(transparent)]`.
+
+### Changed
+
+- MSRV updated to Rust 1.61.
+
 ## [1.0.1] - 2024-02-15
 
 ### Breaking changes
