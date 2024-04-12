@@ -9,7 +9,7 @@ documentation = "https://docs.rs/newtype-uuid"
 readme = "README.md"
 keywords = ["uuid", "unique", "guid", "newtype"]
 categories = ["data-structures", "uuid"]
-rust-version = "1.60"
+rust-version = "1.61"
 resolver = "2"
 exclude = [".cargo/**/*", ".github/**/*", "scripts/**/*"]
 
