@@ -105,6 +105,7 @@
 //! each minor version are:
 //!
 //! * Version **1.0.x**: Rust 1.60
+//! * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 //!
 //! # Alternatives
 //!
@@ -136,6 +137,40 @@ pub struct TypedUuid<T: TypedUuidKind> {
 }
 
 impl<T: TypedUuidKind> TypedUuid<T> {
+    /// The 'nil UUID' (all zeros).
+    ///
+    /// The nil UUID is a special form of UUID that is specified to have all
+    /// 128 bits set to zero.
+    ///
+    /// # References
+    ///
+    /// * [Nil UUID in RFC4122](https://tools.ietf.org/html/rfc4122.html#section-4.1.7)
+    #[inline]
+    #[must_use]
+    pub const fn nil() -> Self {
+        Self {
+            uuid: Uuid::nil(),
+            _phantom: PhantomData,
+        }
+    }
+
+    /// The 'max UUID' (all ones).
+    ///
+    /// The max UUID is a special form of UUID that is specified to have all
+    /// 128 bits set to one.
+    ///
+    /// # References
+    ///
+    /// * [Max UUID in Draft RFC: New UUID Formats, Version 4](https://datatracker.ietf.org/doc/html/draft-peabody-dispatch-new-uuid-format-04#section-5.4)
+    #[inline]
+    #[must_use]
+    pub const fn max() -> Self {
+        Self {
+            uuid: Uuid::max(),
+            _phantom: PhantomData,
+        }
+    }
+
     /// Creates a new, random UUID v4 of this type.
     #[inline]
     #[cfg(feature = "v4")]
