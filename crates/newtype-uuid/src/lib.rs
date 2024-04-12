@@ -129,6 +129,7 @@ use uuid::Uuid;
 /// A UUID with type-level information about what it's used for.
 ///
 /// For more, see [the library documentation](crate).
+#[repr(transparent)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "serde", serde(transparent, bound = ""))]
 pub struct TypedUuid<T: TypedUuidKind> {
