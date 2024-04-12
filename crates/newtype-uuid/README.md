@@ -45,6 +45,33 @@ assert_eq!(uuid.to_string(), "dffc3068-1cd6-47d5-b2f3-636b41b07084");
 assert_eq!(format!("{:?}", uuid), "dffc3068-1cd6-47d5-b2f3-636b41b07084 (my_kind)");
 ```
 
+If you have a large number of UUID kinds, consider defining a macro for your purposes. An
+example macro:
+
+```rust
+macro_rules! impl_typed_uuid_kind {
+    ($($kind:ident => $tag:literal),* $(,)?) => {
+        $(
+            pub enum $kind {}
+
+            impl TypedUuidKind for $kind {
+                #[inline]
+                fn tag() -> TypedUuidTag {
+                    const TAG: TypedUuidTag = TypedUuidTag::new($tag);
+                    TAG
+                }
+            }
+        )*
+    };
+}
+
+// Invoke this macro with:
+impl_typed_uuid_kind! {
+    Kind1 => "kind1",
+    Kind2 => "kind2",
+}
+```
+
 ## Implementations
 
 In general, `TypedUuid` uses the same wire and serialization formats as `Uuid`. This means
