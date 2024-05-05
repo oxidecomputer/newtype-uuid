@@ -280,6 +280,95 @@ mod schemars08_imp {
     }
 }
 
+// #[cfg(feature = "seaorm")]
+mod seaorm_imp {
+    use super::*;
+    use ::sea_orm::entity::ActiveValue;
+    use ::sea_orm::entity::IntoActiveValue;
+    use ::sea_orm::error::DbErr;
+    use ::sea_orm::sea_query::table::ColumnType;
+    use ::sea_orm::sea_query::value::ArrayType;
+    use ::sea_orm::sea_query::value::Nullable;
+    use ::sea_orm::sea_query::value::ValueType;
+    use ::sea_orm::sea_query::value::ValueTypeErr;
+    use ::sea_orm::ColIdx;
+    use ::sea_orm::QueryResult;
+    use ::sea_orm::TryGetError;
+    use ::sea_orm::TryGetable;
+    use ::sea_orm::Value;
+    use ::std::convert::From;
+
+    impl<T: TypedUuidKind> From<TypedUuid<T>> for Value {
+        fn from(typed_uuid: TypedUuid<T>) -> Value {
+            Value::Uuid(Some(Box::new(typed_uuid.uuid)))
+        }
+    }
+
+    impl<T: TypedUuidKind> Nullable for TypedUuid<T> {
+        fn null() -> Value {
+            Value::Uuid(None)
+        }
+    }
+
+    impl<T: TypedUuidKind> TryGetable for TypedUuid<T> {
+        fn try_get_by<I>(res: &QueryResult, index: I) -> Result<Self, TryGetError>
+        where
+            I: ColIdx,
+        {
+            res.try_get_by::<Option<String>, I>(index)
+                .map_err(TryGetError::DbErr)
+                .and_then(|maybe_raw| match maybe_raw {
+                    Some(raw) => TypedUuid::from_str(&raw).map_err(|err| {
+                        let db_err = DbErr::Custom(err.to_string());
+                        TryGetError::DbErr(db_err)
+                    }),
+                    None => Err(TryGetError::Null(format!("{index:?}"))),
+                })
+        }
+
+        fn try_get(res: &QueryResult, pre: &str, col: &str) -> Result<Self, TryGetError> {
+            res.try_get::<Option<String>>(pre, col)
+                .map_err(TryGetError::DbErr)
+                .and_then(|maybe_raw: Option<String>| match maybe_raw {
+                    Some(raw) => TypedUuid::from_str(&raw).map_err(|err| {
+                        let db_err = DbErr::Custom(err.to_string());
+                        TryGetError::DbErr(db_err)
+                    }),
+                    None => Err(TryGetError::Null(col.to_string())),
+                })
+        }
+    }
+
+    impl<T: TypedUuidKind> ValueType for TypedUuid<T> {
+        fn try_from(value: Value) -> Result<Self, ValueTypeErr> {
+            match value {
+                Value::Uuid(Some(raw_uuid)) => {
+                    Ok(TypedUuid::from_untyped_uuid(raw_uuid.into_untyped_uuid()))
+                }
+                _ => Err(ValueTypeErr),
+            }
+        }
+
+        fn type_name() -> String {
+            T::tag().to_string()
+        }
+
+        fn array_type() -> ArrayType {
+            ArrayType::Uuid
+        }
+
+        fn column_type() -> ColumnType {
+            ColumnType::Uuid
+        }
+    }
+
+    impl<T: TypedUuidKind> IntoActiveValue<TypedUuid<T>> for TypedUuid<T> {
+        fn into_active_value(self) -> ActiveValue<Self> {
+            ActiveValue::Set(self)
+        }
+    }
+}
+
 /// Represents marker types that can be used as a type parameter for [`TypedUuid`].
 ///
 /// Generally, an implementation of this will be a zero-sized type that can never be constructed. An
