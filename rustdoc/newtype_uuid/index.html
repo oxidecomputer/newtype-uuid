@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A newtype wrapper around `Uuid`."><title>newtype_uuid - Rust</title><script> if (window.location.protocol !== "file:") document.write(`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">`)</script><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-e935ef01ae1c1829.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="newtype_uuid" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0 (9b00956e5 2024-04-29)" data-channel="1.78.0" data-search-js="search-42d8da7a6b9792c2.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../static.files/storage-4c98445ec4002617.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-12cf3b4f4f9dc36d.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../newtype_uuid/index.html">newtype_uuid</a><span class="version">1.1.0</span></h2></div><div class="sidebar-elems"><ul class="block">
+            <li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#structs">Structs</a></li><li><a href="#traits">Traits</a></li></ul></section></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../newtype_uuid/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">newtype_uuid</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/newtype_uuid/lib.rs.html#1-566">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A newtype wrapper around <a href="../uuid/struct.Uuid.html" title="struct uuid::Uuid"><code>Uuid</code></a>.</p>
+<h2 id="motivation"><a class="doc-anchor" href="#motivation">§</a>Motivation</h2>
+<p>Many large systems use UUIDs as unique identifiers for various entities. However, the <a href="../uuid/struct.Uuid.html" title="struct uuid::Uuid"><code>Uuid</code></a>
+type does not carry information about the kind of entity it identifies, which can lead to mixing
+up different types of UUIDs at runtime.</p>
+<p>This crate provides a wrapper type around <a href="../uuid/struct.Uuid.html" title="struct uuid::Uuid"><code>Uuid</code></a> that allows you to specify the kind of entity
+the UUID identifies.</p>
+<h2 id="example"><a class="doc-anchor" href="#example">§</a>Example</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>newtype_uuid::{GenericUuid, TypedUuid, TypedUuidKind, TypedUuidTag};
+
+<span class="comment">// First, define a type that represents the kind of UUID this is.
+</span><span class="kw">enum </span>MyKind {}
+
+<span class="kw">impl </span>TypedUuidKind <span class="kw">for </span>MyKind {
+    <span class="kw">fn </span>tag() -&gt; TypedUuidTag {
+        <span class="comment">// Tags are required to be ASCII identifiers, with underscores
+        // and dashes also supported. The validity of a tag can be checked
+        // at compile time by assigning it to a const, like so:
+        </span><span class="kw">const </span>TAG: TypedUuidTag = TypedUuidTag::new(<span class="string">"my_kind"</span>);
+        TAG
+    }
+}
+
+<span class="comment">// Now, a UUID can be created with this kind.
+</span><span class="kw">let </span>uuid: TypedUuid&lt;MyKind&gt; = <span class="string">"dffc3068-1cd6-47d5-b2f3-636b41b07084"</span>.parse().unwrap();
+
+<span class="comment">// The Display (and therefore ToString) impls still show the same value.
+</span><span class="macro">assert_eq!</span>(uuid.to_string(), <span class="string">"dffc3068-1cd6-47d5-b2f3-636b41b07084"</span>);
+
+<span class="comment">// The Debug impl will show the tag as well.
+</span><span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">"{:?}"</span>, uuid), <span class="string">"dffc3068-1cd6-47d5-b2f3-636b41b07084 (my_kind)"</span>);</code></pre></div>
+<p>If you have a large number of UUID kinds, consider defining a macro for your purposes. An
+example macro:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">macro_rules!</span> impl_typed_uuid_kind {
+    ($(<span class="macro-nonterminal">$kind</span>:ident =&gt; <span class="macro-nonterminal">$tag</span>:literal),* $(,)<span class="question-mark">?</span>) =&gt; {
+        $(
+            <span class="kw">pub enum </span><span class="macro-nonterminal">$kind </span>{}
+
+            <span class="kw">impl </span>TypedUuidKind <span class="kw">for </span><span class="macro-nonterminal">$kind </span>{
+                <span class="attr">#[inline]
+                </span><span class="kw">fn </span>tag() -&gt; TypedUuidTag {
+                    <span class="kw">const </span>TAG: TypedUuidTag = TypedUuidTag::new(<span class="macro-nonterminal">$tag</span>);
+                    TAG
+                }
+            }
+        )*
+    };
+}
+
+<span class="comment">// Invoke this macro with:
+</span><span class="macro">impl_typed_uuid_kind!</span> {
+    Kind1 =&gt; <span class="string">"kind1"</span>,
+    Kind2 =&gt; <span class="string">"kind2"</span>,
+}</code></pre></div>
+<h2 id="implementations-1"><a class="doc-anchor" href="#implementations-1">§</a>Implementations</h2>
+<p>In general, <a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a> uses the same wire and serialization formats as <a href="../uuid/struct.Uuid.html" title="struct uuid::Uuid"><code>Uuid</code></a>. This means
+that persistent representations of <a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a> are the same as <a href="../uuid/struct.Uuid.html" title="struct uuid::Uuid"><code>Uuid</code></a>; <a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a> is
+intended to be helpful within Rust code, not across serialization boundaries.</p>
+<ul>
+<li>The <code>Display</code> and <code>FromStr</code> impls are forwarded to the underlying <a href="../uuid/struct.Uuid.html" title="struct uuid::Uuid"><code>Uuid</code></a>.</li>
+<li>If the <code>serde</code> feature is enabled, <code>TypedUuid</code> will serialize and deserialize using the same
+format as <a href="../uuid/struct.Uuid.html" title="struct uuid::Uuid"><code>Uuid</code></a>.</li>
+<li>If the <code>schemars08</code> feature is enabled, <a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a> will implement <code>JsonSchema</code> if the
+corresponding <a href="trait.TypedUuidKind.html" title="trait newtype_uuid::TypedUuidKind"><code>TypedUuidKind</code></a> implements <code>JsonSchema</code>.</li>
+</ul>
+<p>To abstract over typed and untyped UUIDs, the <a href="trait.GenericUuid.html" title="trait newtype_uuid::GenericUuid"><code>GenericUuid</code></a> trait is provided. This trait also
+permits conversions between typed and untyped UUIDs.</p>
+<h2 id="dependencies"><a class="doc-anchor" href="#dependencies">§</a>Dependencies</h2>
+<ul>
+<li>The only required dependency is the <a href="../uuid/index.html" title="mod uuid"><code>uuid</code></a> crate. Optional features may add further
+dependencies.</li>
+</ul>
+<h2 id="features"><a class="doc-anchor" href="#features">§</a>Features</h2>
+<ul>
+<li><code>default</code>: Enables default features in the uuid crate.</li>
+<li><code>std</code>: Enables the use of the standard library. <em>Enabled by default.</em></li>
+<li><code>serde</code>: Enables serialization and deserialization support via Serde. <em>Not enabled by
+default.</em></li>
+<li><code>v4</code>: Enables the <code>new_v4</code> method for generating UUIDs. <em>Not enabled by default.</em></li>
+<li><code>schemars08</code>: Enables support for generating JSON schemas via schemars 0.8. <em>Not enabled by
+default.</em> Note that the format of the generated schema is <strong>not currently part</strong> of the stable
+API, though we hope to stabilize it in the future.</li>
+</ul>
+<h2 id="minimum-supported-rust-version-msrv"><a class="doc-anchor" href="#minimum-supported-rust-version-msrv">§</a>Minimum supported Rust version (MSRV)</h2>
+<p>The MSRV of this crate is <strong>Rust 1.60.</strong> In general, this crate will follow the MSRV of the
+underlying <code>uuid</code> crate.</p>
+<p>Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
+each minor version are:</p>
+<ul>
+<li>Version <strong>1.0.x</strong>: Rust 1.60</li>
+<li>Version <strong>1.1.x</strong>: Rust 1.61. This permits <code>TypedUuid&lt;T&gt;</code> to have <code>const fn</code> methods.</li>
+</ul>
+<h2 id="alternatives"><a class="doc-anchor" href="#alternatives">§</a>Alternatives</h2>
+<ul>
+<li><a href="https://crates.io/crates/typed-uuid"><code>typed-uuid</code></a>: generally similar, but with a few design
+decisions that are different.</li>
+</ul>
+</div></details><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="struct.ParseError.html" title="struct newtype_uuid::ParseError">ParseError</a></div><div class="desc docblock-short">An error that occurred while parsing a <a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.TagError.html" title="struct newtype_uuid::TagError">TagError</a></div><div class="desc docblock-short">An error that occurred while creating a <a href="struct.TypedUuidTag.html" title="struct newtype_uuid::TypedUuidTag"><code>TypedUuidTag</code></a>.</div></li><li><div class="item-name"><a class="struct" href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid">TypedUuid</a></div><div class="desc docblock-short">A UUID with type-level information about what it’s used for.</div></li><li><div class="item-name"><a class="struct" href="struct.TypedUuidTag.html" title="struct newtype_uuid::TypedUuidTag">TypedUuidTag</a></div><div class="desc docblock-short">Describes what kind of <a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a> something is.</div></li></ul><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.GenericUuid.html" title="trait newtype_uuid::GenericUuid">GenericUuid</a></div><div class="desc docblock-short">A trait abstracting over typed and untyped UUIDs.</div></li><li><div class="item-name"><a class="trait" href="trait.TypedUuidKind.html" title="trait newtype_uuid::TypedUuidKind">TypedUuidKind</a></div><div class="desc docblock-short">Represents marker types that can be used as a type parameter for <a href="struct.TypedUuid.html" title="struct newtype_uuid::TypedUuid"><code>TypedUuid</code></a>.</div></li></ul></section></div></main></body></html>
