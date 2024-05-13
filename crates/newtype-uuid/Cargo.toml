@@ -21,11 +21,13 @@ rustdoc-args = ["--cfg=doc_cfg"]
 serde = { version = "1", optional = true, features = ["derive"] }
 schemars = { version = "0.8", features = ["uuid1"], optional = true }
 uuid = { version = "1.7.0", default-features = false }
+sea-orm = { version = "0.12.15", optional = true }
 
 [features]
-default = ["uuid/default", "std"]
+default = ["uuid/default", "std", "seaorm"]
 std = ["uuid/std", "alloc"]
 alloc = []
 v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
 schemars08 = ["dep:schemars", "std"]
+seaorm = ["dep:sea-orm"]
