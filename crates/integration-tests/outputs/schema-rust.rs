@@ -1,20 +1,46 @@
+/// Error types.
+pub mod error {
+    /// Error from a TryFrom or FromStr implementation.
+    pub struct ConversionError(std::borrow::Cow<'static, str>);
+    impl std::error::Error for ConversionError {}
+    impl std::fmt::Display for ConversionError {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+            std::fmt::Display::fmt(&self.0, f)
+        }
+    }
+    impl std::fmt::Debug for ConversionError {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+            std::fmt::Debug::fmt(&self.0, f)
+        }
+    }
+    impl From<&'static str> for ConversionError {
+        fn from(value: &'static str) -> Self {
+            Self(value.into())
+        }
+    }
+    impl From<String> for ConversionError {
+        fn from(value: String) -> Self {
+            Self(value.into())
+        }
+    }
+}
 ///MyPathStruct
 ///
 /// <details><summary>JSON schema</summary>
 ///
 /// ```json
-/**{
-  "title": "MyPathStruct",
-  "type": "object",
-  "required": [
-    "id"
-  ],
-  "properties": {
-    "id": {
-      "$ref": "#/definitions/TypedUuidForMyKind"
-    }
-  }
-}*/
+///{
+///  "title": "MyPathStruct",
+///  "type": "object",
+///  "required": [
+///    "id"
+///  ],
+///  "properties": {
+///    "id": {
+///      "$ref": "#/definitions/TypedUuidForMyKind"
+///    }
+///  }
+///}
 /// ```
 /// </details>
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -31,10 +57,25 @@ impl From<&MyPathStruct> for MyPathStruct {
 /// <details><summary>JSON schema</summary>
 ///
 /// ```json
-/**{
-  "type": "string",
-  "format": "uuid"
-}*/
+///{
+///  "type": "string",
+///  "format": "uuid",
+///  "x-rust-type": {
+///    "crate": "newtype-uuid",
+///    "parameters": [
+///      {
+///        "not": true,
+///        "x-rust-type": {
+///          "crate": "my-crate",
+///          "path": "my_crate::MyKind",
+///          "version": "0.1.0"
+///        }
+///      }
+///    ],
+///    "path": "newtype_uuid::TypedUuid",
+///    "version": "1.2.0"
+///  }
+///}
 /// ```
 /// </details>
 #[derive(Clone, Debug, Deserialize, Serialize)]

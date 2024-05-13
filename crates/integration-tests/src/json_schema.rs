@@ -8,8 +8,42 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use typify::TypeSpaceSettings;
 
-#[derive(Debug, JsonSchema)]
+#[derive(Debug)]
 enum MyKind {}
+
+impl JsonSchema for MyKind {
+    fn schema_name() -> String {
+        "MyKind".to_string()
+    }
+
+    fn is_referenceable() -> bool {
+        false
+    }
+
+    fn json_schema(_: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
+        schemars::schema::SchemaObject {
+            subschemas: Some(
+                schemars::schema::SubschemaValidation {
+                    not: Some(schemars::schema::Schema::Bool(true).into()),
+                    ..Default::default()
+                }
+                .into(),
+            ),
+            extensions: [(
+                "x-rust-type".to_string(),
+                serde_json::json!({
+                    "crate": "my-crate",
+                    "version": "0.1.0",
+                    "path": "my_crate::MyKind",
+                }),
+            )]
+            .into_iter()
+            .collect(),
+            ..Default::default()
+        }
+        .into()
+    }
+}
 
 impl TypedUuidKind for MyKind {
     fn tag() -> TypedUuidTag {
@@ -59,8 +93,24 @@ fn test_json_schema_snapshot() {
         "::newtype_uuid::TypedUuid<::my_crate::MyKind>",
         std::iter::empty(),
     );
-    let output = generate_schema_with(&settings, schema);
+    let output = generate_schema_with(&settings, schema.clone());
     expectorate::assert_contents("outputs/schema-rust-with-replace.rs", &output);
+
+    // And finally, using the x-rust-type extension we include.
+    let mut settings = TypeSpaceSettings::default();
+    settings
+        .with_crate(
+            "newtype-uuid",
+            typify::CrateVers::Version("1.2.0".parse().unwrap()),
+            None,
+        )
+        .with_crate(
+            "my-crate",
+            typify::CrateVers::Version("0.1.0".parse().unwrap()),
+            None,
+        );
+    let output = generate_schema_with(&settings, schema);
+    expectorate::assert_contents("outputs/schema-rust-with-extension.rs", &output);
 }
 
 fn generate_schema_with(
