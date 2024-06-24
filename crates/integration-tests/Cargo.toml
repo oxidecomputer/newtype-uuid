@@ -13,7 +13,7 @@ prettyplease = { version = "0.2.17", optional = true }
 schemars = { version = "0.8.17", optional = true }
 serde = { version = "1", optional = true }
 serde_json = { version = "1.0.115", optional = true }
-syn = { version = "2.0.48", optional = true }
+syn = { version = "2.0.68", optional = true }
 typify = { version = "0.0.15", optional = true }
 
 [features]
