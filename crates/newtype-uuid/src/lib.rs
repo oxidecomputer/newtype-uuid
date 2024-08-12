@@ -494,7 +494,7 @@ pub trait GenericUuid {
 
     /// Returns the inner [`Uuid`].
     ///
-    /// Generally, [`to_untyped_uuid`](GenericUuid::into_untyped_uuid) should be preferred. However,
+    /// Generally, [`into_untyped_uuid`](Self::into_untyped_uuid) should be preferred. However,
     /// in some cases it may be necessary to use this method to satisfy lifetime constraints.
     fn as_untyped_uuid(&self) -> &Uuid;
 }
