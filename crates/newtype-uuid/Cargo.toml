@@ -1,6 +1,6 @@
 [package]
 name = "newtype-uuid"
-version = "1.1.0"
+version = "1.2.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/oxidecomputer/newtype-uuid"
@@ -19,6 +19,7 @@ rustdoc-args = ["--cfg=doc_cfg"]
 
 [dependencies]
 serde = { version = "1", optional = true, features = ["derive"] }
+serde_json = { version = "1.0.117", optional = true }
 schemars = { version = "0.8", features = ["uuid1"], optional = true }
 uuid = { version = "1.7.0", default-features = false }
 
@@ -28,4 +29,4 @@ std = ["uuid/std", "alloc"]
 alloc = []
 v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
-schemars08 = ["dep:schemars", "std"]
+schemars08 = ["dep:schemars", "dep:serde_json", "std"]

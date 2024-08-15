@@ -252,7 +252,11 @@ impl<T: TypedUuidKind> FromStr for TypedUuid<T> {
 #[cfg(feature = "schemars08")]
 mod schemars08_imp {
     use super::*;
-    use schemars::JsonSchema;
+    use schemars::{
+        schema::{InstanceType, SchemaObject},
+        JsonSchema,
+    };
+    use serde_json::json;
 
     /// Implements `JsonSchema` for `TypedUuid<T>`, if `T` implements `JsonSchema`.
     ///
@@ -275,7 +279,25 @@ mod schemars08_imp {
 
         #[inline]
         fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-            Uuid::json_schema(gen)
+            SchemaObject {
+                instance_type: Some(InstanceType::String.into()),
+                format: Some("uuid".to_string()),
+                extensions: [(
+                    "x-rust-type".to_string(),
+                    json!({
+                        "crate": "newtype-uuid",
+                        "version": "1.2.0",
+                        "path": "newtype_uuid::TypedUuid",
+                        "parameters": [
+                            gen.subschema_for::<T>()
+                        ]
+                    }),
+                )]
+                .into_iter()
+                .collect(),
+                ..Default::default()
+            }
+            .into()
         }
     }
 }
