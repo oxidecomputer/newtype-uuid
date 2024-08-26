@@ -9,7 +9,7 @@ publish = false
 newtype-uuid = { version = "1.1.0", path = "../newtype-uuid" }
 dropshot = { version = "0.10.0", optional = true }
 expectorate = { version = "1.0.6", optional = true }
-prettyplease = { version = "0.2.17", optional = true }
+prettyplease = { version = "0.2.22", optional = true }
 schemars = { version = "0.8.17", optional = true }
 serde = { version = "1", optional = true }
 serde_json = { version = "1.0.115", optional = true }
