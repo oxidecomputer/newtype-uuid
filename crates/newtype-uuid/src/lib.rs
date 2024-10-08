@@ -87,7 +87,7 @@
 //!
 //! # Features
 //!
-//! - `default`: Enables default features in the uuid crate.
+//! - `default`: Enables default features in the newtype-uuid crate.
 //! - `std`: Enables the use of the standard library. *Enabled by default.*
 //! - `serde`: Enables serialization and deserialization support via Serde. *Not enabled by
 //!   default.*
@@ -104,7 +104,7 @@
 //! Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
 //! each minor version are:
 //!
-//! * Version **1.0.x**: Rust 1.60
+//! * Version **1.0.x**: Rust 1.60.
 //! * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 //!
 //! # Alternatives
@@ -168,6 +168,86 @@ impl<T: TypedUuidKind> TypedUuid<T> {
     pub const fn max() -> Self {
         Self {
             uuid: Uuid::max(),
+            _phantom: PhantomData,
+        }
+    }
+
+    /// Creates a UUID from four field values.
+    #[inline]
+    #[must_use]
+    pub const fn from_fields(d1: u32, d2: u16, d3: u16, d4: [u8; 8]) -> Self {
+        Self {
+            uuid: Uuid::from_fields(d1, d2, d3, &d4),
+            _phantom: PhantomData,
+        }
+    }
+
+    /// Creates a UUID from four field values in little-endian order.
+    ///
+    /// The bytes in the `d1`, `d2` and `d3` fields will be flipped to convert into big-endian
+    /// order. This is based on the endianness of the UUID, rather than the target environment so
+    /// bytes will be flipped on both big and little endian machines.
+    #[inline]
+    #[must_use]
+    pub const fn from_fields_le(d1: u32, d2: u16, d3: u16, d4: [u8; 8]) -> Self {
+        Self {
+            uuid: Uuid::from_fields_le(d1, d2, d3, &d4),
+            _phantom: PhantomData,
+        }
+    }
+
+    /// Creates a UUID from a 128bit value.
+    #[inline]
+    #[must_use]
+    pub const fn from_u128(value: u128) -> Self {
+        Self {
+            uuid: Uuid::from_u128(value),
+            _phantom: PhantomData,
+        }
+    }
+
+    /// Creates a UUID from a 128bit value in little-endian order.
+    ///
+    /// The entire value will be flipped to convert into big-endian order. This is based on the
+    /// endianness of the UUID, rather than the target environment so bytes will be flipped on both
+    /// big and little endian machines.
+    #[inline]
+    #[must_use]
+    pub const fn from_u128_le(value: u128) -> Self {
+        Self {
+            uuid: Uuid::from_u128_le(value),
+            _phantom: PhantomData,
+        }
+    }
+
+    /// Creates a UUID from two 64bit values.
+    #[inline]
+    #[must_use]
+    pub const fn from_u64_pair(d1: u64, d2: u64) -> Self {
+        Self {
+            uuid: Uuid::from_u64_pair(d1, d2),
+            _phantom: PhantomData,
+        }
+    }
+
+    /// Creates a UUID using the supplied bytes.
+    #[inline]
+    #[must_use]
+    pub const fn from_bytes(bytes: uuid::Bytes) -> Self {
+        Self {
+            uuid: Uuid::from_bytes(bytes),
+            _phantom: PhantomData,
+        }
+    }
+
+    /// Creates a UUID using the supplied bytes in little-endian order.
+    ///
+    /// The individual fields encoded in the buffer will be flipped.
+    #[inline]
+    #[must_use]
+    pub const fn from_bytes_le(bytes: uuid::Bytes) -> Self {
+        Self {
+            uuid: Uuid::from_bytes_le(bytes),
             _phantom: PhantomData,
         }
     }
