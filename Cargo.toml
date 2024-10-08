@@ -5,4 +5,4 @@ members = [
 ]
 
 # Ideally, we'd be able to use workspace dependencies, but that's only supported starting Rust 1.64,
-# and our MSRV is Rust 1.60.
+# and our MSRV is Rust 1.61.
