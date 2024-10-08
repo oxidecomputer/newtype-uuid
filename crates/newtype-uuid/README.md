@@ -94,7 +94,7 @@ permits conversions between typed and untyped UUIDs.
 
 ## Features
 
-- `default`: Enables default features in the uuid crate.
+- `default`: Enables default features in the newtype-uuid crate.
 - `std`: Enables the use of the standard library. *Enabled by default.*
 - `serde`: Enables serialization and deserialization support via Serde. *Not enabled by
   default.*
@@ -112,6 +112,7 @@ Within the 1.x series, MSRV updates will be accompanied by a minor version bump.
 each minor version are:
 
 * Version **1.0.x**: Rust 1.60
+* Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 
 ## Alternatives
 
