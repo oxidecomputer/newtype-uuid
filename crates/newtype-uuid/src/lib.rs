@@ -330,6 +330,7 @@ impl<T: TypedUuidKind> FromStr for TypedUuid<T> {
 }
 
 impl<T: TypedUuidKind> Default for TypedUuid<T> {
+    #[inline]
     fn default() -> Self {
         Self::from_untyped_uuid(Uuid::default())
     }
