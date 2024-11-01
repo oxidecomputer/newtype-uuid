@@ -329,6 +329,12 @@ impl<T: TypedUuidKind> FromStr for TypedUuid<T> {
     }
 }
 
+impl<T: TypedUuidKind> Default for TypedUuid<T> {
+    fn default() -> Self {
+        Self::from_untyped_uuid(Uuid::default())
+    }
+}
+
 #[cfg(feature = "schemars08")]
 mod schemars08_imp {
     use super::*;
