@@ -1,0 +1,2 @@
+window.ALL_CRATES = ["cfg_if","dyn_clone","getrandom","itoa","libc","newtype_uuid","proc_macro2","quote","ryu","schemars","schemars_derive","serde","serde_derive","serde_derive_internals","serde_json","syn","unicode_ident","uuid"];
+//{"start":21,"fragment_lengths":[8,12,12,7,7,15,14,8,6,11,18,8,15,25,13,6,16,7]}

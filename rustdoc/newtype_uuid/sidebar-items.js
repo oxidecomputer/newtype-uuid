@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["ParseError","TagError","TypedUuid","TypedUuidTag"],"trait":["GenericUuid","TypedUuidKind"]};
