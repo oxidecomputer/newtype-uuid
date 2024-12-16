@@ -25,7 +25,8 @@ run_nextest() {
     check_cargo_hack
 
     echo_err "Running non-doc tests"
-    run_cargo_hack nextest run --all-targets
+    # Some configurations of cargo-hack cause no tests to be run. This is expected.
+    run_cargo_hack nextest run --all-targets --no-tests=pass
 }
 
 run_nextest_all_features() {
