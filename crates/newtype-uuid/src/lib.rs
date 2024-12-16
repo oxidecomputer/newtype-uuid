@@ -88,6 +88,7 @@
 //! # Features
 //!
 //! - `default`: Enables default features in the newtype-uuid crate.
+//! - `diffus`: Enables type diff support via [diffus](https://github.com/distil/diffus)
 //! - `std`: Enables the use of the standard library. *Enabled by default.*
 //! - `serde`: Enables serialization and deserialization support via Serde. *Not enabled by
 //!   default.*
@@ -363,6 +364,29 @@ mod schemars08_imp {
         #[inline]
         fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
             Uuid::json_schema(gen)
+        }
+    }
+}
+
+#[cfg(feature = "diffus")]
+mod diffus_imp {
+    use super::*;
+    use diffus::{edit, Diffable};
+
+    /// Implements `Diffable` for `TypedUuid<T>`, if `T` implements `Diffable`.
+    impl<'a, T> Diffable<'a> for TypedUuid<T>
+    where
+        T: TypedUuidKind + Diffable<'a>,
+    {
+        type Diff = (&'a Self, &'a Self);
+
+        #[inline]
+        fn diff(&'a self, other: &'a Self) -> edit::Edit<'a, Self> {
+            if self.uuid == other.uuid {
+                edit::Edit::Copy(self)
+            } else {
+                edit::Edit::Change((self, other))
+            }
         }
     }
 }

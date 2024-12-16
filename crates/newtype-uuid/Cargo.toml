@@ -18,12 +18,14 @@ all-features = true
 rustdoc-args = ["--cfg=doc_cfg"]
 
 [dependencies]
+diffus = { version = "0.10.0", optional = true, features = ["uuid-impl", "derive"] }
 serde = { version = "1", optional = true, features = ["derive"] }
 schemars = { version = "0.8", features = ["uuid1"], optional = true }
 uuid = { version = "1.7.0", default-features = false }
 
 [features]
 default = ["uuid/default", "std"]
+diffus = ["dep:diffus"]
 std = ["uuid/std", "alloc"]
 alloc = []
 v4 = ["uuid/v4"]

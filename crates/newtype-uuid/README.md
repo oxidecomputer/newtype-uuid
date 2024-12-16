@@ -95,6 +95,7 @@ permits conversions between typed and untyped UUIDs.
 ## Features
 
 - `default`: Enables default features in the newtype-uuid crate.
+- `diffus`: Enables type diff support via [diffus](https://github.com/distil/diffus)
 - `std`: Enables the use of the standard library. *Enabled by default.*
 - `serde`: Enables serialization and deserialization support via Serde. *Not enabled by
   default.*
