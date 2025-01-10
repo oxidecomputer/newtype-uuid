@@ -370,8 +370,10 @@ mod schemars08_imp {
 #[cfg(feature = "proptest1")]
 mod proptest1_imp {
     use super::*;
-    use proptest::arbitrary::{any, Arbitrary};
-    use proptest::strategy::{BoxedStrategy, Strategy};
+    use proptest::{
+        arbitrary::{any, Arbitrary},
+        strategy::{BoxedStrategy, Strategy},
+    };
 
     impl<T> Arbitrary for TypedUuid<T>
     where
