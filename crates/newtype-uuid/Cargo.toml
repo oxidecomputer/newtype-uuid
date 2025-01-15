@@ -24,9 +24,9 @@ uuid.workspace = true
 
 [features]
 default = ["uuid/default", "std"]
-std = ["uuid/std", "alloc"]
+std = ["alloc", "uuid/std", "proptest?/std"]
 alloc = []
 v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
 schemars08 = ["dep:schemars", "std"]
-proptest1 = ["dep:proptest", "std"]
+proptest1 = ["dep:proptest"]
