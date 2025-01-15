@@ -24,7 +24,7 @@ uuid.workspace = true
 
 [features]
 default = ["uuid/default", "std"]
-std = ["uuid/std", "alloc"]
+std = ["alloc", "uuid/std"]
 alloc = []
 v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
