@@ -367,6 +367,33 @@ mod schemars08_imp {
     }
 }
 
+#[cfg(feature = "proptest1")]
+mod proptest1_imp {
+    use super::*;
+    use proptest::{
+        arbitrary::{any, Arbitrary},
+        strategy::{BoxedStrategy, Strategy},
+    };
+
+    impl<T> Arbitrary for TypedUuid<T>
+    where
+        T: TypedUuidKind,
+    {
+        type Parameters = ();
+        type Strategy = BoxedStrategy<Self>;
+
+        fn arbitrary_with(_args: Self::Parameters) -> Self::Strategy {
+            let bytes = any::<[u8; 16]>();
+            bytes
+                .prop_map(|b| {
+                    let uuid = uuid::Builder::from_random_bytes(b).into_uuid();
+                    TypedUuid::<T>::from_untyped_uuid(uuid)
+                })
+                .boxed()
+        }
+    }
+}
+
 /// Represents marker types that can be used as a type parameter for [`TypedUuid`].
 ///
 /// Generally, an implementation of this will be a zero-sized type that can never be constructed. An

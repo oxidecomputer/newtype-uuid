@@ -18,6 +18,7 @@ all-features = true
 rustdoc-args = ["--cfg=doc_cfg"]
 
 [dependencies]
+proptest = { version = "1.5.0", optional = true }
 serde = { version = "1", optional = true, features = ["derive"] }
 schemars = { version = "0.8", features = ["uuid1"], optional = true }
 uuid = { version = "1.7.0", default-features = false }
@@ -29,3 +30,4 @@ alloc = []
 v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
 schemars08 = ["dep:schemars", "std"]
+proptest1 = ["dep:proptest"]
