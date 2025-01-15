@@ -26,7 +26,7 @@ impl Compiler {
         // added later in the cycle, so we guard by minor + 1.
         self.minor >= minor
             && (self.channel == ReleaseChannel::Stable || self.channel == ReleaseChannel::Beta)
-            || self.minor >= minor + 1
+            || self.minor > minor
     }
 }
 
