@@ -1,0 +1,2 @@
+window.ALL_CRATES = ["bitflags","byteorder","cfg_if","dyn_clone","getrandom","itoa","lazy_static","libc","memchr","newtype_uuid","num_traits","ppv_lite86","proc_macro2","proptest","quote","rand","rand_chacha","rand_core","rand_xorshift","regex_syntax","ryu","schemars","schemars_derive","serde","serde_derive","serde_derive_internals","serde_json","syn","unarray","unicode_ident","uuid","zerocopy","zerocopy_derive"];
+//{"start":21,"fragment_lengths":[10,12,9,12,12,7,14,7,9,15,13,13,14,11,8,7,14,12,16,15,6,11,18,8,15,25,13,6,10,16,7,11,18]}
