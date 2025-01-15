@@ -10,11 +10,14 @@ newtype-uuid.workspace = true
 dropshot = { workspace = true, optional = true }
 expectorate = { workspace = true, optional = true }
 prettyplease = { workspace = true, optional = true }
+proptest = { workspace = true, optional = true }
 schemars = { workspace = true, optional = true }
 serde = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
 syn = { workspace = true, optional = true }
+test-strategy = { workspace = true, optional = true }
 typify = { workspace = true, optional = true }
+uuid.workspace = true
 
 [features]
 internal-schemars08-tests = [
@@ -28,4 +31,9 @@ internal-schemars08-tests = [
     "dep:serde",
     "dep:syn",
     "dep:typify",
+]
+internal-proptest1-tests = [
+    "newtype-uuid/proptest1",
+    "dep:proptest",
+    "dep:test-strategy",
 ]

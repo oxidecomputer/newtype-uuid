@@ -124,7 +124,7 @@ use core::{
     marker::PhantomData,
     str::FromStr,
 };
-use uuid::Uuid;
+use uuid::{Uuid, Version};
 
 /// A UUID with type-level information about what it's used for.
 ///
@@ -259,6 +259,36 @@ impl<T: TypedUuidKind> TypedUuid<T> {
     pub fn new_v4() -> Self {
         Self::from_untyped_uuid(Uuid::new_v4())
     }
+
+    /// Returns the version number of the UUID.
+    ///
+    /// This represents the algorithm used to generate the value.
+    /// This method is the future-proof alternative to [`Self::get_version`].
+    ///
+    /// # References
+    ///
+    /// * [Version Field in RFC 9562](https://www.ietf.org/rfc/rfc9562.html#section-4.2)
+    #[inline]
+    pub const fn get_version_num(&self) -> usize {
+        self.uuid.get_version_num()
+    }
+
+    /// Returns the version of the UUID.
+    ///
+    /// This represents the algorithm used to generate the value.
+    /// If the version field doesn't contain a recognized version then `None`
+    /// is returned. If you're trying to read the version for a future extension
+    /// you can also use [`Uuid::get_version_num`] to unconditionally return a
+    /// number. Future extensions may start to return `Some` once they're
+    /// standardized and supported.
+    ///
+    /// # References
+    ///
+    /// * [Version Field in RFC 9562](https://www.ietf.org/rfc/rfc9562.html#section-4.2)
+    #[inline]
+    pub fn get_version(&self) -> Option<Version> {
+        self.uuid.get_version()
+    }
 }
 
 // ---
@@ -375,11 +405,22 @@ mod proptest1_imp {
         strategy::{BoxedStrategy, Strategy},
     };
 
+    /// Parameters for use with `proptest` instances.
+    ///
+    /// This is currently not exported as a type because it has no options. But
+    /// it's left in as an extension point for the future.
+    #[derive(Clone, Debug, Default)]
+    pub struct TypedUuidParams(());
+
+    /// Generates random `TypedUuid<T>` instances.
+    ///
+    /// Currently, this always returns a version 4 UUID. Support for other kinds
+    /// of UUIDs might be added via [`Self::Parameters`] in the future.
     impl<T> Arbitrary for TypedUuid<T>
     where
         T: TypedUuidKind,
     {
-        type Parameters = ();
+        type Parameters = TypedUuidParams;
         type Strategy = BoxedStrategy<Self>;
 
         fn arbitrary_with(_args: Self::Parameters) -> Self::Strategy {
