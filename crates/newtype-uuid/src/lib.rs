@@ -95,6 +95,7 @@
 //! - `schemars08`: Enables support for generating JSON schemas via schemars 0.8. *Not enabled by
 //!   default.* Note that the format of the generated schema is **not currently part** of the stable
 //!   API, though we hope to stabilize it in the future.
+//! - `proptest1`: Enables support for generating `proptest::Arbitrary` instances of UUIDs. *Not enabled by default.*
 //!
 //! # Minimum supported Rust version (MSRV)
 //!
@@ -106,6 +107,7 @@
 //!
 //! * Version **1.0.x**: Rust 1.60.
 //! * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
+//! * Version **1.2.x**: Rust 1.67, required by some dependency updates.
 //!
 //! # Alternatives
 //!
@@ -117,6 +119,8 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg, doc_auto_cfg))]
 
+#[cfg(error_in_core)]
+use core::error::Error;
 use core::{
     cmp::Ordering,
     fmt,
@@ -124,6 +128,8 @@ use core::{
     marker::PhantomData,
     str::FromStr,
 };
+#[cfg(all(not(error_in_core), feature = "std"))]
+use std::error::Error;
 use uuid::{Uuid, Version};
 
 /// A UUID with type-level information about what it's used for.
@@ -600,8 +606,8 @@ impl fmt::Display for TagError {
     }
 }
 
-#[cfg(feature = "std")]
-impl std::error::Error for TagError {}
+#[cfg(any(error_in_core, feature = "std"))]
+impl Error for TagError {}
 
 /// An error that occurred while parsing a [`TypedUuid`].
 #[derive(Clone, Debug)]
@@ -620,9 +626,9 @@ impl fmt::Display for ParseError {
     }
 }
 
-#[cfg(feature = "std")]
-impl std::error::Error for ParseError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+#[cfg(any(error_in_core, feature = "std"))]
+impl Error for ParseError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
         Some(&self.error)
     }
 }
