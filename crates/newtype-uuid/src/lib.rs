@@ -99,8 +99,8 @@
 //!
 //! # Minimum supported Rust version (MSRV)
 //!
-//! The MSRV of this crate is **Rust 1.60.** In general, this crate will follow the MSRV of the
-//! underlying `uuid` crate.
+//! The MSRV of this crate is **Rust 1.67.** In general, this crate will follow the MSRV of the
+//! underlying `uuid` crate or of dependencies, with an aim to be conservative.
 //!
 //! Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
 //! each minor version are:

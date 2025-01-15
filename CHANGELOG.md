@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.1] - 2025-01-14
+
+Updated MSRV in readme.
+
 ## [1.2.0] - 2025-01-14
 
 ### Added
@@ -85,6 +89,7 @@ Documentation improvements.
 
 Initial release.
 
+[1.2.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.1
 [1.2.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.0
 [1.1.3]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.1.3
 [1.1.2]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.1.2
