@@ -284,7 +284,7 @@ impl<T: TypedUuidKind> TypedUuid<T> {
     ///
     /// # References
     ///
-    /// * [Version Field in RFC 9562](https://www.ietf.org/rfc/rfc9562.html#section-4.2)    #[inline]
+    /// * [Version Field in RFC 9562](https://www.ietf.org/rfc/rfc9562.html#section-4.2)
     #[inline]
     pub fn get_version(&self) -> Option<Version> {
         self.uuid.get_version()
