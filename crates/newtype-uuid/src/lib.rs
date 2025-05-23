@@ -119,6 +119,9 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![cfg_attr(doc_cfg, feature(doc_cfg, doc_auto_cfg))]
 
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
 use core::{
     cmp::Ordering,
     fmt,
@@ -365,6 +368,21 @@ impl<T: TypedUuidKind> Default for TypedUuid<T> {
     #[inline]
     fn default() -> Self {
         Self::from_untyped_uuid(Uuid::default())
+    }
+}
+
+impl<T: TypedUuidKind> AsRef<[u8]> for TypedUuid<T> {
+    #[inline]
+    fn as_ref(&self) -> &[u8] {
+        self.uuid.as_ref()
+    }
+}
+
+#[cfg(feature = "alloc")]
+impl<T: TypedUuidKind> From<TypedUuid<T>> for alloc::vec::Vec<u8> {
+    #[inline]
+    fn from(typed_uuid: TypedUuid<T>) -> Self {
+        typed_uuid.into_untyped_uuid().into_bytes().to_vec()
     }
 }
 
