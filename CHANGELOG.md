@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.2] - 2025-05-24
+
+### Added
+
+Added the following implementations:
+
+- `AsRef<[u8]>` for `TypedUuid<T>`.
+- `From<TypedUuid<T>> for Vec<u8>`.
+
 ## [1.2.1] - 2025-01-14
 
 Updated MSRV in readme.
@@ -89,6 +98,7 @@ Documentation improvements.
 
 Initial release.
 
+[1.2.2]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.2
 [1.2.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.1
 [1.2.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.0
 [1.1.3]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.1.3
