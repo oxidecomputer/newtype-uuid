@@ -20,5 +20,5 @@ serde = "1"
 serde_json = "1.0.115"
 syn = "2.0.48"
 test-strategy = "0.4.0"
-typify = "0.0.15"
+typify = "0.4.2"
 uuid = { version = "1.7.0", default-features = false }
