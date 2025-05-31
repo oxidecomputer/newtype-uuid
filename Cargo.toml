@@ -8,7 +8,7 @@ members = [
 rust-version = "1.67"
 
 [workspace.dependencies]
-dropshot = "0.10.0"
+dropshot = "0.16.2"
 expectorate = "1.0.6"
 newtype-uuid = { path = "crates/newtype-uuid" }
 prettyplease = "0.2.22"
