@@ -1,11 +1,11 @@
 [package]
 name = "newtype-uuid"
 version = "1.2.2"
-edition = "2021"
-license = "MIT OR Apache-2.0"
-repository = "https://github.com/oxidecomputer/newtype-uuid"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
 description = "Newtype wrapper around UUIDs"
-documentation = "https://docs.rs/newtype-uuid"
+documentation.workspace = true
 readme = "README.md"
 keywords = ["uuid", "unique", "guid", "newtype"]
 categories = ["data-structures", "no-std"]
