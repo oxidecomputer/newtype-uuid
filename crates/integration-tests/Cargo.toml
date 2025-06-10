@@ -7,7 +7,6 @@ publish = false
 
 [dependencies]
 newtype-uuid.workspace = true
-dropshot = { workspace = true, optional = true }
 expectorate = { workspace = true, optional = true }
 prettyplease = { workspace = true, optional = true }
 proptest = { workspace = true, optional = true }
@@ -23,7 +22,6 @@ uuid.workspace = true
 internal-schemars08-tests = [
     "newtype-uuid/schemars08",
     "newtype-uuid/serde",
-    "dep:dropshot",
     "dep:expectorate",
     "dep:prettyplease",
     "dep:schemars",

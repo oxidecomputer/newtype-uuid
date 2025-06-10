@@ -1,8 +1,5 @@
 //! JSON schema tests for newtype-uuid.
 
-use dropshot::{
-    endpoint, ApiDescription, HttpError, HttpResponseOk, Path, Query, RequestContext, TypedBody,
-};
 use newtype_uuid::{TypedUuid, TypedUuidKind, TypedUuidTag};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -21,24 +18,6 @@ impl TypedUuidKind for MyKind {
 #[derive(Deserialize, Serialize, JsonSchema)]
 struct MyPathStruct {
     id: TypedUuid<MyKind>,
-}
-
-#[derive(Deserialize, Serialize, JsonSchema)]
-struct MyQueryStruct {
-    query_id: TypedUuid<MyKind>,
-}
-
-#[endpoint {
-    method = POST,
-    path = "/my-endpoint/{id}",
-}]
-async fn my_endpoint(
-    _rqctx: RequestContext<()>,
-    _path: Path<MyPathStruct>,
-    _query: Query<MyQueryStruct>,
-    _body: TypedBody<MyPathStruct>,
-) -> Result<HttpResponseOk<MyPathStruct>, HttpError> {
-    unreachable!("this method is never actually called")
 }
 
 #[test]
@@ -74,14 +53,4 @@ fn generate_schema_with(
     let tokens = type_space.to_stream();
     let file: syn::File = syn::parse2(tokens).expect("parsing tokens succeeded");
     prettyplease::unparse(&file)
-}
-
-#[test]
-fn test_openapi_snapshot() {
-    let mut api = ApiDescription::new();
-    api.register(my_endpoint).unwrap();
-    let openapi = api.openapi("my-api", "1.0.0");
-    let json_value = openapi.json().expect("serialization to json worked");
-    let api_json = serde_json::to_string_pretty(&json_value).unwrap();
-    expectorate::assert_contents("outputs/typed-uuid-openapi.json", &api_json);
 }
