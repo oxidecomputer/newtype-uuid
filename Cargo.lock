@@ -132,6 +132,7 @@ version = "0.1.0"
 dependencies = [
  "expectorate",
  "newtype-uuid",
+ "newtype-uuid-macros",
  "prettyplease",
  "proptest",
  "schemars",
@@ -199,6 +200,22 @@ dependencies = [
  "proptest",
  "schemars",
  "serde",
+ "serde_json",
+ "uuid",
+]
+
+[[package]]
+name = "newtype-uuid-macros"
+version = "0.1.0"
+dependencies = [
+ "heck",
+ "newtype-uuid",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "serde_json",
+ "serde_tokenstream",
+ "syn",
  "uuid",
 ]
 

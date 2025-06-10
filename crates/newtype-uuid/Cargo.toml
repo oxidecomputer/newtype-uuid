@@ -19,6 +19,7 @@ rustdoc-args = ["--cfg=doc_cfg"]
 [dependencies]
 proptest = { workspace = true, optional = true }
 serde = { workspace = true, features = ["derive"], optional = true }
+serde_json = { workspace = true, optional = true }
 schemars = { workspace = true, features = ["uuid1"], optional = true }
 uuid.workspace = true
 
@@ -28,5 +29,5 @@ std = ["alloc", "uuid/std"]
 alloc = []
 v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
-schemars08 = ["dep:schemars", "std"]
+schemars08 = ["dep:schemars", "dep:serde_json", "std"]
 proptest1 = ["dep:proptest"]

@@ -7,6 +7,8 @@ publish = false
 
 [dependencies]
 newtype-uuid.workspace = true
+uuid.workspace = true
+newtype-uuid-macros = { workspace = true, optional = true }
 expectorate = { workspace = true, optional = true }
 prettyplease = { workspace = true, optional = true }
 proptest = { workspace = true, optional = true }
@@ -16,13 +18,13 @@ serde_json = { workspace = true, optional = true }
 syn = { workspace = true, optional = true }
 test-strategy = { workspace = true, optional = true }
 typify = { workspace = true, optional = true }
-uuid.workspace = true
 
 [features]
 internal-schemars08-tests = [
     "newtype-uuid/schemars08",
     "newtype-uuid/serde",
     "dep:expectorate",
+    "dep:newtype-uuid-macros",
     "dep:prettyplease",
     "dep:schemars",
     "dep:serde_json",

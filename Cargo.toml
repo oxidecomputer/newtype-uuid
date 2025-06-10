@@ -13,14 +13,19 @@ rust-version = "1.67"
 
 [workspace.dependencies]
 expectorate = "1.0.6"
+heck = "0.5"
 newtype-uuid = { path = "crates/newtype-uuid" }
+newtype-uuid-macros = { path = "crates/newtype-uuid-macros" }
 prettyplease = "0.2.22"
+proc-macro2 = "1.0"
+quote = "1.0"
 # Ideally we'd let you use no-std proptest, but proptest requires either the std
 # or the no_std option to be set. It won't compile without one of those two set.
 proptest = { version = "1.5.0", features = ["std"], default-features = false }
 schemars = "0.8.17"
 serde = "1"
 serde_json = "1.0.115"
+serde_tokenstream = "0.2.2"
 syn = "2.0.101"
 test-strategy = "0.4.0"
 typify = "0.4.2"

@@ -392,13 +392,21 @@ impl<T: TypedUuidKind> From<TypedUuid<T>> for alloc::vec::Vec<u8> {
 #[cfg(feature = "schemars08")]
 mod schemars08_imp {
     use super::*;
-    use schemars::JsonSchema;
+    use schemars::{
+        schema::{InstanceType, SchemaObject},
+        JsonSchema,
+    };
+
+    const CRATE_NAME: &str = "newtype-uuid";
+    const CRATE_VERSION: &str = "1";
+    const CRATE_PATH: &str = "newtype_uuid::TypedUuid";
 
     /// Implements `JsonSchema` for `TypedUuid<T>`, if `T` implements `JsonSchema`.
     ///
     /// * `schema_name` is set to `"TypedUuidFor"`, concatenated by the schema name of `T`.
     /// * `schema_id` is set to `format!("newtype_uuid::TypedUuid<{}>", T::schema_id())`.
-    /// * `json_schema` is the same as the one for `Uuid`.
+    /// * `json_schema` is the same as the one for `Uuid`, with the `x-rust-type` extension
+    ///   to allow automatic replacement in typify and progenitor.
     impl<T> JsonSchema for TypedUuid<T>
     where
         T: TypedUuidKind + JsonSchema,
@@ -414,8 +422,24 @@ mod schemars08_imp {
         }
 
         #[inline]
-        fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-            Uuid::json_schema(gen)
+        fn json_schema(generator: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
+            SchemaObject {
+                instance_type: Some(InstanceType::String.into()),
+                format: Some("uuid".to_string()),
+                extensions: [(
+                    "x-rust-type".to_string(),
+                    serde_json::json!({
+                        "crate": CRATE_NAME,
+                        "version": CRATE_VERSION,
+                        "path": CRATE_PATH,
+                        "parameters": [generator.subschema_for::<T>()]
+                    }),
+                )]
+                .into_iter()
+                .collect(),
+                ..Default::default()
+            }
+            .into()
         }
     }
 }
