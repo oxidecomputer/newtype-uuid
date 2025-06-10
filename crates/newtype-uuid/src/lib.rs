@@ -34,7 +34,10 @@
 //! assert_eq!(uuid.to_string(), "dffc3068-1cd6-47d5-b2f3-636b41b07084");
 //!
 //! // The Debug impl will show the tag as well.
-//! assert_eq!(format!("{:?}", uuid), "dffc3068-1cd6-47d5-b2f3-636b41b07084 (my_kind)");
+//! assert_eq!(
+//!     format!("{:?}", uuid),
+//!     "dffc3068-1cd6-47d5-b2f3-636b41b07084 (my_kind)"
+//! );
 //! ```
 //!
 //! If you have a large number of UUID kinds, consider defining a macro for your purposes. An
