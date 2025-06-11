@@ -22,7 +22,7 @@ powerset-no-std *args:
     # Don't need to pass in the "internal-*" features here, since we don't
     # enable integration-tests which defines these features.
     excluded_features="{{excluded_features_no_std}}"
-    NEXTEST_NO_TESTS=pass cargo hack --feature-powerset --workspace --exclude integration-tests --exclude-features "${excluded_features// /,}" "$@"
+    NEXTEST_NO_TESTS=pass cargo hack --feature-powerset --workspace --exclude integration-tests --exclude custom-crate-tests --exclude-features "${excluded_features// /,}" "$@"
 
 # Build docs for crates and direct dependencies
 rustdoc *args:
