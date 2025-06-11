@@ -12,7 +12,7 @@ documentation = "https://docs.rs/newtype-uuid"
 rust-version = "1.67"
 
 [workspace.dependencies]
-expectorate = "1.0.6"
+expectorate = "1.2.0"
 newtype-uuid = { path = "crates/newtype-uuid" }
 prettyplease = "0.2.33"
 # Ideally we'd let you use no-std proptest, but proptest requires either the std
