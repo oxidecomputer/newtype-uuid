@@ -6,9 +6,20 @@ set positional-arguments
 help:
     just --list
 
+excluded_features_default := "internal-schemars08-tests internal-proptest1-tests"
+excluded_features_no_std := "schemars08 serde default std alloc v4 proptest1"
+
 # Run `cargo hack --feature-powerset` on crates
 powerset *args:
-    NEXTEST_NO_TESTS=pass cargo hack --feature-powerset --workspace "$@"
+    #!/usr/bin/env bash
+    excluded_features="{{excluded_features_default}}"
+    NEXTEST_NO_TESTS=pass cargo hack --feature-powerset --workspace --exclude-features "${excluded_features// /,}" "$@"
+
+# Run `cargo hack` with no-std-compatible features.
+powerset-no-std *args:
+    #!/usr/bin/env bash
+    excluded_features="{{excluded_features_default}} {{excluded_features_no_std}}"
+    NEXTEST_NO_TESTS=pass cargo hack --feature-powerset --workspace --exclude-features "${excluded_features// /,}" "$@"
 
 # Build docs for crates and direct dependencies
 rustdoc *args:

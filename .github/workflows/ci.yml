@@ -19,6 +19,7 @@ jobs:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@9d47c6ad4b02e050fd481d890b2ea34778fd09d6 # v2.7.8
       - uses: taiki-e/install-action@just
+      - uses: taiki-e/install-action@cargo-hack
       - name: Lint (clippy)
         run: just powerset clippy --all-targets
       - name: Lint (rustfmt)
@@ -77,4 +78,4 @@ jobs:
       - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@cargo-hack
-      - run: ./scripts/commands.sh build-no-std --target ${{ matrix.target }}
+      - run: just powerset-no-std build --target ${{ matrix.target }}
