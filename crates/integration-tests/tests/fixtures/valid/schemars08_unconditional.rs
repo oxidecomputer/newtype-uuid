@@ -1,11 +1,8 @@
 //! Test a situation in which settings.schemars08.feature isn't specified. In
 //! this case, we expect the macro itself to be unconditional.
 
-use newtype_uuid::TypedUuidKind;
-use newtype_uuid_macros::impl_typed_uuid_kinds;
-
-#[cfg(feature = "schemars08")]
-impl_typed_uuid_kinds! {
+#[cfg(feature = "internal-schemars08-tests")]
+newtype_uuid_macros::impl_typed_uuid_kinds! {
     settings = {
         schemars08 = {
             rust_type = {
@@ -23,8 +20,10 @@ impl_typed_uuid_kinds! {
 }
 
 fn main() {
-    #[cfg(feature = "schemars08")]
+    #[cfg(feature = "internal-schemars08-tests")]
     {
+        use newtype_uuid::TypedUuidKind;
+
         // Test that the generated types exist and work
         let _user_kind_tag = UserKind::tag();
         let _org_kind_tag = OrganizationKind::tag();

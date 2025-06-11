@@ -156,6 +156,7 @@ dependencies = [
  "serde_json",
  "syn",
  "test-strategy",
+ "trybuild",
  "typify",
  "uuid",
 ]
@@ -232,7 +233,6 @@ dependencies = [
  "serde_json",
  "serde_tokenstream",
  "syn",
- "trybuild",
  "uuid",
 ]
 
