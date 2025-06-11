@@ -5,7 +5,7 @@
 ![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/newtype-uuid.svg?)
 [![crates.io](https://img.shields.io/crates/v/newtype-uuid.svg?logo=rust)](https://crates.io/crates/newtype-uuid)
 [![docs.rs](https://img.shields.io/docsrs/newtype-uuid.svg?logo=docs.rs)](https://docs.rs/newtype-uuid)
-[![Rust: ^1.75.0](https://img.shields.io/badge/rust-^1.75.0-93450a.svg?logo=rust)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
+[![Rust: ^1.79.0](https://img.shields.io/badge/rust-^1.79.0-93450a.svg?logo=rust)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
 <!-- cargo-sync-rdme ]] -->
 <!-- cargo-sync-rdme rustdoc [[ -->
 A newtype wrapper around [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
@@ -111,7 +111,7 @@ permits conversions between typed and untyped UUIDs.
 
 ## Minimum supported Rust version (MSRV)
 
-The MSRV of this crate is **Rust 1.75.** In general, this crate will follow the MSRV of the
+The MSRV of this crate is **Rust 1.79.** In general, this crate will follow the MSRV of the
 underlying `uuid` crate or of dependencies, with an aim to be conservative.
 
 Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
@@ -120,7 +120,7 @@ each minor version are:
 * Version **1.0.x**: Rust 1.60.
 * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 * Version **1.2.x**: Rust 1.67, required by some dependency updates.
-* Unreleased: Rust 1.75, required by some dependency updates.
+* Unreleased: Rust 1.79, required by some dependency updates.
 
 ## Alternatives
 

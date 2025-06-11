@@ -1,20 +1,21 @@
 #[derive(Debug, PartialEq, Eq)]
-pub enum UserKind {}
-impl ::newtype_uuid::TypedUuidKind for UserKind {
+pub enum AccountKind {}
+impl ::my_custom_uuid::TypedUuidKind for AccountKind {
     #[inline]
-    fn tag() -> ::newtype_uuid::TypedUuidTag {
-        const TAG: ::newtype_uuid::TypedUuidTag = ::newtype_uuid::TypedUuidTag::new(
-            "user",
+    fn tag() -> ::my_custom_uuid::TypedUuidTag {
+        const TAG: ::my_custom_uuid::TypedUuidTag = ::my_custom_uuid::TypedUuidTag::new(
+            "account",
         );
         TAG
     }
 }
-impl ::schemars::JsonSchema for UserKind {
+#[cfg(feature = "internal-schemars08-tests")]
+impl ::schemars::JsonSchema for AccountKind {
     fn schema_name() -> ::std::string::String {
-        "User".to_string()
+        "Account".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
-        ::std::borrow::Cow::Borrowed("my_service::types::UserKind")
+        ::std::borrow::Cow::Borrowed("my_api_service::models::AccountKind")
     }
     fn json_schema(
         _gen: &mut ::schemars::gen::SchemaGenerator,
@@ -27,32 +28,33 @@ impl ::schemars::JsonSchema for UserKind {
         };
         let mut extensions = ::schemars::Map::new();
         let rust_type = ::serde_json::json!(
-            { "crate" : "my-service", "version" : "1.0.0", "path" :
-            "my_service::types::UserKind" }
+            { "crate" : "my-api-service", "version" : "2.1.0", "path" :
+            "my_api_service::models::AccountKind" }
         );
         extensions.insert("x-rust-type".to_string(), rust_type);
         schema.extensions = extensions;
         Schema::Object(schema)
     }
 }
-pub type UserUuid = ::newtype_uuid::TypedUuid<UserKind>;
+pub type AccountUuid = ::my_custom_uuid::TypedUuid<AccountKind>;
 #[derive(Debug, PartialEq, Eq)]
-pub enum OrganizationKind {}
-impl ::newtype_uuid::TypedUuidKind for OrganizationKind {
+pub enum TransactionKind {}
+impl ::my_custom_uuid::TypedUuidKind for TransactionKind {
     #[inline]
-    fn tag() -> ::newtype_uuid::TypedUuidTag {
-        const TAG: ::newtype_uuid::TypedUuidTag = ::newtype_uuid::TypedUuidTag::new(
-            "organization",
+    fn tag() -> ::my_custom_uuid::TypedUuidTag {
+        const TAG: ::my_custom_uuid::TypedUuidTag = ::my_custom_uuid::TypedUuidTag::new(
+            "transaction",
         );
         TAG
     }
 }
-impl ::schemars::JsonSchema for OrganizationKind {
+#[cfg(feature = "internal-schemars08-tests")]
+impl ::schemars::JsonSchema for TransactionKind {
     fn schema_name() -> ::std::string::String {
-        "Organization".to_string()
+        "Transaction".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
-        ::std::borrow::Cow::Borrowed("my_service::types::OrganizationKind")
+        ::std::borrow::Cow::Borrowed("my_api_service::models::TransactionKind")
     }
     fn json_schema(
         _gen: &mut ::schemars::gen::SchemaGenerator,
@@ -65,32 +67,33 @@ impl ::schemars::JsonSchema for OrganizationKind {
         };
         let mut extensions = ::schemars::Map::new();
         let rust_type = ::serde_json::json!(
-            { "crate" : "my-service", "version" : "1.0.0", "path" :
-            "my_service::types::OrganizationKind" }
+            { "crate" : "my-api-service", "version" : "2.1.0", "path" :
+            "my_api_service::models::TransactionKind" }
         );
         extensions.insert("x-rust-type".to_string(), rust_type);
         schema.extensions = extensions;
         Schema::Object(schema)
     }
 }
-pub type OrganizationUuid = ::newtype_uuid::TypedUuid<OrganizationKind>;
+pub type TransactionUuid = ::my_custom_uuid::TypedUuid<TransactionKind>;
 #[derive(Debug, PartialEq, Eq)]
-pub enum ProjectKind {}
-impl ::newtype_uuid::TypedUuidKind for ProjectKind {
+pub enum ApiKeyKind {}
+impl ::my_custom_uuid::TypedUuidKind for ApiKeyKind {
     #[inline]
-    fn tag() -> ::newtype_uuid::TypedUuidTag {
-        const TAG: ::newtype_uuid::TypedUuidTag = ::newtype_uuid::TypedUuidTag::new(
-            "project",
+    fn tag() -> ::my_custom_uuid::TypedUuidTag {
+        const TAG: ::my_custom_uuid::TypedUuidTag = ::my_custom_uuid::TypedUuidTag::new(
+            "api_key",
         );
         TAG
     }
 }
-impl ::schemars::JsonSchema for ProjectKind {
+#[cfg(feature = "internal-schemars08-tests")]
+impl ::schemars::JsonSchema for ApiKeyKind {
     fn schema_name() -> ::std::string::String {
-        "Project".to_string()
+        "ApiKey".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
-        ::std::borrow::Cow::Borrowed("my_service::types::ProjectKind")
+        ::std::borrow::Cow::Borrowed("my_api_service::models::ApiKeyKind")
     }
     fn json_schema(
         _gen: &mut ::schemars::gen::SchemaGenerator,
@@ -103,12 +106,12 @@ impl ::schemars::JsonSchema for ProjectKind {
         };
         let mut extensions = ::schemars::Map::new();
         let rust_type = ::serde_json::json!(
-            { "crate" : "my-service", "version" : "1.0.0", "path" :
-            "my_service::types::ProjectKind" }
+            { "crate" : "my-api-service", "version" : "2.1.0", "path" :
+            "my_api_service::models::ApiKeyKind" }
         );
         extensions.insert("x-rust-type".to_string(), rust_type);
         schema.extensions = extensions;
         Schema::Object(schema)
     }
 }
-pub type ProjectUuid = ::newtype_uuid::TypedUuid<ProjectKind>;
+pub type ApiKeyUuid = ::my_custom_uuid::TypedUuid<ApiKeyKind>;

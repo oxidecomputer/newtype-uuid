@@ -189,6 +189,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "custom-crate-tests"
+version = "0.1.0"
+dependencies = [
+ "datatest-stable",
+ "integration-tests",
+ "newtype-uuid",
+ "newtype-uuid-macros",
+ "schemars",
+ "serde_json",
+ "trybuild",
+]
+
+[[package]]
 name = "datatest-stable"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

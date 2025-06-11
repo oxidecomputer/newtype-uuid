@@ -1,0 +1,36 @@
+#[derive(Debug, PartialEq, Eq)]
+pub enum UserKind {}
+impl ::my_custom_uuid::TypedUuidKind for UserKind {
+    #[inline]
+    fn tag() -> ::my_custom_uuid::TypedUuidTag {
+        const TAG: ::my_custom_uuid::TypedUuidTag = ::my_custom_uuid::TypedUuidTag::new(
+            "user",
+        );
+        TAG
+    }
+}
+pub type UserUuid = ::my_custom_uuid::TypedUuid<UserKind>;
+#[derive(Debug, PartialEq, Eq)]
+pub enum OrganizationKind {}
+impl ::my_custom_uuid::TypedUuidKind for OrganizationKind {
+    #[inline]
+    fn tag() -> ::my_custom_uuid::TypedUuidTag {
+        const TAG: ::my_custom_uuid::TypedUuidTag = ::my_custom_uuid::TypedUuidTag::new(
+            "organization",
+        );
+        TAG
+    }
+}
+pub type OrganizationUuid = ::my_custom_uuid::TypedUuid<OrganizationKind>;
+#[derive(Debug, PartialEq, Eq)]
+pub enum ProductKind {}
+impl ::my_custom_uuid::TypedUuidKind for ProductKind {
+    #[inline]
+    fn tag() -> ::my_custom_uuid::TypedUuidTag {
+        const TAG: ::my_custom_uuid::TypedUuidTag = ::my_custom_uuid::TypedUuidTag::new(
+            "product",
+        );
+        TAG
+    }
+}
+pub type ProductUuid = ::my_custom_uuid::TypedUuid<ProductKind>;

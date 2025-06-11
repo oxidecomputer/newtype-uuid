@@ -1,9 +1,10 @@
-use crate::internals::error_store::{ErrorSink, ErrorStore};
+use super::error_store::{ErrorSink, ErrorStore};
 use heck::ToSnakeCase;
 use proc_macro2::{Span, TokenStream};
 use quote::{format_ident, quote, ToTokens};
 use serde::Deserialize;
-use serde_tokenstream::{OrderedMap, TokenStreamWrapper};
+use serde_tokenstream::{OrderedMap, ParseWrapper, TokenStreamWrapper};
+use syn::spanned::Spanned;
 
 pub struct ImplKindsOutput {
     pub out: Option<TokenStream>,
@@ -18,7 +19,7 @@ impl ToTokens for ImplKindsOutput {
 }
 
 pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
-    let input: ImplKindsInput = match serde_tokenstream::from_tokenstream(&input) {
+    let params: ImplKindsParams = match serde_tokenstream::from_tokenstream(&input) {
         Ok(input) => input,
         Err(error) => {
             let errors = vec![error];
@@ -26,12 +27,21 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
         }
     };
 
+    let newtype_uuid_ident = syn::Ident::new("newtype_uuid", input.span());
+    let newtype_uuid_crate = match &params.settings {
+        Some(settings) => settings
+            .newtype_uuid_crate
+            .as_ref()
+            .map_or_else(|| &newtype_uuid_ident, |crate_name| crate_name),
+        None => &newtype_uuid_ident,
+    };
+
     let mut out = quote! {};
 
     let mut error_store = ErrorStore::new();
     let errors = error_store.sink();
 
-    for (kind_tokens, _config) in input.kinds {
+    for (kind_tokens, _config) in params.kinds {
         // Parse the kind tokens into a syn::Ident one at a time. This allows
         // some generated output to exist even if other kinds fail to parse.
         let kind_tokens = kind_tokens.into_inner();
@@ -59,8 +69,8 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
         let uuid_name_ident = format_ident!("{}Uuid", kind_ident);
 
         // Generate JsonSchema implementation if schemars08 settings are provided
-        let schemars_impl = if let Some(ref settings) = input.settings {
-            if let Some(ref schemars_settings) = settings.schemars08 {
+        let schemars_impl = if let Some(settings) = &params.settings {
+            if let Some(schemars_settings) = &settings.schemars08 {
                 generate_schemars_impl(&kind_name_ident, &kind_name, schemars_settings)
             } else {
                 quote! {}
@@ -73,18 +83,18 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
             #[derive(Debug, PartialEq, Eq)]
             pub enum #kind_name_ident {}
 
-            impl newtype_uuid::TypedUuidKind for #kind_name_ident {
+            impl ::#newtype_uuid_crate::TypedUuidKind for #kind_name_ident {
                 #[inline]
-                fn tag() -> newtype_uuid::TypedUuidTag {
+                fn tag() -> ::#newtype_uuid_crate::TypedUuidTag {
                     // `const` ensures that tags are validated at compile-time.
-                    const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new(#tag);
+                    const TAG: ::#newtype_uuid_crate::TypedUuidTag = ::#newtype_uuid_crate::TypedUuidTag::new(#tag);
                     TAG
                 }
             }
 
             #schemars_impl
 
-            pub type #uuid_name_ident = newtype_uuid::TypedUuid<#kind_name_ident>;
+            pub type #uuid_name_ident = ::#newtype_uuid_crate::TypedUuid<#kind_name_ident>;
         };
 
         out.extend(expanded);
@@ -125,7 +135,7 @@ fn validate_kind_name(span: Span, kind_name: &str, errors: ErrorSink<'_, syn::Er
 
 /// Input structure for the `impl_typed_uuid_kinds` macro.
 #[derive(Deserialize)]
-struct ImplKindsInput {
+struct ImplKindsParams {
     #[serde(default)]
     settings: Option<GlobalSettings>,
     kinds: OrderedMap<TokenStreamWrapper, KindConfig>,
@@ -134,6 +144,9 @@ struct ImplKindsInput {
 /// Global settings for the macro.
 #[derive(Deserialize)]
 struct GlobalSettings {
+    // The name of the newtype-uuid crate
+    #[serde(default)]
+    newtype_uuid_crate: Option<ParseWrapper<syn::Ident>>,
     #[serde(default)]
     schemars08: Option<SchemarsSettings>,
 }
@@ -179,27 +192,27 @@ fn generate_schemars_impl(
 
     quote! {
         #feature
-        impl schemars::JsonSchema for #kind_name_ident {
-            fn schema_name() -> String {
+        impl ::schemars::JsonSchema for #kind_name_ident {
+            fn schema_name() -> ::std::string::String {
                 #kind_name.to_string()
             }
 
-            fn schema_id() -> std::borrow::Cow<'static, str> {
-                #full_path
+            fn schema_id() -> ::std::borrow::Cow<'static, str> {
+                ::std::borrow::Cow::Borrowed(#full_path)
             }
 
-            fn json_schema(_gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-                use schemars::schema::*;
+            fn json_schema(_gen: &mut ::schemars::gen::SchemaGenerator) -> ::schemars::schema::Schema {
+                use ::schemars::schema::*;
 
                 let mut schema = SchemaObject {
-                    instance_type: Some(InstanceType::String.into()),
-                    format: Some("uuid".to_string()),
-                    ..Default::default()
+                    instance_type: ::std::option::Option::Some(InstanceType::String.into()),
+                    format: ::std::option::Option::Some("uuid".to_string()),
+                    ..::std::default::Default::default()
                 };
 
                 // Add x-rust-type extension
-                let mut extensions = schemars::Map::new();
-                let rust_type = serde_json::json!({
+                let mut extensions = ::schemars::Map::new();
+                let rust_type = ::serde_json::json!({
                     "crate": #crate_name,
                     "version": #version,
                     "path": #full_path

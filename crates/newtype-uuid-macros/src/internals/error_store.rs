@@ -77,7 +77,7 @@ impl<'a, T> ErrorSink<'a, T> {
         self.data.borrow_mut().push_critical(self.id, error);
     }
 
-    #[expect(unused)]
+    #[allow(unused)]
     pub(crate) fn push_warning(&self, error: T) {
         // This is always okay because we only briefly borrow the RefCell at any
         // time.

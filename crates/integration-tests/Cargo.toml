@@ -9,38 +9,30 @@ publish = false
 newtype-uuid.workspace = true
 uuid.workspace = true
 newtype-uuid-macros.workspace = true
-expectorate = { workspace = true, optional = true }
-prettyplease = { workspace = true, optional = true }
-proptest = { workspace = true, optional = true }
-schemars = { workspace = true, optional = true }
-serde = { workspace = true, optional = true }
-serde_json = { workspace = true, optional = true }
-syn = { workspace = true, optional = true }
-test-strategy = { workspace = true, optional = true }
-typify = { workspace = true, optional = true }
-
-[dev-dependencies]
 datatest-stable.workspace = true
 expectorate.workspace = true
 heck.workspace = true
 prettyplease.workspace = true
 proc-macro2.workspace = true
+proptest = { workspace = true, optional = true }
 quote.workspace = true
+schemars = { workspace = true, optional = true }
 serde.workspace = true
+serde_json = { workspace = true, optional = true }
 serde_tokenstream.workspace = true
 syn = { workspace = true, features = ["full"] }
+test-strategy = { workspace = true, optional = true }
+typify = { workspace = true, optional = true }
+
+[dev-dependencies]
 trybuild.workspace = true
 
 [features]
 internal-schemars08-tests = [
     "newtype-uuid/schemars08",
     "newtype-uuid/serde",
-    "dep:expectorate",
-    "dep:prettyplease",
     "dep:schemars",
     "dep:serde_json",
-    "dep:serde",
-    "dep:syn",
     "dep:typify",
 ]
 internal-proptest1-tests = [

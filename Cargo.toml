@@ -9,12 +9,13 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/oxidecomputer/newtype-uuid"
 documentation = "https://docs.rs/newtype-uuid"
-rust-version = "1.75"
+rust-version = "1.79"
 
 [workspace.dependencies]
 datatest-stable = "0.3.2"
 expectorate = "1.2.0"
 heck = "0.5"
+integration-tests = { path = "crates/integration-tests" }
 newtype-uuid = { path = "crates/newtype-uuid" }
 newtype-uuid-macros = { path = "crates/newtype-uuid-macros" }
 prettyplease = "0.2.33"
@@ -32,3 +33,6 @@ test-strategy = "0.4.1"
 trybuild = "1.0"
 typify = "0.4.2"
 uuid = { version = "1.17.0", default-features = false }
+
+[workspace.lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(doc_cfg)'] }

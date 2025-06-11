@@ -12,6 +12,9 @@ categories = ["data-structures", "no-std"]
 rust-version.workspace = true
 exclude = [".cargo/**/*", ".github/**/*", "scripts/**/*"]
 
+[lints]
+workspace = true
+
 [package.metadata.docs.rs]
 all-features = true
 rustdoc-args = ["--cfg=doc_cfg"]

@@ -1,0 +1,5 @@
+error: expected identifier
+ --> tests/fixtures/invalid/crate_name_as_string.rs:5:30
+  |
+5 |         newtype_uuid_crate = "my_custom_uuid",
+  |                              ^^^^^^^^^^^^^^^^
