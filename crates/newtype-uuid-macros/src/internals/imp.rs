@@ -5,9 +5,9 @@ use quote::{format_ident, quote, ToTokens};
 use serde::Deserialize;
 use serde_tokenstream::{OrderedMap, TokenStreamWrapper};
 
-pub(crate) struct ImplKindsOutput {
-    pub(crate) out: Option<TokenStream>,
-    pub(crate) errors: Vec<syn::Error>,
+pub struct ImplKindsOutput {
+    pub out: Option<TokenStream>,
+    pub errors: Vec<syn::Error>,
 }
 
 impl ToTokens for ImplKindsOutput {
@@ -17,7 +17,7 @@ impl ToTokens for ImplKindsOutput {
     }
 }
 
-pub(crate) fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
+pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
     let input: ImplKindsInput = match serde_tokenstream::from_tokenstream(&input) {
         Ok(input) => input,
         Err(error) => {
@@ -210,20 +210,5 @@ fn generate_schemars_impl(
                 Schema::Object(schema)
             }
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_convert_to_snake_case() {
-        assert_eq!("User".to_snake_case(), "user");
-        assert_eq!("UserAccount".to_snake_case(), "user_account");
-        assert_eq!("Organization".to_snake_case(), "organization");
-        assert_eq!("ProjectTask".to_snake_case(), "project_task");
-        assert_eq!("HTTPClient".to_snake_case(), "http_client");
-        assert_eq!("XMLParser".to_snake_case(), "xml_parser");
     }
 }

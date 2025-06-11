@@ -17,8 +17,19 @@ serde = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
 syn = { workspace = true, optional = true }
 test-strategy = { workspace = true, optional = true }
-trybuild.workspace = true
 typify = { workspace = true, optional = true }
+
+[dev-dependencies]
+datatest-stable.workspace = true
+expectorate.workspace = true
+heck.workspace = true
+prettyplease.workspace = true
+proc-macro2.workspace = true
+quote.workspace = true
+serde.workspace = true
+serde_tokenstream.workspace = true
+syn = { workspace = true, features = ["full"] }
+trybuild.workspace = true
 
 [features]
 internal-schemars08-tests = [
@@ -37,3 +48,8 @@ internal-proptest1-tests = [
     "dep:proptest",
     "dep:test-strategy",
 ]
+
+[[test]]
+# Snapshot tests use datatest-stable.
+name = "snapshot"
+harness = false
