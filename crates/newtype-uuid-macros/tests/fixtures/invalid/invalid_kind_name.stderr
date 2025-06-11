@@ -1,0 +1,17 @@
+error: expected identifier
+ --> tests/fixtures/invalid/invalid_kind_name.rs:5:9
+  |
+5 |         123InvalidName = {},
+  |         ^^^^^^^^^^^^^^
+
+error: kind name must consist of ASCII alphanumeric characters or underscores
+ --> tests/fixtures/invalid/invalid_kind_name.rs:6:9
+  |
+6 |         NonÅscii = {},
+  |         ^^^^^^^^
+
+error: expected identifier
+ --> tests/fixtures/invalid/invalid_kind_name.rs:8:9
+  |
+8 |         "" = {},
+  |         ^^

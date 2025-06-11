@@ -1,0 +1,11 @@
+error: extraneous member `User`
+ --> tests/fixtures/invalid/invalid_syntax.rs:5:5
+  |
+5 |     User => "user",
+  |     ^^^^^^^
+
+error: expected a value, but found `>`
+ --> tests/fixtures/invalid/invalid_syntax.rs:5:11
+  |
+5 |     User => "user",
+  |           ^

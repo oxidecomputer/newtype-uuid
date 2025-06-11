@@ -1,11 +1,10 @@
 //! JSON schema tests for newtype-uuid.
 
 use newtype_uuid::{TypedUuid, TypedUuidKind, TypedUuidTag};
+use newtype_uuid_macros::impl_typed_uuid_kinds;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use typify::TypeSpaceSettings;
-
-use newtype_uuid_macros::impl_typed_uuid_kinds;
 
 #[derive(Debug, JsonSchema)]
 enum MyKind {}

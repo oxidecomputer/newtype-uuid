@@ -30,6 +30,7 @@ v4 = ["dep:uuid", "newtype-uuid/v4"]
 newtype-uuid = { workspace = true, features = ["v4"] }
 uuid = { workspace = true, features = ["v4"] }
 serde = { workspace = true, features = ["derive"] }
+trybuild.workspace = true
 
 [[example]]
 name = "basic_usage"

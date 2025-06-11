@@ -28,5 +28,6 @@ serde_json = "1.0.115"
 serde_tokenstream = "0.2.2"
 syn = "2.0.101"
 test-strategy = "0.4.0"
+trybuild = "1.0"
 typify = "0.4.2"
 uuid = { version = "1.17.0", default-features = false }
