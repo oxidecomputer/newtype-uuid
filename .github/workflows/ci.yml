@@ -18,15 +18,13 @@ jobs:
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@9d47c6ad4b02e050fd481d890b2ea34778fd09d6 # v2.7.8
+      - uses: taiki-e/install-action@just
       - name: Lint (clippy)
-        run: cargo clippy --all-features --all-targets
+        run: just powerset clippy --all-targets
       - name: Lint (rustfmt)
         run: cargo xfmt --check
       - name: Run rustdoc
-        env:
-          RUSTC_BOOTSTRAP: 1 # for feature(doc_cfg)
-          RUSTDOCFLAGS: -Dwarnings --cfg doc_cfg
-        run: cargo doc --all-features --workspace
+        run: just rustdoc
       - name: Check for differences
         run: git diff --exit-code
 
@@ -47,18 +45,19 @@ jobs:
         with:
           toolchain: ${{ matrix.rust-version }}
       - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
+      - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@cargo-hack
       - uses: taiki-e/install-action@nextest
       - name: Build
-        run: ./scripts/commands.sh build
+        run: just powerset build --all-targets
       - name: Test
-        run: ./scripts/commands.sh nextest
+        run: just powerset nextest run --all-targets --no-tests=pass
       - name: Run extended tests (only on stable)
         if: matrix.rust-version == 'stable'
-        run: ./scripts/commands.sh nextest-all-features
+        run: cargo nextest run --all-targets --all-features
       - name: Run doctests
         if: matrix.rust-version == 'stable'
-        run: ./scripts/commands.sh doctest
+        run: cargo test --all-features --doc
 
   no-std:
     name: Build no_std for ${{ matrix.target }}
@@ -76,5 +75,6 @@ jobs:
           toolchain: ${{ matrix.rust-version }}
           targets: ${{ matrix.target }}
       - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
+      - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@cargo-hack
       - run: ./scripts/commands.sh build-no-std --target ${{ matrix.target }}

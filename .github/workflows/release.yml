@@ -16,7 +16,8 @@ jobs:
           persist-credentials: false
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-      - run: cargo publish -p newtype-uuid
+      - uses: taiki-e/install-action@just
+      - run: just ci-cargo-release
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
       - uses: taiki-e/create-gh-release-action@26b80501670402f1999aff4b934e1574ef2d3705 # v1

@@ -30,3 +30,9 @@ v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
 schemars08 = ["dep:schemars", "std"]
 proptest1 = ["dep:proptest"]
+
+[package.metadata.cargo-sync-rdme.badge.badges]
+license = true
+crates-io = true
+docs-rs = true
+rust-version = true
