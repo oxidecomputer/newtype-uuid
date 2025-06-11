@@ -14,11 +14,9 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2
+      - uses: taiki-e/install-action@just
       - name: Build rustdoc
-        env:
-          RUSTC_BOOTSTRAP: 1  # for feature(doc_cfg)
-          RUSTDOCFLAGS: -Dwarnings --cfg doc_cfg
-        run: cargo doc --all-features --workspace --exclude integration-tests
+        run: just rustdoc
       - name: Organize
         run: |
           rm -rf target/gh-pages
