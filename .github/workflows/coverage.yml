@@ -29,7 +29,7 @@ jobs:
         uses: taiki-e/install-action@cargo-llvm-cov
 
       - name: Collect coverage data
-        run: ./scripts/commands.sh coverage
+        run: just coverage
       - name: Upload coverage data to codecov
         uses: codecov/codecov-action@f30e4959ba63075080d4f7f90cacc18d9f3fafd7 # v4
         with:
