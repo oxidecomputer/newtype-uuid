@@ -31,6 +31,6 @@ jobs:
       - name: Collect coverage data
         run: just coverage
       - name: Upload coverage data to codecov
-        uses: codecov/codecov-action@f30e4959ba63075080d4f7f90cacc18d9f3fafd7 # v4
+        uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4
         with:
           files: lcov.info, lcov-doctest.info
