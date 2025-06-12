@@ -11,7 +11,7 @@ impl_typed_uuid_kinds! {
             },
         },
     },
-    // Missing the required 'kinds' field
+    // Missing the required 'kinds' field.
 }
 
 fn main() {}

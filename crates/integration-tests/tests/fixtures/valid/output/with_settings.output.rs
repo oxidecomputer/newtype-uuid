@@ -12,7 +12,7 @@ impl ::newtype_uuid::TypedUuidKind for UserKind {
 #[cfg(feature = "internal-schemars08-tests")]
 impl ::schemars::JsonSchema for UserKind {
     fn schema_name() -> ::std::string::String {
-        "User".to_string()
+        "UserKind".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
         ::std::borrow::Cow::Borrowed("my_service::types::UserKind")
@@ -51,7 +51,7 @@ impl ::newtype_uuid::TypedUuidKind for OrganizationKind {
 #[cfg(feature = "internal-schemars08-tests")]
 impl ::schemars::JsonSchema for OrganizationKind {
     fn schema_name() -> ::std::string::String {
-        "Organization".to_string()
+        "OrganizationKind".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
         ::std::borrow::Cow::Borrowed("my_service::types::OrganizationKind")
@@ -90,7 +90,7 @@ impl ::newtype_uuid::TypedUuidKind for ProjectKind {
 #[cfg(feature = "internal-schemars08-tests")]
 impl ::schemars::JsonSchema for ProjectKind {
     fn schema_name() -> ::std::string::String {
-        "Project".to_string()
+        "ProjectKind".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
         ::std::borrow::Cow::Borrowed("my_service::types::ProjectKind")

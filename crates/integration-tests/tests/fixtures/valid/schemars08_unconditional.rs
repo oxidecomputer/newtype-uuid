@@ -15,7 +15,11 @@ newtype_uuid_macros::impl_typed_uuid_kinds! {
     kinds = {
         User = {},
         Organization = {},
-        Project = {},
+        Pröject = {
+            tag = "project",
+            type_name = ProjectKind,
+            alias = ProjectUuid,
+        },
     }
 }
 

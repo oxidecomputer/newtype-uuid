@@ -10,23 +10,23 @@ impl ::my_custom_uuid::TypedUuidKind for AccountKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::schemars::JsonSchema for AccountKind {
+impl ::custom_schemars::JsonSchema for AccountKind {
     fn schema_name() -> ::std::string::String {
-        "Account".to_string()
+        "AccountKind".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
         ::std::borrow::Cow::Borrowed("my_api_service::models::AccountKind")
     }
     fn json_schema(
-        _gen: &mut ::schemars::gen::SchemaGenerator,
-    ) -> ::schemars::schema::Schema {
-        use ::schemars::schema::*;
+        _gen: &mut ::custom_schemars::gen::SchemaGenerator,
+    ) -> ::custom_schemars::schema::Schema {
+        use ::custom_schemars::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::Some(InstanceType::String.into()),
             format: ::std::option::Option::Some("uuid".to_string()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::schemars::Map::new();
+        let mut extensions = ::custom_schemars::Map::new();
         let rust_type = ::serde_json::json!(
             { "crate" : "my-api-service", "version" : "2.1.0", "path" :
             "my_api_service::models::AccountKind" }
@@ -49,23 +49,23 @@ impl ::my_custom_uuid::TypedUuidKind for TransactionKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::schemars::JsonSchema for TransactionKind {
+impl ::custom_schemars::JsonSchema for TransactionKind {
     fn schema_name() -> ::std::string::String {
-        "Transaction".to_string()
+        "TransactionKind".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
         ::std::borrow::Cow::Borrowed("my_api_service::models::TransactionKind")
     }
     fn json_schema(
-        _gen: &mut ::schemars::gen::SchemaGenerator,
-    ) -> ::schemars::schema::Schema {
-        use ::schemars::schema::*;
+        _gen: &mut ::custom_schemars::gen::SchemaGenerator,
+    ) -> ::custom_schemars::schema::Schema {
+        use ::custom_schemars::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::Some(InstanceType::String.into()),
             format: ::std::option::Option::Some("uuid".to_string()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::schemars::Map::new();
+        let mut extensions = ::custom_schemars::Map::new();
         let rust_type = ::serde_json::json!(
             { "crate" : "my-api-service", "version" : "2.1.0", "path" :
             "my_api_service::models::TransactionKind" }
@@ -88,23 +88,23 @@ impl ::my_custom_uuid::TypedUuidKind for ApiKeyKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::schemars::JsonSchema for ApiKeyKind {
+impl ::custom_schemars::JsonSchema for ApiKeyKind {
     fn schema_name() -> ::std::string::String {
-        "ApiKey".to_string()
+        "ApiKeyKind".to_string()
     }
     fn schema_id() -> ::std::borrow::Cow<'static, str> {
         ::std::borrow::Cow::Borrowed("my_api_service::models::ApiKeyKind")
     }
     fn json_schema(
-        _gen: &mut ::schemars::gen::SchemaGenerator,
-    ) -> ::schemars::schema::Schema {
-        use ::schemars::schema::*;
+        _gen: &mut ::custom_schemars::gen::SchemaGenerator,
+    ) -> ::custom_schemars::schema::Schema {
+        use ::custom_schemars::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::Some(InstanceType::String.into()),
             format: ::std::option::Option::Some("uuid".to_string()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::schemars::Map::new();
+        let mut extensions = ::custom_schemars::Map::new();
         let rust_type = ::serde_json::json!(
             { "crate" : "my-api-service", "version" : "2.1.0", "path" :
             "my_api_service::models::ApiKeyKind" }

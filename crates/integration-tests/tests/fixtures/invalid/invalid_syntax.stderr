@@ -1,11 +1,11 @@
-error: extraneous member `User`
- --> tests/fixtures/invalid/invalid_syntax.rs:5:5
+error: unknown field `User`, expected `settings` or `kinds`
+ --> tests/fixtures/invalid/invalid_syntax.rs:3:1
   |
-5 |     User => "user",
-  |     ^^^^^^^
-
-error: expected a value, but found `>`
- --> tests/fixtures/invalid/invalid_syntax.rs:5:11
+3 | / impl_typed_uuid_kinds! {
+4 | |     // this is not valid syntax at all
+5 | |     User => "user",
+6 | |     Organization => "org",
+7 | | }
+  | |_^
   |
-5 |     User => "user",
-  |           ^
+  = note: this error originates in the macro `impl_typed_uuid_kinds` (in Nightly builds, run with -Z macro-backtrace for more info)
