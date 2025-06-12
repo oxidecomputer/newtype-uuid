@@ -57,7 +57,9 @@ fn generate_schema_with(
 impl_typed_uuid_kinds! {
     settings = {
         schemars08 = {
-            feature = "internal-schemars08-tests",
+            attrs = [
+                #[cfg(feature = "internal-schemars08-tests")],
+            ],
             rust_type = {
                 crate = "my-crate",
                 version = "1.0.0",
