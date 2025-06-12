@@ -1,4 +1,4 @@
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum UserKind {}
 impl ::newtype_uuid::TypedUuidKind for UserKind {
     #[inline]
@@ -36,7 +36,7 @@ impl ::schemars::JsonSchema for UserKind {
     }
 }
 pub type UserUuid = ::newtype_uuid::TypedUuid<UserKind>;
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum OrganizationKind {}
 impl ::newtype_uuid::TypedUuidKind for OrganizationKind {
     #[inline]
@@ -74,7 +74,7 @@ impl ::schemars::JsonSchema for OrganizationKind {
     }
 }
 pub type OrganizationUuid = ::newtype_uuid::TypedUuid<OrganizationKind>;
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ProjectKind {}
 impl ::newtype_uuid::TypedUuidKind for ProjectKind {
     #[inline]

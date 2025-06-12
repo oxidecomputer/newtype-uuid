@@ -1,5 +1,8 @@
+use std::{fmt, hash::Hash};
+
 use newtype_uuid::{GenericUuid, TypedUuidKind};
 use newtype_uuid_macros::impl_typed_uuid_kinds;
+use static_assertions::{assert_impl_all, assert_not_impl_all};
 
 impl_typed_uuid_kinds! {
     kinds = {
@@ -89,6 +92,54 @@ fn test_empty_kinds() {
     }
 
     // Just verifying it compiles
+}
+
+/// Test that global `attrs` are applied to all generated kinds.
+#[test]
+fn test_global_attrs_param() {
+    impl_typed_uuid_kinds! {
+        settings = {
+            attrs = [#[derive(Hash)]],
+        },
+        kinds = {
+            GlobalA = {},
+            GlobalB = {},
+        }
+    }
+
+    // The GlobalA and GlobalB kinds should impl Clone + Copy + Eq + by default,
+    // and also implement Hash.
+    assert_impl_all!(GlobalAKind: Clone, Copy, fmt::Debug, Eq, Hash);
+    assert_impl_all!(GlobalBKind: Clone, Copy, fmt::Debug, Eq, Hash);
+}
+
+/// Test that per-kind `attrs` override global and are applied only to the correct kind.
+#[test]
+fn test_per_kind_attrs_param() {
+    impl_typed_uuid_kinds! {
+        settings = {
+            attrs = [#[derive(Hash)]],
+        },
+        kinds = {
+            A = {},
+            B = {
+                attrs = [],
+            },
+            C = {
+                attrs = [#[derive(Ord, PartialOrd)]],
+            },
+        }
+    }
+
+    // AKind should implement Hash.
+    assert_impl_all!(AKind: Hash);
+
+    // BKind should not implement Hash.
+    assert_not_impl_all!(BKind: Hash);
+
+    // CKind should implement Ord and PartialOrd, but not Hash.
+    assert_impl_all!(CKind: Ord, PartialOrd);
+    assert_not_impl_all!(CKind: Hash);
 }
 
 #[test]

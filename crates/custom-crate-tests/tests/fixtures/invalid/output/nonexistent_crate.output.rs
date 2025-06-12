@@ -1,4 +1,4 @@
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum UserKind {}
 impl ::nonexistent_crate::TypedUuidKind for UserKind {
     #[inline]

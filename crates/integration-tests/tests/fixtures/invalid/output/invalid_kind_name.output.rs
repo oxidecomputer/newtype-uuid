@@ -1,4 +1,4 @@
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum UserKind {}
 impl ::newtype_uuid::TypedUuidKind for UserKind {
     #[inline]
@@ -10,7 +10,7 @@ impl ::newtype_uuid::TypedUuidKind for UserKind {
     }
 }
 pub type UserUuid = ::newtype_uuid::TypedUuid<UserKind>;
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CustomKind {}
 impl ::newtype_uuid::TypedUuidKind for CustomKind {
     #[inline]

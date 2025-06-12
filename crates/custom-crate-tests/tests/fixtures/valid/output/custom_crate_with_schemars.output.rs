@@ -1,4 +1,4 @@
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum AccountKind {}
 impl ::my_custom_uuid::TypedUuidKind for AccountKind {
     #[inline]
@@ -37,7 +37,7 @@ impl ::custom_schemars::JsonSchema for AccountKind {
     }
 }
 pub type AccountUuid = ::my_custom_uuid::TypedUuid<AccountKind>;
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TransactionKind {}
 impl ::my_custom_uuid::TypedUuidKind for TransactionKind {
     #[inline]
@@ -76,7 +76,7 @@ impl ::custom_schemars::JsonSchema for TransactionKind {
     }
 }
 pub type TransactionUuid = ::my_custom_uuid::TypedUuid<TransactionKind>;
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ApiKeyKind {}
 impl ::my_custom_uuid::TypedUuidKind for ApiKeyKind {
     #[inline]

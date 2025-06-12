@@ -4,7 +4,7 @@ use newtype_uuid_macros::impl_typed_uuid_kinds;
 impl_typed_uuid_kinds! {
     settings = {
         schemars08 = {
-            feature = "internal-schemars08-tests",
+            attrs = [#[cfg(feature = "internal-schemars08-tests")]],
             rust_type = {
                 crate = "my-service",
                 version = "1.0.0",

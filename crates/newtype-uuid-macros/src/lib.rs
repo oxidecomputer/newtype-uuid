@@ -78,8 +78,6 @@ use quote::ToTokens;
 ///
 /// - `newtype_uuid_crate`: The name of the `newtype-uuid` crate (an identifier). Defaults to `newtype_uuid`.
 /// - `schemars08`: If defined, generates schemars support for the given types.
-///
-/// TODO: document schemars08 support
 #[proc_macro]
 pub fn impl_typed_uuid_kinds(input: TokenStream) -> TokenStream {
     internals::impl_typed_uuid_kinds(input.into())

@@ -4,7 +4,7 @@ error: missing field `kinds`
 3  | / impl_typed_uuid_kinds! {
 4  | |     settings = {
 5  | |         schemars08 = {
-6  | |             feature = "schemars08",
+6  | |             attrs = [#[cfg(feature = "schemars08")]],
 ...  |
 15 | | }
    | |_^

@@ -12,7 +12,7 @@ documentation = "https://docs.rs/newtype-uuid"
 rust-version = "1.79"
 
 [workspace.dependencies]
-custom-schemars = { package = "schemars", version = "0.8.17", workspace = true }
+custom-schemars = { package = "schemars", version = "0.8.17" }
 datatest-stable = "0.3.2"
 expectorate = "1.2.0"
 heck = "0.5"
@@ -30,6 +30,7 @@ schemars = "0.8.17"
 serde = "1"
 serde_json = "1.0.140"
 serde_tokenstream = "0.2.2"
+static_assertions = "1.1.0"
 syn = "2.0.101"
 test-strategy = "0.4.1"
 trybuild = "1.0"

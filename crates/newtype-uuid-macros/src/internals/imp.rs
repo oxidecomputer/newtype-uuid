@@ -30,13 +30,11 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
     };
 
     let newtype_uuid_ident = syn::Ident::new("newtype_uuid", input.span());
-    let newtype_uuid_crate = match &params.settings {
-        Some(settings) => settings
-            .newtype_uuid_crate
-            .as_ref()
-            .map_or_else(|| &newtype_uuid_ident, |crate_name| crate_name),
-        None => &newtype_uuid_ident,
-    };
+    let newtype_uuid_crate = params
+        .settings
+        .newtype_uuid_crate
+        .as_ref()
+        .map_or_else(|| &newtype_uuid_ident, |crate_name| crate_name);
 
     let mut out = quote! {};
 
@@ -81,27 +79,30 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
         let alias_ident = config
             .alias
             .unwrap_or_else(|| format_ident!("{}Uuid", root_ident));
+        let attrs = config
+            .attrs
+            .as_ref()
+            .unwrap_or_else(|| &params.settings.attrs);
+        let attrs = attrs.iter().map(|attr| &**attr);
 
         // Generate JsonSchema implementation if schemars08 settings are provided
-        let schemars_impl = if let Some(settings) = &params.settings {
-            if let Some(schemars_settings) = &settings.schemars08 {
-                generate_schemars_impl(
-                    &kind_name_ident,
-                    &kind_name_ident.to_string(),
-                    schemars_settings,
-                )
-            } else {
-                quote! {}
-            }
+        let schemars_impl = if let Some(schemars_settings) = &params.settings.schemars08 {
+            generate_schemars_impl(
+                &kind_name_ident,
+                &kind_name_ident.to_string(),
+                schemars_settings,
+            )
         } else {
             quote! {}
         };
 
         let expanded = quote! {
-            #[derive(Debug, PartialEq, Eq)]
+            #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+            #(#attrs)*
             pub enum #kind_name_ident {}
 
             impl ::#newtype_uuid_crate::TypedUuidKind for #kind_name_ident {
+
                 #[inline]
                 fn tag() -> ::#newtype_uuid_crate::TypedUuidTag {
                     // `const` ensures that tags are validated at compile-time.
@@ -256,17 +257,23 @@ impl<'a> KindOrExplicitTag<'a> {
 #[serde(deny_unknown_fields)]
 struct ImplKindsParams {
     #[serde(default)]
-    settings: Option<GlobalSettings>,
+    settings: GlobalSettings,
     kinds: OrderedMap<TokenStreamWrapper, ParseWrapper<TokenTree>>,
 }
 
 /// Global settings for the macro.
-#[derive(Deserialize)]
+#[derive(Deserialize, Default)]
 #[serde(deny_unknown_fields)]
 struct GlobalSettings {
-    // The name of the newtype-uuid crate
+    /// The name of the newtype-uuid crate.
     #[serde(default)]
     newtype_uuid_crate: Option<ParseWrapper<syn::Ident>>,
+
+    /// Attributes to apply to generated types.
+    #[serde(default)]
+    attrs: Vec<TokenStreamWrapper>,
+
+    /// Schemars configuration.
     #[serde(default)]
     schemars08: Option<SchemarsSettings>,
 }
@@ -276,7 +283,7 @@ struct GlobalSettings {
 #[serde(deny_unknown_fields)]
 struct SchemarsSettings {
     #[serde(default)]
-    feature: Option<String>,
+    attrs: Vec<TokenStreamWrapper>,
     #[serde(default)]
     schemars_crate: Option<ParseWrapper<syn::Ident>>,
     rust_type: RustTypeSettings,
@@ -306,6 +313,10 @@ struct KindConfig {
     /// The tag for this kind. Defaults to the snake_case name of the kind.
     #[serde(default)]
     tag: Option<TokenStreamWrapper>,
+
+    /// Attributes to apply to generated types (e.g. derives).
+    #[serde(default)]
+    attrs: Option<Vec<TokenStreamWrapper>>,
 }
 
 impl KindConfig {
@@ -352,6 +363,7 @@ impl KindConfig {
                 type_name: type_name.expect("type name is valid"),
                 alias: alias.expect("alias is valid"),
                 tag: tag.expect("tag is valid"),
+                attrs: self.attrs,
             })
         }
     }
@@ -361,6 +373,7 @@ struct ParsedKindConfig {
     type_name: Option<syn::Ident>,
     alias: Option<syn::Ident>,
     tag: Option<syn::LitStr>,
+    attrs: Option<Vec<TokenStreamWrapper>>,
 }
 
 /// Generate a hand-written JsonSchema implementation for a kind.
@@ -369,9 +382,7 @@ fn generate_schemars_impl(
     kind_name: &str,
     schemars_settings: &SchemarsSettings,
 ) -> proc_macro2::TokenStream {
-    let feature = schemars_settings.feature.as_ref().map(|feature| {
-        quote! { #[cfg(feature = #feature)] }
-    });
+    let attrs = schemars_settings.attrs.iter().map(|attrs| &**attrs);
     let crate_name = &schemars_settings.rust_type.crate_name;
     let version = &schemars_settings.rust_type.version;
     let path_prefix = &schemars_settings.rust_type.path;
@@ -385,7 +396,7 @@ fn generate_schemars_impl(
     let full_path = format!("{}::{}", path_prefix, kind_name_ident);
 
     quote! {
-        #feature
+        #(#attrs)*
         impl ::#schemars_crate::JsonSchema for #kind_name_ident {
             fn schema_name() -> ::std::string::String {
                 #kind_name.to_string()
