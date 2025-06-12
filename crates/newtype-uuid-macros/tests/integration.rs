@@ -1,8 +1,7 @@
-use std::{fmt, hash::Hash};
-
 use newtype_uuid::{GenericUuid, TypedUuidKind};
 use newtype_uuid_macros::impl_typed_uuid_kinds;
 use static_assertions::{assert_impl_all, assert_not_impl_all};
+use std::{fmt, hash::Hash};
 
 impl_typed_uuid_kinds! {
     kinds = {

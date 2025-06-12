@@ -79,10 +79,7 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
         let alias_ident = config
             .alias
             .unwrap_or_else(|| format_ident!("{}Uuid", root_ident));
-        let attrs = config
-            .attrs
-            .as_ref()
-            .unwrap_or_else(|| &params.settings.attrs);
+        let attrs = config.attrs.as_ref().unwrap_or(&params.settings.attrs);
         let attrs = attrs.iter().map(|attr| &**attr);
 
         // Generate JsonSchema implementation if schemars08 settings are provided
