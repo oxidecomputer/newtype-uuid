@@ -298,6 +298,82 @@ impl<T: TypedUuidKind> TypedUuid<T> {
     pub fn get_version(&self) -> Option<Version> {
         self.uuid.get_version()
     }
+
+    /// Converts the UUID to one with a different kind.
+    ///
+    /// By default, UUID kinds are considered independent, and conversions
+    /// between them must happen via the [`GenericUuid`] interface. But in some
+    /// cases, there may be a relationship between two different UUID kinds, and
+    /// you may wish to easily convert UUIDs from one kind to another.
+    ///
+    /// Typically, a conversion from `TypedUuid<T>` to `TypedUuid<U>` is most
+    /// useful when `T`'s semantics are a superset of `U`'s, or in other words,
+    /// when every `TypedUuid<T>` is logically also a `TypedUuid<U>`.
+    ///
+    /// For instance:
+    ///
+    /// * Imagine you have [`TypedUuidKind`]s for different types of
+    ///   database connections, where `DbConnKind` is the general type
+    ///   and `PgConnKind` is a specific kind for Postgres.
+    /// * Since every Postgres connection is also a database connection,
+    ///   a cast from `TypedUuid<PgConnKind>` to `TypedUuid<DbConnKind>`
+    ///   makes sense.
+    /// * The inverse cast would not make sense, as a database connection may not
+    ///   necessarily be a Postgres connection.
+    ///
+    /// This interface provides an alternative, safer way to perform this
+    /// conversion. Indicate your intention to allow a conversion between kinds
+    /// by implementing `From<T> for U`, as shown in the example below.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use newtype_uuid::{TypedUuid, TypedUuidKind, TypedUuidTag};
+    ///
+    /// // Let's say that these UUIDs represent repositories for different
+    /// // version control systems, such that you have a generic RepoKind:
+    /// pub enum RepoKind {}
+    /// impl TypedUuidKind for RepoKind {
+    ///     fn tag() -> TypedUuidTag {
+    ///         const TAG: TypedUuidTag = TypedUuidTag::new("repo");
+    ///         TAG
+    ///     }
+    /// }
+    ///
+    /// // You also have more specific kinds:
+    /// pub enum GitRepoKind {}
+    /// impl TypedUuidKind for GitRepoKind {
+    ///     fn tag() -> TypedUuidTag {
+    ///         const TAG: TypedUuidTag = TypedUuidTag::new("git_repo");
+    ///         TAG
+    ///     }
+    /// }
+    /// // (and HgRepoKind, JujutsuRepoKind, etc...)
+    ///
+    /// // First, define a `From` impl. This impl indicates your desire
+    /// // to convert from one kind to another.
+    /// impl From<GitRepoKind> for RepoKind {
+    ///     fn from(value: GitRepoKind) -> Self {
+    ///         match value {}
+    ///     }
+    /// }
+    ///
+    /// // Now you can convert between them:
+    /// let git_uuid: TypedUuid<GitRepoKind> =
+    ///     TypedUuid::from_u128(0xe9245204_34ea_4ca7_a1c6_2e94fa49df61);
+    /// let repo_uuid: TypedUuid<RepoKind> = git_uuid.cast();
+    /// ```
+    #[inline]
+    #[must_use]
+    pub const fn cast<U: TypedUuidKind>(self) -> TypedUuid<U>
+    where
+        T: Into<U>,
+    {
+        TypedUuid {
+            uuid: self.uuid,
+            _phantom: PhantomData,
+        }
+    }
 }
 
 // ---
