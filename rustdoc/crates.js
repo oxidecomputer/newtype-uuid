@@ -1,0 +1,2 @@
+window.ALL_CRATES = ["expectorate","integration_tests","newtype_uuid","prettyplease","proptest","schemars","serde","serde_json","syn","test_strategy","typify","uuid"];
+//{"start":21,"fragment_lengths":[13,20,15,15,11,11,8,13,6,16,9,7]}
