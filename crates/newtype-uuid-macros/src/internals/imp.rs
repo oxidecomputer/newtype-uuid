@@ -355,7 +355,7 @@ impl KindConfig {
         if errors.has_critical_errors() {
             None
         } else {
-            // All parsed values are valid if present
+            // All parsed values are valid if present.
             Some(ParsedKindConfig {
                 type_name: type_name.expect("type name is valid"),
                 alias: alias.expect("alias is valid"),
@@ -389,7 +389,7 @@ fn generate_schemars_impl(
         |wrapper| (*wrapper).clone(),
     );
 
-    // Construct the full path for this specific kind
+    // Construct the full path for this specific kind.
     let full_path = format!("{}::{}", path_prefix, kind_name_ident);
 
     quote! {
@@ -407,17 +407,17 @@ fn generate_schemars_impl(
                 use ::#schemars_crate::schema::*;
 
                 let mut schema = SchemaObject {
-                    instance_type: ::std::option::Option::Some(InstanceType::String.into()),
-                    format: ::std::option::Option::Some("uuid".to_string()),
+                    instance_type: ::std::option::Option::None,
+                    enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
                     ..::std::default::Default::default()
                 };
 
-                // Add x-rust-type extension
+                // Add the x-rust-type extension.
                 let mut extensions = ::#schemars_crate::Map::new();
                 let rust_type = ::serde_json::json!({
                     "crate": #crate_name,
                     "version": #version,
-                    "path": #full_path
+                    "path": #full_path,
                 });
                 extensions.insert("x-rust-type".to_string(), rust_type);
                 schema.extensions = extensions;

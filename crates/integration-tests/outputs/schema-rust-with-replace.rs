@@ -51,7 +51,7 @@ pub mod error {
 /// </details>
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
 pub struct MyPathStruct {
-    pub id: ::newtype_uuid::TypedUuid<::my_crate::MyKind>,
+    pub id: ::newtype_uuid::TypedUuid<::my_crate::types::MyKind>,
 }
 impl ::std::convert::From<&MyPathStruct> for MyPathStruct {
     fn from(value: &MyPathStruct) -> Self {

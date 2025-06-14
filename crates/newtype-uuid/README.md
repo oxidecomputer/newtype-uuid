@@ -50,11 +50,29 @@ assert_eq!(
 );
 ````
 
-If you have a large number of UUID kinds, consider defining a macro for your purposes. An
-example macro:
+If you have a large number of UUID kinds, consider using
+[`newtype-uuid-macros`] which comes with several convenience features:
 
 ````rust
-macro_rules! impl_typed_uuid_kind {
+use newtype_uuid_macros::impl_typed_uuid_kinds;
+
+// Invoke this macro with:
+impl_typed_uuid_kinds! {
+    kinds = {
+        User = {},
+        Project = {},
+        // ...
+    },
+}
+````
+
+See [`newtype-uuid-macros`] for more information.
+
+For simpler cases, you can also write your own declarative macro. Use this
+template to get started:
+
+````rust
+macro_rules! impl_kinds {
     ($($kind:ident => $tag:literal),* $(,)?) => {
         $(
             pub enum $kind {}
@@ -71,9 +89,9 @@ macro_rules! impl_typed_uuid_kind {
 }
 
 // Invoke this macro with:
-impl_typed_uuid_kind! {
-    Kind1 => "kind1",
-    Kind2 => "kind2",
+impl_kinds! {
+    UserKind => "user",
+    ProjectKind => "project",
 }
 ````
 
@@ -126,6 +144,8 @@ each minor version are:
 
 * [`typed-uuid`](https://crates.io/crates/typed-uuid): generally similar, but with a few design
   decisions that are different.
+
+[`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
 <!-- cargo-sync-rdme ]] -->
 
 ## License

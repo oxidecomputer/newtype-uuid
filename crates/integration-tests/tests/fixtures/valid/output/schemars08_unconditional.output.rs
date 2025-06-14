@@ -21,14 +21,14 @@ impl ::schemars::JsonSchema for UserKind {
     ) -> ::schemars::schema::Schema {
         use ::schemars::schema::*;
         let mut schema = SchemaObject {
-            instance_type: ::std::option::Option::Some(InstanceType::String.into()),
-            format: ::std::option::Option::Some("uuid".to_string()),
+            instance_type: ::std::option::Option::None,
+            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
         let mut extensions = ::schemars::Map::new();
         let rust_type = ::serde_json::json!(
             { "crate" : "my-service", "version" : "1.0.0", "path" :
-            "my_service::types::UserKind" }
+            "my_service::types::UserKind", }
         );
         extensions.insert("x-rust-type".to_string(), rust_type);
         schema.extensions = extensions;
@@ -59,14 +59,14 @@ impl ::schemars::JsonSchema for OrganizationKind {
     ) -> ::schemars::schema::Schema {
         use ::schemars::schema::*;
         let mut schema = SchemaObject {
-            instance_type: ::std::option::Option::Some(InstanceType::String.into()),
-            format: ::std::option::Option::Some("uuid".to_string()),
+            instance_type: ::std::option::Option::None,
+            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
         let mut extensions = ::schemars::Map::new();
         let rust_type = ::serde_json::json!(
             { "crate" : "my-service", "version" : "1.0.0", "path" :
-            "my_service::types::OrganizationKind" }
+            "my_service::types::OrganizationKind", }
         );
         extensions.insert("x-rust-type".to_string(), rust_type);
         schema.extensions = extensions;
@@ -97,14 +97,14 @@ impl ::schemars::JsonSchema for ProjectKind {
     ) -> ::schemars::schema::Schema {
         use ::schemars::schema::*;
         let mut schema = SchemaObject {
-            instance_type: ::std::option::Option::Some(InstanceType::String.into()),
-            format: ::std::option::Option::Some("uuid".to_string()),
+            instance_type: ::std::option::Option::None,
+            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
         let mut extensions = ::schemars::Map::new();
         let rust_type = ::serde_json::json!(
             { "crate" : "my-service", "version" : "1.0.0", "path" :
-            "my_service::types::ProjectKind" }
+            "my_service::types::ProjectKind", }
         );
         extensions.insert("x-rust-type".to_string(), rust_type);
         schema.extensions = extensions;

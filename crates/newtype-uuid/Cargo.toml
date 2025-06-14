@@ -5,7 +5,7 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 description = "Newtype wrapper around UUIDs"
-documentation.workspace = true
+documentation = "https://docs.rs/newtype-uuid"
 readme = "README.md"
 keywords = ["uuid", "unique", "guid", "newtype"]
 categories = ["data-structures", "no-std"]
@@ -25,6 +25,9 @@ serde = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true, optional = true }
 schemars = { workspace = true, features = ["uuid1"], optional = true }
 uuid.workspace = true
+
+[dev-dependencies]
+newtype-uuid-macros.workspace = true
 
 [features]
 default = ["uuid/default", "std"]

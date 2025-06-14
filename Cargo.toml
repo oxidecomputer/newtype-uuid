@@ -8,18 +8,18 @@ members = [
 edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/oxidecomputer/newtype-uuid"
-documentation = "https://docs.rs/newtype-uuid"
 rust-version = "1.79"
 
 [workspace.dependencies]
 custom-schemars = { package = "schemars", version = "0.8.17" }
+daft = "0.1.3"
 datatest-stable = "0.3.2"
 expectorate = "1.2.0"
 heck = "0.5"
 integration-tests = { path = "crates/integration-tests" }
 my-custom-uuid = { path = "crates/newtype-uuid", package = "newtype-uuid" }
-newtype-uuid = { path = "crates/newtype-uuid" }
-newtype-uuid-macros = { path = "crates/newtype-uuid-macros" }
+newtype-uuid = { version = "1.2.2", path = "crates/newtype-uuid" }
+newtype-uuid-macros = { version = "0.1.0", path = "crates/newtype-uuid-macros" }
 prettyplease = "0.2.34"
 proc-macro2 = "1.0"
 quote = "1.0"

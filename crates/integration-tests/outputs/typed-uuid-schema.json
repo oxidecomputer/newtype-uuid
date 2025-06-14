@@ -12,8 +12,12 @@
   },
   "definitions": {
     "MyKind": {
-      "type": "string",
-      "enum": []
+      "enum": [],
+      "x-rust-type": {
+        "crate": "my-crate",
+        "path": "my_crate::types::MyKind",
+        "version": "1.0.0"
+      }
     },
     "TypedUuidForMyKind": {
       "type": "string",

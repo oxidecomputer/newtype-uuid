@@ -1,24 +1,34 @@
 //! JSON schema tests for newtype-uuid.
 
-use newtype_uuid::{TypedUuid, TypedUuidKind, TypedUuidTag};
+use newtype_uuid::TypedUuidKind;
 use newtype_uuid_macros::impl_typed_uuid_kinds;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use typify::TypeSpaceSettings;
+use typify::{CrateVers, TypeSpaceSettings};
 
-#[derive(Debug, JsonSchema)]
-enum MyKind {}
-
-impl TypedUuidKind for MyKind {
-    fn tag() -> TypedUuidTag {
-        const TAG: TypedUuidTag = TypedUuidTag::new("my_kind");
-        TAG
+impl_typed_uuid_kinds! {
+    settings = {
+        schemars08 = {
+            attrs = [
+                #[cfg(feature = "internal-schemars08-tests")],
+            ],
+            rust_type = {
+                crate = "my-crate",
+                version = "1.0.0",
+                path = "my_crate::types",
+            },
+        },
+    },
+    kinds = {
+        My = {},
+        Test = {},
+        Another = {},
     }
 }
 
 #[derive(Deserialize, Serialize, JsonSchema)]
 struct MyPathStruct {
-    id: TypedUuid<MyKind>,
+    id: MyUuid,
 }
 
 #[test]
@@ -28,15 +38,14 @@ fn test_json_schema_snapshot() {
     println!("{}", std::env::current_dir().unwrap().display());
     expectorate::assert_contents("outputs/typed-uuid-schema.json", &schema_json);
 
-    // Use typify with a replace directive - this is the intended usage with x-rust-type.
-    // The x-rust-type extension enables automatic replacement, so we don't try to
-    // generate Rust code for the empty enum directly.
+    // Use typify with crate directives -- this is the intended usage with
+    // x-rust-type. The x-rust-type extension enables automatic replacement, so
+    // that we don't try to generate Rust code for either newtype-uuid or
+    // my-crate.
     let mut settings = TypeSpaceSettings::default();
-    settings.with_replacement(
-        "TypedUuidForMyKind",
-        "::newtype_uuid::TypedUuid<::my_crate::MyKind>",
-        std::iter::empty(),
-    );
+    settings
+        .with_crate("newtype-uuid", CrateVers::Any, None)
+        .with_crate("my-crate", CrateVers::Any, None);
     let output = generate_schema_with(&settings, schema);
     expectorate::assert_contents("outputs/schema-rust-with-replace.rs", &output);
 }
@@ -54,60 +63,38 @@ fn generate_schema_with(
     prettyplease::unparse(&file)
 }
 
-impl_typed_uuid_kinds! {
-    settings = {
-        schemars08 = {
-            attrs = [
-                #[cfg(feature = "internal-schemars08-tests")],
-            ],
-            rust_type = {
-                crate = "my-crate",
-                version = "1.0.0",
-                path = "my_crate::types",
-            },
-        },
-    },
-    kinds = {
-        Test = {},
-        Another = {},
-    }
-}
-
 #[test]
 fn test_schemars_macro_integration() {
     // Test that JsonSchema is implemented
     use schemars::JsonSchema;
 
     // Test schema_name
-    assert_eq!(TestKind::schema_name(), "Test");
-    assert_eq!(AnotherKind::schema_name(), "Another");
+    assert_eq!(TestKind::schema_name(), "TestKind");
+    assert_eq!(AnotherKind::schema_name(), "AnotherKind");
 
-    // Test that we can generate schemas
+    // Test that we can generate schemas.
     let mut gen = schemars::gen::SchemaGenerator::default();
     let schema = TestKind::json_schema(&mut gen);
 
-    // Verify it's a string with uuid format
-    if let schemars::schema::Schema::Object(obj) = schema {
-        assert_eq!(
-            obj.instance_type,
-            Some(schemars::schema::InstanceType::String.into())
-        );
-        assert_eq!(obj.format, Some("uuid".to_string()));
-
-        // Verify x-rust-type extension is present
-        assert!(obj.extensions.contains_key("x-rust-type"));
-        if let Some(rust_type) = obj.extensions.get("x-rust-type") {
-            let rust_type_obj = rust_type.as_object().unwrap();
-            assert_eq!(rust_type_obj["crate"].as_str().unwrap(), "my-crate");
-            assert_eq!(rust_type_obj["version"].as_str().unwrap(), "1.0.0");
-            assert_eq!(
-                rust_type_obj["path"].as_str().unwrap(),
-                "my_crate::types::TestKind"
+    // Verify it's an empty enum.
+    let expected_schema = schemars::schema::Schema::Object(schemars::schema::SchemaObject {
+        instance_type: None,
+        enum_values: Some(Vec::new()),
+        extensions: {
+            let mut extensions = std::collections::BTreeMap::new();
+            extensions.insert(
+                "x-rust-type".to_string(),
+                serde_json::json!({
+                    "crate": "my-crate",
+                    "version": "1.0.0",
+                    "path": "my_crate::types::TestKind"
+                }),
             );
-        }
-    } else {
-        panic!("Expected Schema::Object");
-    }
+            extensions
+        },
+        ..Default::default()
+    });
+    assert_eq!(schema, expected_schema);
 }
 
 #[test]
