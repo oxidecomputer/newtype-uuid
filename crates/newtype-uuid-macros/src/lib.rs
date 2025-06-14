@@ -94,7 +94,7 @@ use quote::ToTokens;
 /// Kinds can be customized with the following settings:
 ///
 /// - `attrs`: Attributes to apply to the kind enum, such as `#[derive(SomeTrait)]`
-///    or `#[cfg(feature = "some-feature")]`. *Optional, defaults to the global
+///   or `#[cfg(feature = "some-feature")]`. *Optional, defaults to the global
 ///   `attrs`.*
 /// - `tag`: The tag to use for the kind (a string literal). *Optional, defaults to
 ///   the snake_case version of the type name.*
