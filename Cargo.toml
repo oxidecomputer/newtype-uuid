@@ -1,8 +1,6 @@
 [workspace]
 resolver = "2"
-members = [
-    "crates/*",
-]
+members = ["crates/*", "e2e-example/*"]
 
 [workspace.package]
 edition = "2021"

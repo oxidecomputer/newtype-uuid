@@ -241,6 +241,40 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0d6ef0072f8a535281e4876be788938b528e9a1d43900b82c2569af7da799125"
 
 [[package]]
+name = "e2e-kinds"
+version = "0.1.0"
+dependencies = [
+ "newtype-uuid",
+ "newtype-uuid-macros",
+ "schemars",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "e2e-schema-consumer"
+version = "0.1.0"
+dependencies = [
+ "e2e-kinds",
+ "e2e-schema-producer",
+ "expectorate",
+ "newtype-uuid",
+ "serde",
+ "typify",
+]
+
+[[package]]
+name = "e2e-schema-producer"
+version = "0.1.0"
+dependencies = [
+ "e2e-kinds",
+ "expectorate",
+ "schemars",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "encode_unicode"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
