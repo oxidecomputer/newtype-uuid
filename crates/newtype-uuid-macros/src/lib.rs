@@ -133,8 +133,8 @@ use quote::ToTokens;
 /// let user_uuid = UserUuid::new_v4();
 /// let org_uuid = OrgUuid::new_v4();
 ///
-/// // MyUserKind also implements `Diffable`.
-/// static_assertions::assert_impl_all!(MyUserKind: Diffable);
+/// // MyUserKind also implements `Ord`.
+/// static_assertions::assert_impl_all!(MyUserKind: Ord);
 /// ```
 ///
 /// # Global settings
@@ -190,13 +190,12 @@ use quote::ToTokens;
 /// An example with all global settings defined:
 ///
 /// ```
-/// use daft::Diffable;
 /// use newtype_uuid::TypedUuidKind;
 /// use newtype_uuid_macros::impl_typed_uuid_kinds;
 ///
 /// impl_typed_uuid_kinds! {
 ///     settings = {
-///         attrs = [#[derive(Diffable)]],
+///         attrs = [#[derive(PartialOrd, Ord)]],
 ///         newtype_uuid_crate = newtype_uuid,
 ///         schemars08 = {
 ///             attrs = [#[cfg(feature = "schemars")]],
