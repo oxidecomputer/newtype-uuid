@@ -108,10 +108,9 @@ use quote::ToTokens;
 ///
 /// ## Examples
 ///
-/// In this example, we derive [`daft::Diffable`] for `MyUserKind`.
+/// In this example, we derive `PartialOrd` and `Ord` for `MyUserKind`.
 ///
 /// ```
-/// use daft::Diffable;
 /// use newtype_uuid::TypedUuidKind;
 /// use newtype_uuid_macros::impl_typed_uuid_kinds;
 ///
@@ -119,7 +118,7 @@ use quote::ToTokens;
 ///     kinds = {
 ///         User = {
 ///             // This is a list of attributes surrounded by square brackets.
-///             attrs = [#[derive(Diffable)]],
+///             attrs = [#[derive(PartialOrd, Ord)]],
 ///             tag = "user",
 ///             type_name = MyUserKind,
 ///         },
@@ -137,8 +136,6 @@ use quote::ToTokens;
 /// // MyUserKind also implements `Diffable`.
 /// static_assertions::assert_impl_all!(MyUserKind: Diffable);
 /// ```
-///
-/// [`daft::Diffable`]: https://docs.rs/daft/latest/daft/trait.Diffable.html
 ///
 /// # Global settings
 ///
@@ -203,7 +200,6 @@ use quote::ToTokens;
 ///         newtype_uuid_crate = newtype_uuid,
 ///         schemars08 = {
 ///             attrs = [#[cfg(feature = "schemars")]],
-///             schemars_crate = schemars,
 ///             rust_type = {
 ///                 crate = "my-crate",
 ///                 version = "*",
