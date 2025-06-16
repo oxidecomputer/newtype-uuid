@@ -9,7 +9,7 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/oxidecomputer/newtype-uuid"
 documentation = "https://docs.rs/newtype-uuid"
-rust-version = "1.75"
+rust-version = "1.67"
 
 [workspace.dependencies]
 expectorate = "1.2.0"

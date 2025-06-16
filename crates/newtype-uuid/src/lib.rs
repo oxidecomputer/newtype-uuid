@@ -102,7 +102,7 @@
 //!
 //! # Minimum supported Rust version (MSRV)
 //!
-//! The MSRV of this crate is **Rust 1.75.** In general, this crate will follow the MSRV of the
+//! The MSRV of this crate is **Rust 1.67.** In general, this crate will follow the MSRV of the
 //! underlying `uuid` crate or of dependencies, with an aim to be conservative.
 //!
 //! Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
@@ -111,7 +111,6 @@
 //! * Version **1.0.x**: Rust 1.60.
 //! * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 //! * Version **1.2.x**: Rust 1.67, required by some dependency updates.
-//! * Unreleased: Rust 1.75, required by some dependency updates.
 //!
 //! # Alternatives
 //!
