@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.3] - 2025-06-16
+
+### Added
+
+New `cast` method enables safer conversion of one typed UUID to another. To opt into a cast from `TypedUuid<T>` to `TypedUuid<U>`, implement `From<T> for U`.
+
 ## [1.2.2] - 2025-05-24
 
 ### Added
@@ -98,6 +104,7 @@ Documentation improvements.
 
 Initial release.
 
+[1.2.3]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.3
 [1.2.2]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.2
 [1.2.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.1
 [1.2.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.0
