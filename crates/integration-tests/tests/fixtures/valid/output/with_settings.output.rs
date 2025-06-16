@@ -10,7 +10,7 @@ impl ::newtype_uuid::TypedUuidKind for UserKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::schemars::JsonSchema for UserKind {
+impl ::newtype_uuid::macro_support::schemars08::JsonSchema for UserKind {
     fn schema_name() -> ::std::string::String {
         "UserKind".to_string()
     }
@@ -18,16 +18,16 @@ impl ::schemars::JsonSchema for UserKind {
         ::std::borrow::Cow::Borrowed("my_service::types::UserKind")
     }
     fn json_schema(
-        _gen: &mut ::schemars::gen::SchemaGenerator,
-    ) -> ::schemars::schema::Schema {
-        use ::schemars::schema::*;
+        _gen: &mut ::newtype_uuid::macro_support::schemars08::gen::SchemaGenerator,
+    ) -> ::newtype_uuid::macro_support::schemars08::schema::Schema {
+        use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
             enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::schemars::Map::new();
-        let rust_type = ::serde_json::json!(
+        let mut extensions = ::newtype_uuid::macro_support::schemars08::Map::new();
+        let rust_type = ::newtype_uuid::macro_support::serde_json::json!(
             { "crate" : "my-service", "version" : "1.0.0", "path" :
             "my_service::types::UserKind", }
         );
@@ -49,7 +49,7 @@ impl ::newtype_uuid::TypedUuidKind for OrganizationKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::schemars::JsonSchema for OrganizationKind {
+impl ::newtype_uuid::macro_support::schemars08::JsonSchema for OrganizationKind {
     fn schema_name() -> ::std::string::String {
         "OrganizationKind".to_string()
     }
@@ -57,16 +57,16 @@ impl ::schemars::JsonSchema for OrganizationKind {
         ::std::borrow::Cow::Borrowed("my_service::types::OrganizationKind")
     }
     fn json_schema(
-        _gen: &mut ::schemars::gen::SchemaGenerator,
-    ) -> ::schemars::schema::Schema {
-        use ::schemars::schema::*;
+        _gen: &mut ::newtype_uuid::macro_support::schemars08::gen::SchemaGenerator,
+    ) -> ::newtype_uuid::macro_support::schemars08::schema::Schema {
+        use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
             enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::schemars::Map::new();
-        let rust_type = ::serde_json::json!(
+        let mut extensions = ::newtype_uuid::macro_support::schemars08::Map::new();
+        let rust_type = ::newtype_uuid::macro_support::serde_json::json!(
             { "crate" : "my-service", "version" : "1.0.0", "path" :
             "my_service::types::OrganizationKind", }
         );
@@ -88,7 +88,7 @@ impl ::newtype_uuid::TypedUuidKind for ProjectKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::schemars::JsonSchema for ProjectKind {
+impl ::newtype_uuid::macro_support::schemars08::JsonSchema for ProjectKind {
     fn schema_name() -> ::std::string::String {
         "ProjectKind".to_string()
     }
@@ -96,16 +96,16 @@ impl ::schemars::JsonSchema for ProjectKind {
         ::std::borrow::Cow::Borrowed("my_service::types::ProjectKind")
     }
     fn json_schema(
-        _gen: &mut ::schemars::gen::SchemaGenerator,
-    ) -> ::schemars::schema::Schema {
-        use ::schemars::schema::*;
+        _gen: &mut ::newtype_uuid::macro_support::schemars08::gen::SchemaGenerator,
+    ) -> ::newtype_uuid::macro_support::schemars08::schema::Schema {
+        use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
             enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::schemars::Map::new();
-        let rust_type = ::serde_json::json!(
+        let mut extensions = ::newtype_uuid::macro_support::schemars08::Map::new();
+        let rust_type = ::newtype_uuid::macro_support::serde_json::json!(
             { "crate" : "my-service", "version" : "1.0.0", "path" :
             "my_service::types::ProjectKind", }
         );

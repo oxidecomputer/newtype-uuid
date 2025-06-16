@@ -88,6 +88,7 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
                 &kind_name_ident,
                 &kind_name_ident.to_string(),
                 schemars_settings,
+                newtype_uuid_crate,
             )
         } else {
             quote! {}
@@ -281,8 +282,6 @@ struct GlobalSettings {
 struct SchemarsSettings {
     #[serde(default)]
     attrs: Vec<TokenStreamWrapper>,
-    #[serde(default)]
-    schemars_crate: Option<ParseWrapper<syn::Ident>>,
     rust_type: RustTypeSettings,
 }
 
@@ -378,23 +377,19 @@ fn generate_schemars_impl(
     kind_name_ident: &syn::Ident,
     kind_name: &str,
     schemars_settings: &SchemarsSettings,
+    newtype_uuid_crate: &syn::Ident,
 ) -> proc_macro2::TokenStream {
     let attrs = schemars_settings.attrs.iter().map(|attrs| &**attrs);
     let crate_name = &schemars_settings.rust_type.crate_name;
     let version = &schemars_settings.rust_type.version;
     let path_prefix = &schemars_settings.rust_type.path;
 
-    let schemars_crate = schemars_settings.schemars_crate.as_ref().map_or_else(
-        || syn::Ident::new("schemars", proc_macro2::Span::call_site()),
-        |wrapper| (*wrapper).clone(),
-    );
-
     // Construct the full path for this specific kind.
     let full_path = format!("{}::{}", path_prefix, kind_name_ident);
 
     quote! {
         #(#attrs)*
-        impl ::#schemars_crate::JsonSchema for #kind_name_ident {
+        impl ::#newtype_uuid_crate::macro_support::schemars08::JsonSchema for #kind_name_ident {
             fn schema_name() -> ::std::string::String {
                 #kind_name.to_string()
             }
@@ -403,8 +398,10 @@ fn generate_schemars_impl(
                 ::std::borrow::Cow::Borrowed(#full_path)
             }
 
-            fn json_schema(_gen: &mut ::#schemars_crate::gen::SchemaGenerator) -> ::#schemars_crate::schema::Schema {
-                use ::#schemars_crate::schema::*;
+            fn json_schema(
+                _gen: &mut ::#newtype_uuid_crate::macro_support::schemars08::gen::SchemaGenerator,
+            ) -> ::#newtype_uuid_crate::macro_support::schemars08::schema::Schema {
+                use ::#newtype_uuid_crate::macro_support::schemars08::schema::*;
 
                 let mut schema = SchemaObject {
                     instance_type: ::std::option::Option::None,
@@ -413,8 +410,8 @@ fn generate_schemars_impl(
                 };
 
                 // Add the x-rust-type extension.
-                let mut extensions = ::#schemars_crate::Map::new();
-                let rust_type = ::serde_json::json!({
+                let mut extensions = ::#newtype_uuid_crate::macro_support::schemars08::Map::new();
+                let rust_type = ::#newtype_uuid_crate::macro_support::serde_json::json!({
                     "crate": #crate_name,
                     "version": #version,
                     "path": #full_path,

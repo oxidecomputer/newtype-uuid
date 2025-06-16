@@ -5,7 +5,6 @@ impl_typed_uuid_kinds! {
     settings = {
         newtype_uuid_crate = my_custom_uuid,
         schemars08 = {
-            schemars_crate = custom_schemars,
             attrs = [#[cfg(feature = "internal-schemars08-tests")]],
             rust_type = {
                 crate = "my-api-service",

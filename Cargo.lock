@@ -196,7 +196,6 @@ dependencies = [
  "integration-tests",
  "newtype-uuid",
  "newtype-uuid-macros",
- "schemars",
  "serde_json",
  "trybuild",
 ]
@@ -246,9 +245,7 @@ version = "0.1.0"
 dependencies = [
  "newtype-uuid",
  "newtype-uuid-macros",
- "schemars",
  "serde",
- "serde_json",
 ]
 
 [[package]]

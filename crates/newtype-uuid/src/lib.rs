@@ -146,6 +146,18 @@
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
+/// Macro support for [`newtype-uuid-macros`].
+///
+/// This module re-exports types needed for [`newtype-uuid-macros`] to work.
+///
+/// [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
+pub mod macro_support {
+    #[cfg(feature = "schemars08")]
+    pub use schemars as schemars08;
+    #[cfg(feature = "schemars08")]
+    pub use serde_json;
+}
+
 use core::{
     cmp::Ordering,
     fmt,

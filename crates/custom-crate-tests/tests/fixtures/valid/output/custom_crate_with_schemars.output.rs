@@ -10,7 +10,7 @@ impl ::my_custom_uuid::TypedUuidKind for AccountKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::custom_schemars::JsonSchema for AccountKind {
+impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for AccountKind {
     fn schema_name() -> ::std::string::String {
         "AccountKind".to_string()
     }
@@ -18,16 +18,16 @@ impl ::custom_schemars::JsonSchema for AccountKind {
         ::std::borrow::Cow::Borrowed("my_api_service::models::AccountKind")
     }
     fn json_schema(
-        _gen: &mut ::custom_schemars::gen::SchemaGenerator,
-    ) -> ::custom_schemars::schema::Schema {
-        use ::custom_schemars::schema::*;
+        _gen: &mut ::my_custom_uuid::macro_support::schemars08::gen::SchemaGenerator,
+    ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
+        use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
             enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::custom_schemars::Map::new();
-        let rust_type = ::serde_json::json!(
+        let mut extensions = ::my_custom_uuid::macro_support::schemars08::Map::new();
+        let rust_type = ::my_custom_uuid::macro_support::serde_json::json!(
             { "crate" : "my-api-service", "version" : "2.1.0", "path" :
             "my_api_service::models::AccountKind", }
         );
@@ -49,7 +49,7 @@ impl ::my_custom_uuid::TypedUuidKind for TransactionKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::custom_schemars::JsonSchema for TransactionKind {
+impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for TransactionKind {
     fn schema_name() -> ::std::string::String {
         "TransactionKind".to_string()
     }
@@ -57,16 +57,16 @@ impl ::custom_schemars::JsonSchema for TransactionKind {
         ::std::borrow::Cow::Borrowed("my_api_service::models::TransactionKind")
     }
     fn json_schema(
-        _gen: &mut ::custom_schemars::gen::SchemaGenerator,
-    ) -> ::custom_schemars::schema::Schema {
-        use ::custom_schemars::schema::*;
+        _gen: &mut ::my_custom_uuid::macro_support::schemars08::gen::SchemaGenerator,
+    ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
+        use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
             enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::custom_schemars::Map::new();
-        let rust_type = ::serde_json::json!(
+        let mut extensions = ::my_custom_uuid::macro_support::schemars08::Map::new();
+        let rust_type = ::my_custom_uuid::macro_support::serde_json::json!(
             { "crate" : "my-api-service", "version" : "2.1.0", "path" :
             "my_api_service::models::TransactionKind", }
         );
@@ -88,7 +88,7 @@ impl ::my_custom_uuid::TypedUuidKind for ApiKeyKind {
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]
-impl ::custom_schemars::JsonSchema for ApiKeyKind {
+impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for ApiKeyKind {
     fn schema_name() -> ::std::string::String {
         "ApiKeyKind".to_string()
     }
@@ -96,16 +96,16 @@ impl ::custom_schemars::JsonSchema for ApiKeyKind {
         ::std::borrow::Cow::Borrowed("my_api_service::models::ApiKeyKind")
     }
     fn json_schema(
-        _gen: &mut ::custom_schemars::gen::SchemaGenerator,
-    ) -> ::custom_schemars::schema::Schema {
-        use ::custom_schemars::schema::*;
+        _gen: &mut ::my_custom_uuid::macro_support::schemars08::gen::SchemaGenerator,
+    ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
+        use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
             enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
             ..::std::default::Default::default()
         };
-        let mut extensions = ::custom_schemars::Map::new();
-        let rust_type = ::serde_json::json!(
+        let mut extensions = ::my_custom_uuid::macro_support::schemars08::Map::new();
+        let rust_type = ::my_custom_uuid::macro_support::serde_json::json!(
             { "crate" : "my-api-service", "version" : "2.1.0", "path" :
             "my_api_service::models::ApiKeyKind", }
         );

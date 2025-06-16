@@ -85,23 +85,23 @@ use quote::ToTokens;
 ///
 /// * The generated `Kind` types always implement `Clone`, `Copy`, `Debug`,
 ///   `Eq`, and `PartialEq`.
-/// * The `Kind` types are all empty (uninhabited) enums,
-///   which means that values for these types cannot be created. (Using empty
-///   enums is the recommended approach for `newtype-uuid`).
+/// * The `Kind` types are all empty (uninhabited) enums, which means that
+///   values for these types cannot be created. (Using empty enums is the
+///   recommended approach for `newtype-uuid`).
 ///
 /// # Per-kind settings
 ///
 /// Kinds can be customized with the following settings:
 ///
-/// - `attrs`: Attributes to apply to the kind enum, such as `#[derive(SomeTrait)]`
-///   or `#[cfg(feature = "some-feature")]`. *Optional, defaults to the global
-///   `attrs`.*
-/// - `tag`: The tag to use for the kind (a string literal). *Optional, defaults to
-///   the snake_case version of the type name.*
+/// - `attrs`: Attributes to apply to the kind enum, such as
+///   `#[derive(SomeTrait)]` or `#[cfg(feature = "some-feature")]`. *Optional,
+///   defaults to the global `attrs`.*
+/// - `tag`: The tag to use for the kind (a string literal). *Optional, defaults
+///   to the snake_case version of the type name.*
 /// - `type_name`: The name of the type to use for the kind (a Rust identifier).
 ///   *Optional, defaults to `{Name}Kind`*.
-/// - `alias`: The name of the type alias to use for the kind (a Rust identifier).
-///   *Optional, defaults to `{Name}Uuid`*.
+/// - `alias`: The name of the type alias to use for the kind (a Rust
+///   identifier). *Optional, defaults to `{Name}Uuid`*.
 ///
 /// Per-kind customizations should generally be unnecessary; the conventionally
 /// generated type names should be sufficient for most use cases.
@@ -144,24 +144,27 @@ use quote::ToTokens;
 ///
 /// This macro accepts global settings under a top-level `settings` map:
 ///
-/// - `attrs`: A list of attributes to apply to all generated `Kind` types. Per-kind
-///   attributes, if provided, will override these. *Optional, defaults to the empty list.*
-/// - `newtype_uuid_crate`: The name of the `newtype-uuid` crate (a Rust identifier).
-///   *Optional, defaults to `newtype_uuid`.*
-/// - `schemars08`: If defined, generates JSON Schema support for the given types
-///   using [`schemars` 0.8]. *Optional.*
+/// - `attrs`: A list of attributes to apply to all generated `Kind` types.
+///   Per-kind attributes, if provided, will override these. *Optional, defaults
+///   to the empty list.*
+/// - `newtype_uuid_crate`: The name of the `newtype-uuid` crate (a Rust
+///   identifier). *Optional, defaults to `newtype_uuid`.*
+/// - `schemars08`: If defined, generates JSON Schema support for the given
+///   types using [`schemars` 0.8]. *Optional.*
 ///
 /// ## JSON Schema support
 ///
 /// If the `schemars08` global setting is defined, the macro generates JSON
-/// Schema support for the `Kind` instances using [schemars 0.8]. Within
-/// `settings.schemars08`, the options are:
+/// Schema support for the `Kind` instances using [schemars 0.8].
+///
+/// **To enable JSON Schema support, you'll need to turn on `newtype-uuid`'s
+/// `schemars08` feature.**
+///
+/// Within `settings.schemars08`, the options are:
 ///
 /// - `attrs`: A list of attributes to apply to all generated `JsonSchema`
-///   implementations. This will often be something like
-///   `[#cfg(feature = "schemars-feature-name")]]`.
-/// - `schemars_crate`: The name of the `schemars` crate (a Rust identifier).
-///   Defaults to `schemars`.
+///   implementations. This will often be something like `[#cfg(feature =
+///   "schemars-feature-name")]]`.
 /// - `rust_type`: If defined, adds the `x-rust-type` extension to the schema,
 ///   enabling automatic replacement with [`typify`] and other tools that
 ///   support it. *Optional, defaults to not adding the extension.*
@@ -171,15 +174,19 @@ use quote::ToTokens;
 ///
 ///   `rust_type` is a map of the following options:
 ///
-///   - `crate`: The crate name consumers will use to access these types. *Required.*
-///   - `version`: The versions of the crate that automatic replacement is supported for. *Required.*
-///   - `path`: The path to the module these types can be accessed from, including the crate name. *Required.*
+///   - `crate`: The crate name consumers will use to access these types.
+///     *Required.*
+///   - `version`: The versions of the crate that automatic replacement is
+///     supported for. *Required.*
+///   - `path`: The path to the module these types can be accessed from,
+///     including the crate name. *Required.*
 ///
 ///   For more about `x-rust-type`, see the [`typify` documentation].
 ///
 /// [`schemars` 0.8]: https://docs.rs/schemars/0.8/schemars/
 /// [`typify`]: https://docs.rs/typify
-/// [`typify` documentation]: https://github.com/oxidecomputer/typify#rust---schema---rust
+/// [`typify` documentation]:
+///     https://github.com/oxidecomputer/typify#rust---schema---rust
 ///
 /// ## Examples
 ///
@@ -215,6 +222,10 @@ use quote::ToTokens;
 /// let org_uuid = OrganizationUuid::new_v4();
 /// let project_uuid = ProjectUuid::new_v4();
 /// ```
+///
+/// For a working end-to-end example, see the
+/// [`e2e-example`](https://github.com/oxidecomputer/newtype-uuid/tree/main/e2e-example)
+/// directory in the newtype-uuid repository.
 #[proc_macro]
 pub fn impl_typed_uuid_kinds(input: TokenStream) -> TokenStream {
     internals::impl_typed_uuid_kinds(input.into())

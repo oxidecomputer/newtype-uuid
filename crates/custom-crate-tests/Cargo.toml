@@ -6,7 +6,6 @@ license = "MIT OR Apache-2.0"
 publish = false
 
 [dependencies]
-custom-schemars = { workspace = true, optional = true }
 integration-tests.workspace = true
 my-custom-uuid.workspace = true
 newtype-uuid-macros.workspace = true
@@ -23,7 +22,6 @@ harness = false
 
 [features]
 internal-schemars08-tests = [
-    "dep:custom-schemars",
     "dep:serde_json",
     "integration-tests/internal-schemars08-tests",
 ]
