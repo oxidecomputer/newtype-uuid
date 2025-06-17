@@ -17,6 +17,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
       - uses: taiki-e/install-action@just
+      - uses: taiki-e/install-action@cargo-release
       - run: just ci-cargo-release
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
