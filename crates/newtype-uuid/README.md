@@ -97,17 +97,17 @@ impl_kinds! {
 
 ## Implementations
 
-In general, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/struct.TypedUuid.html) uses the same wire and serialization formats as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html). This means
-that persistent representations of [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/struct.TypedUuid.html) are the same as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html); [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/struct.TypedUuid.html) is
+In general, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) uses the same wire and serialization formats as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html). This means
+that persistent representations of [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) are the same as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html); [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) is
 intended to be helpful within Rust code, not across serialization boundaries.
 
 * The `Display` and `FromStr` impls are forwarded to the underlying [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
 * If the `serde` feature is enabled, `TypedUuid` will serialize and deserialize using the same
   format as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
-* If the `schemars08` feature is enabled, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/struct.TypedUuid.html) will implement `JsonSchema` if the
-  corresponding [`TypedUuidKind`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/trait.TypedUuidKind.html) implements `JsonSchema`.
+* If the `schemars08` feature is enabled, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) will implement `JsonSchema` if the
+  corresponding [`TypedUuidKind`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/trait.TypedUuidKind.html) implements `JsonSchema`.
 
-To abstract over typed and untyped UUIDs, the [`GenericUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/trait.GenericUuid.html) trait is provided. This trait also
+To abstract over typed and untyped UUIDs, the [`GenericUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/trait.GenericUuid.html) trait is provided. This trait also
 permits conversions between typed and untyped UUIDs.
 
 ## Dependencies

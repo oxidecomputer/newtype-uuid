@@ -331,7 +331,7 @@ impl<T: TypedUuidKind> TypedUuid<T> {
         self.uuid.get_version()
     }
 
-    /// Converts the UUID to one with a different kind.
+    /// Converts the UUID to one with looser semantics.
     ///
     /// By default, UUID kinds are considered independent, and conversions
     /// between them must happen via the [`GenericUuid`] interface. But in some
@@ -393,11 +393,11 @@ impl<T: TypedUuidKind> TypedUuid<T> {
     /// // Now you can convert between them:
     /// let git_uuid: TypedUuid<GitRepoKind> =
     ///     TypedUuid::from_u128(0xe9245204_34ea_4ca7_a1c6_2e94fa49df61);
-    /// let repo_uuid: TypedUuid<RepoKind> = git_uuid.cast();
+    /// let repo_uuid: TypedUuid<RepoKind> = git_uuid.upcast();
     /// ```
     #[inline]
     #[must_use]
-    pub const fn cast<U: TypedUuidKind>(self) -> TypedUuid<U>
+    pub const fn upcast<U: TypedUuidKind>(self) -> TypedUuid<U>
     where
         T: Into<U>,
     {
