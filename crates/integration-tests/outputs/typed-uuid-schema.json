@@ -11,9 +11,27 @@
     }
   },
   "definitions": {
+    "MyKind": {
+      "enum": [],
+      "x-rust-type": {
+        "crate": "my-crate",
+        "path": "my_crate::types::MyKind",
+        "version": "1.0.0"
+      }
+    },
     "TypedUuidForMyKind": {
       "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "x-rust-type": {
+        "crate": "newtype-uuid",
+        "parameters": [
+          {
+            "$ref": "#/definitions/MyKind"
+          }
+        ],
+        "path": "newtype_uuid::TypedUuid",
+        "version": "1"
+      }
     }
   }
 }

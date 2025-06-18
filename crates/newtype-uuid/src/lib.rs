@@ -11,7 +11,7 @@
 //!
 //! # Example
 //!
-//! ```rust
+//! ```
 //! use newtype_uuid::{GenericUuid, TypedUuid, TypedUuidKind, TypedUuidTag};
 //!
 //! // First, define a type that represents the kind of UUID this is.
@@ -40,12 +40,32 @@
 //! );
 //! ```
 //!
-//! If you have a large number of UUID kinds, consider defining a macro for your purposes. An
-//! example macro:
+//! If you have a large number of UUID kinds, consider using
+//! [`newtype-uuid-macros`] which comes with several convenience features:
+//!
+//! ```
+//! use newtype_uuid_macros::impl_typed_uuid_kinds;
+//!
+//! // Invoke this macro with:
+//! impl_typed_uuid_kinds! {
+//!     kinds = {
+//!         User = {},
+//!         Project = {},
+//!         // ...
+//!     },
+//! }
+//! ```
+//!
+//! See [`newtype-uuid-macros`] for more information.
+//!
+//! [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
+//!
+//! For simpler cases, you can also write your own declarative macro. Use this
+//! template to get started:
 //!
 //! ```rust
 //! # use newtype_uuid::{TypedUuidKind, TypedUuidTag};
-//! macro_rules! impl_typed_uuid_kind {
+//! macro_rules! impl_kinds {
 //!     ($($kind:ident => $tag:literal),* $(,)?) => {
 //!         $(
 //!             pub enum $kind {}
@@ -62,9 +82,9 @@
 //! }
 //!
 //! // Invoke this macro with:
-//! impl_typed_uuid_kind! {
-//!     Kind1 => "kind1",
-//!     Kind2 => "kind2",
+//! impl_kinds! {
+//!     UserKind => "user",
+//!     ProjectKind => "project",
 //! }
 //! ```
 //!
@@ -102,7 +122,7 @@
 //!
 //! # Minimum supported Rust version (MSRV)
 //!
-//! The MSRV of this crate is **Rust 1.67.** In general, this crate will follow the MSRV of the
+//! The MSRV of this crate is **Rust 1.79.** In general, this crate will follow the MSRV of the
 //! underlying `uuid` crate or of dependencies, with an aim to be conservative.
 //!
 //! Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
@@ -111,6 +131,7 @@
 //! * Version **1.0.x**: Rust 1.60.
 //! * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 //! * Version **1.2.x**: Rust 1.67, required by some dependency updates.
+//! * Unreleased: Rust 1.79, required by some dependency updates.
 //!
 //! # Alternatives
 //!
@@ -124,6 +145,18 @@
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
+
+/// Macro support for [`newtype-uuid-macros`].
+///
+/// This module re-exports types needed for [`newtype-uuid-macros`] to work.
+///
+/// [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
+pub mod macro_support {
+    #[cfg(feature = "schemars08")]
+    pub use schemars as schemars08;
+    #[cfg(feature = "schemars08")]
+    pub use serde_json;
+}
 
 use core::{
     cmp::Ordering,
@@ -468,13 +501,21 @@ impl<T: TypedUuidKind> From<TypedUuid<T>> for alloc::vec::Vec<u8> {
 #[cfg(feature = "schemars08")]
 mod schemars08_imp {
     use super::*;
-    use schemars::JsonSchema;
+    use schemars::{
+        schema::{InstanceType, SchemaObject},
+        JsonSchema,
+    };
+
+    const CRATE_NAME: &str = "newtype-uuid";
+    const CRATE_VERSION: &str = "1";
+    const CRATE_PATH: &str = "newtype_uuid::TypedUuid";
 
     /// Implements `JsonSchema` for `TypedUuid<T>`, if `T` implements `JsonSchema`.
     ///
     /// * `schema_name` is set to `"TypedUuidFor"`, concatenated by the schema name of `T`.
     /// * `schema_id` is set to `format!("newtype_uuid::TypedUuid<{}>", T::schema_id())`.
-    /// * `json_schema` is the same as the one for `Uuid`.
+    /// * `json_schema` is the same as the one for `Uuid`, with the `x-rust-type` extension
+    ///   to allow automatic replacement in typify and progenitor.
     impl<T> JsonSchema for TypedUuid<T>
     where
         T: TypedUuidKind + JsonSchema,
@@ -490,8 +531,24 @@ mod schemars08_imp {
         }
 
         #[inline]
-        fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-            Uuid::json_schema(gen)
+        fn json_schema(generator: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
+            SchemaObject {
+                instance_type: Some(InstanceType::String.into()),
+                format: Some("uuid".to_string()),
+                extensions: [(
+                    "x-rust-type".to_string(),
+                    serde_json::json!({
+                        "crate": CRATE_NAME,
+                        "version": CRATE_VERSION,
+                        "path": CRATE_PATH,
+                        "parameters": [generator.subschema_for::<T>()]
+                    }),
+                )]
+                .into_iter()
+                .collect(),
+                ..Default::default()
+            }
+            .into()
         }
     }
 }

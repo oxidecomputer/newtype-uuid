@@ -1,0 +1,10 @@
+error: missing field `path`
+  --> tests/fixtures/invalid/invalid_settings.rs:7:25
+   |
+7  |               rust_type = {
+   |  _________________________^
+8  | |                 crate = "my-service",
+9  | |                 version = "1.0.0",
+10 | |                 // Missing required 'path' field
+11 | |             },
+   | |_____________^

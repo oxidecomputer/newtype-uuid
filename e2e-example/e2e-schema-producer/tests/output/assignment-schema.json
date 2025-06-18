@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Assignment",
+  "description": "A simple type which uses the `UserUuid` and `OrganizationUuid` types defined in this crate.",
+  "type": "object",
+  "required": [
+    "organization_id",
+    "user_id"
+  ],
+  "properties": {
+    "organization_id": {
+      "$ref": "#/definitions/TypedUuidForOrganizationKind"
+    },
+    "user_id": {
+      "$ref": "#/definitions/TypedUuidForUserKind"
+    }
+  },
+  "definitions": {
+    "OrganizationKind": {
+      "enum": [],
+      "x-rust-type": {
+        "crate": "e2e-kinds",
+        "path": "e2e_kinds::OrganizationKind",
+        "version": "*"
+      }
+    },
+    "TypedUuidForOrganizationKind": {
+      "type": "string",
+      "format": "uuid",
+      "x-rust-type": {
+        "crate": "newtype-uuid",
+        "parameters": [
+          {
+            "$ref": "#/definitions/OrganizationKind"
+          }
+        ],
+        "path": "newtype_uuid::TypedUuid",
+        "version": "1"
+      }
+    },
+    "TypedUuidForUserKind": {
+      "type": "string",
+      "format": "uuid",
+      "x-rust-type": {
+        "crate": "newtype-uuid",
+        "parameters": [
+          {
+            "$ref": "#/definitions/UserKind"
+          }
+        ],
+        "path": "newtype_uuid::TypedUuid",
+        "version": "1"
+      }
+    },
+    "UserKind": {
+      "enum": [],
+      "x-rust-type": {
+        "crate": "e2e-kinds",
+        "path": "e2e_kinds::UserKind",
+        "version": "*"
+      }
+    }
+  }
+}

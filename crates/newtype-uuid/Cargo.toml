@@ -5,12 +5,15 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 description = "Newtype wrapper around UUIDs"
-documentation.workspace = true
+documentation = "https://docs.rs/newtype-uuid"
 readme = "README.md"
 keywords = ["uuid", "unique", "guid", "newtype"]
 categories = ["data-structures", "no-std"]
 rust-version.workspace = true
 exclude = [".cargo/**/*", ".github/**/*", "scripts/**/*"]
+
+[lints]
+workspace = true
 
 [package.metadata.docs.rs]
 all-features = true
@@ -19,8 +22,12 @@ rustdoc-args = ["--cfg=doc_cfg"]
 [dependencies]
 proptest = { workspace = true, optional = true }
 serde = { workspace = true, features = ["derive"], optional = true }
+serde_json = { workspace = true, optional = true }
 schemars = { workspace = true, features = ["uuid1"], optional = true }
 uuid.workspace = true
+
+[dev-dependencies]
+newtype-uuid-macros.workspace = true
 
 [features]
 default = ["uuid/default", "std"]
@@ -28,7 +35,7 @@ std = ["alloc", "uuid/std"]
 alloc = []
 v4 = ["uuid/v4"]
 serde = ["dep:serde", "uuid/serde"]
-schemars08 = ["dep:schemars", "std"]
+schemars08 = ["dep:schemars", "dep:serde_json", "std"]
 proptest1 = ["dep:proptest"]
 
 [package.metadata.cargo-sync-rdme.badge.badges]
