@@ -1,0 +1,1 @@
+searchState.loadedDescShard("expectorate", 0, "This library is for comparing multi-line output to data …\nCompare the contents of the file to the string provided")
