@@ -21,7 +21,7 @@ proptest = { version = "1.7.0", features = ["std"], default-features = false }
 schemars = "0.8.17"
 serde = "1"
 serde_json = "1.0.140"
-syn = "2.0.103"
+syn = "2.0.104"
 test-strategy = "0.4.1"
 typify = "0.4.2"
 uuid = { version = "1.17.0", default-features = false }
