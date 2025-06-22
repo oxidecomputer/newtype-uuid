@@ -14,7 +14,7 @@ rust-version = "1.67"
 [workspace.dependencies]
 expectorate = "1.2.0"
 newtype-uuid = { path = "crates/newtype-uuid" }
-prettyplease = "0.2.34"
+prettyplease = "0.2.35"
 # Ideally we'd let you use no-std proptest, but proptest requires either the std
 # or the no_std option to be set. It won't compile without one of those two set.
 proptest = { version = "1.7.0", features = ["std"], default-features = false }
