@@ -76,10 +76,13 @@ fn test_schemars_macro_integration() {
     let mut generator = schemars::r#gen::SchemaGenerator::default();
     let schema = TestKind::json_schema(&mut generator);
 
-    // Verify it's an empty enum.
+    // Verify it's set to "not: true".
     let expected_schema = schemars::schema::Schema::Object(schemars::schema::SchemaObject {
         instance_type: None,
-        enum_values: Some(Vec::new()),
+        subschemas: Some(Box::new(schemars::schema::SubschemaValidation {
+            not: Some(Box::new(schemars::schema::Schema::Bool(true))),
+            ..Default::default()
+        })),
         extensions: {
             let mut extensions = std::collections::BTreeMap::new();
             extensions.insert(

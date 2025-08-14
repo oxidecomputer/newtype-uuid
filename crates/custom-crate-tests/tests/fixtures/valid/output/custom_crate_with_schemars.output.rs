@@ -23,7 +23,12 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for AccountKind {
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
-            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
+            subschemas: ::std::option::Option::Some(
+                Box::new(SubschemaValidation {
+                    not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
+                    ..::std::default::Default::default()
+                }),
+            ),
             ..::std::default::Default::default()
         };
         let mut extensions = ::my_custom_uuid::macro_support::schemars08::Map::new();
@@ -63,7 +68,12 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for TransactionKind
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
-            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
+            subschemas: ::std::option::Option::Some(
+                Box::new(SubschemaValidation {
+                    not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
+                    ..::std::default::Default::default()
+                }),
+            ),
             ..::std::default::Default::default()
         };
         let mut extensions = ::my_custom_uuid::macro_support::schemars08::Map::new();
@@ -103,7 +113,12 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for ApiKeyKind {
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
-            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
+            subschemas: ::std::option::Option::Some(
+                Box::new(SubschemaValidation {
+                    not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
+                    ..::std::default::Default::default()
+                }),
+            ),
             ..::std::default::Default::default()
         };
         let mut extensions = ::my_custom_uuid::macro_support::schemars08::Map::new();

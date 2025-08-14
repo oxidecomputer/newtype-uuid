@@ -22,7 +22,12 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for UserKind {
         use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
-            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
+            subschemas: ::std::option::Option::Some(
+                Box::new(SubschemaValidation {
+                    not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
+                    ..::std::default::Default::default()
+                }),
+            ),
             ..::std::default::Default::default()
         };
         let mut extensions = ::newtype_uuid::macro_support::schemars08::Map::new();
@@ -61,7 +66,12 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for OrganizationKind 
         use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
-            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
+            subschemas: ::std::option::Option::Some(
+                Box::new(SubschemaValidation {
+                    not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
+                    ..::std::default::Default::default()
+                }),
+            ),
             ..::std::default::Default::default()
         };
         let mut extensions = ::newtype_uuid::macro_support::schemars08::Map::new();
@@ -100,7 +110,12 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for ProjectKind {
         use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
             instance_type: ::std::option::Option::None,
-            enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
+            subschemas: ::std::option::Option::Some(
+                Box::new(SubschemaValidation {
+                    not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
+                    ..::std::default::Default::default()
+                }),
+            ),
             ..::std::default::Default::default()
         };
         let mut extensions = ::newtype_uuid::macro_support::schemars08::Map::new();

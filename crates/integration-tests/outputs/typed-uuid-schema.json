@@ -12,7 +12,7 @@
   },
   "definitions": {
     "MyKind": {
-      "enum": [],
+      "not": true,
       "x-rust-type": {
         "crate": "my-crate",
         "path": "my_crate::types::MyKind",

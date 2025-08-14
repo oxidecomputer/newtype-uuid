@@ -406,7 +406,10 @@ fn generate_schemars_impl(
 
                 let mut schema = SchemaObject {
                     instance_type: ::std::option::Option::None,
-                    enum_values: ::std::option::Option::Some(::std::vec::Vec::new()),
+                    subschemas: ::std::option::Option::Some(Box::new(SubschemaValidation {
+                        not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
+                        ..::std::default::Default::default()
+                    })),
                     ..::std::default::Default::default()
                 };
 
