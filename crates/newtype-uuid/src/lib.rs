@@ -424,7 +424,7 @@ impl<T: TypedUuidKind> Eq for TypedUuid<T> {}
 impl<T: TypedUuidKind> PartialOrd for TypedUuid<T> {
     #[inline]
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        Some(self.uuid.cmp(&other.uuid))
+        Some(self.cmp(&other))
     }
 }
 

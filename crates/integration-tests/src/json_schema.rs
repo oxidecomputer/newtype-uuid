@@ -73,8 +73,8 @@ fn test_schemars_macro_integration() {
     assert_eq!(AnotherKind::schema_name(), "AnotherKind");
 
     // Test that we can generate schemas.
-    let mut gen = schemars::gen::SchemaGenerator::default();
-    let schema = TestKind::json_schema(&mut gen);
+    let mut generator = schemars::r#gen::SchemaGenerator::default();
+    let schema = TestKind::json_schema(&mut generator);
 
     // Verify it's an empty enum.
     let expected_schema = schemars::schema::Schema::Object(schemars::schema::SchemaObject {
