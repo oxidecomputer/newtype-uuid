@@ -9,6 +9,7 @@ impl ::my_custom_uuid::TypedUuidKind for UserKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type UserUuid = ::my_custom_uuid::TypedUuid<UserKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum OrganizationKind {}
@@ -21,6 +22,7 @@ impl ::my_custom_uuid::TypedUuidKind for OrganizationKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type OrganizationUuid = ::my_custom_uuid::TypedUuid<OrganizationKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ProductKind {}
@@ -33,4 +35,5 @@ impl ::my_custom_uuid::TypedUuidKind for ProductKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type ProductUuid = ::my_custom_uuid::TypedUuid<ProductKind>;

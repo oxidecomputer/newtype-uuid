@@ -9,6 +9,7 @@ impl ::newtype_uuid::TypedUuidKind for HTTPClientKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type HTTPClientUuid = ::newtype_uuid::TypedUuid<HTTPClientKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum XMLParserKind {}
@@ -21,6 +22,7 @@ impl ::newtype_uuid::TypedUuidKind for XMLParserKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type XMLParserUuid = ::newtype_uuid::TypedUuid<XMLParserKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum APIKeyKind {}
@@ -33,6 +35,7 @@ impl ::newtype_uuid::TypedUuidKind for APIKeyKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type APIKeyUuid = ::newtype_uuid::TypedUuid<APIKeyKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum IOHandlerKind {}
@@ -45,6 +48,7 @@ impl ::newtype_uuid::TypedUuidKind for IOHandlerKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type IOHandlerUuid = ::newtype_uuid::TypedUuid<IOHandlerKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum UserAccountKind {}
@@ -57,6 +61,7 @@ impl ::newtype_uuid::TypedUuidKind for UserAccountKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type UserAccountUuid = ::newtype_uuid::TypedUuid<UserAccountKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ProjectTaskKind {}
@@ -69,4 +74,5 @@ impl ::newtype_uuid::TypedUuidKind for ProjectTaskKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type ProjectTaskUuid = ::newtype_uuid::TypedUuid<ProjectTaskKind>;

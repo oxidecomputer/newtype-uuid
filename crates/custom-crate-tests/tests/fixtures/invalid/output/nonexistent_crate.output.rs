@@ -9,4 +9,5 @@ impl ::nonexistent_crate::TypedUuidKind for UserKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type UserUuid = ::nonexistent_crate::TypedUuid<UserKind>;

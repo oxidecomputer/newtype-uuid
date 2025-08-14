@@ -35,6 +35,7 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for UserKind {
         Schema::Object(schema)
     }
 }
+#[allow(unused)]
 pub type UserUuid = ::newtype_uuid::TypedUuid<UserKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum OrganizationKind {}
@@ -73,6 +74,7 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for OrganizationKind 
         Schema::Object(schema)
     }
 }
+#[allow(unused)]
 pub type OrganizationUuid = ::newtype_uuid::TypedUuid<OrganizationKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ProjectKind {}
@@ -111,4 +113,5 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for ProjectKind {
         Schema::Object(schema)
     }
 }
+#[allow(unused)]
 pub type ProjectUuid = ::newtype_uuid::TypedUuid<ProjectKind>;

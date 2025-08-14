@@ -1,7 +1,7 @@
 use super::error_store::{ErrorSink, ErrorStore};
 use heck::ToSnakeCase;
 use proc_macro2::{Delimiter, Span, TokenStream, TokenTree};
-use quote::{format_ident, quote, ToTokens};
+use quote::{format_ident, quote, quote_spanned, ToTokens};
 use serde::Deserialize;
 use serde_tokenstream::{
     from_tokenstream, from_tokenstream_spanned, OrderedMap, ParseWrapper, TokenStreamWrapper,
@@ -79,8 +79,20 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
         let alias_ident = config
             .alias
             .unwrap_or_else(|| format_ident!("{}Uuid", root_ident));
+
         let attrs = config.attrs.as_ref().unwrap_or(&params.settings.attrs);
         let attrs = attrs.iter().map(|attr| &**attr);
+
+        // Use explicit quote_spanned to ensure attribution to the root_ident.
+        let kind_name_def = quote_spanned! {root_ident.span()=>
+            #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+            #(#attrs)*
+            pub enum #kind_name_ident {}
+        };
+        let alias_def = quote_spanned! {root_ident.span()=>
+            #[allow(unused)]
+            pub type #alias_ident = ::#newtype_uuid_crate::TypedUuid<#kind_name_ident>;
+        };
 
         // Generate JsonSchema implementation if schemars08 settings are provided
         let schemars_impl = if let Some(schemars_settings) = &params.settings.schemars08 {
@@ -95,12 +107,9 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
         };
 
         let expanded = quote! {
-            #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-            #(#attrs)*
-            pub enum #kind_name_ident {}
+            #kind_name_def
 
             impl ::#newtype_uuid_crate::TypedUuidKind for #kind_name_ident {
-
                 #[inline]
                 fn tag() -> ::#newtype_uuid_crate::TypedUuidTag {
                     // `const` ensures that tags are validated at compile-time.
@@ -111,7 +120,7 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
 
             #schemars_impl
 
-            pub type #alias_ident = ::#newtype_uuid_crate::TypedUuid<#kind_name_ident>;
+            #alias_def
         };
 
         out.extend(expanded);

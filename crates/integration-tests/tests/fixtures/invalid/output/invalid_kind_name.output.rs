@@ -9,6 +9,7 @@ impl ::newtype_uuid::TypedUuidKind for UserKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type UserUuid = ::newtype_uuid::TypedUuid<UserKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum CustomKind {}
@@ -21,4 +22,5 @@ impl ::newtype_uuid::TypedUuidKind for CustomKind {
         TAG
     }
 }
+#[allow(unused)]
 pub type CustomUuid = ::newtype_uuid::TypedUuid<CustomKind>;

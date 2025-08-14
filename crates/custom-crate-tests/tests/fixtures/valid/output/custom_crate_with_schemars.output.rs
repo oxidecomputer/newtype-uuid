@@ -36,6 +36,7 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for AccountKind {
         Schema::Object(schema)
     }
 }
+#[allow(unused)]
 pub type AccountUuid = ::my_custom_uuid::TypedUuid<AccountKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum TransactionKind {}
@@ -75,6 +76,7 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for TransactionKind
         Schema::Object(schema)
     }
 }
+#[allow(unused)]
 pub type TransactionUuid = ::my_custom_uuid::TypedUuid<TransactionKind>;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ApiKeyKind {}
@@ -114,4 +116,5 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for ApiKeyKind {
         Schema::Object(schema)
     }
 }
+#[allow(unused)]
 pub type ApiKeyUuid = ::my_custom_uuid::TypedUuid<ApiKeyKind>;
