@@ -83,17 +83,6 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
         let attrs = config.attrs.as_ref().unwrap_or(&params.settings.attrs);
         let attrs = attrs.iter().map(|attr| &**attr);
 
-        // Use explicit quote_spanned to ensure attribution to the root_ident.
-        let kind_name_def = quote_spanned! {root_ident.span()=>
-            #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-            #(#attrs)*
-            pub enum #kind_name_ident {}
-        };
-        let alias_def = quote_spanned! {root_ident.span()=>
-            #[allow(unused)]
-            pub type #alias_ident = ::#newtype_uuid_crate::TypedUuid<#kind_name_ident>;
-        };
-
         // Generate JsonSchema implementation if schemars08 settings are provided
         let schemars_impl = if let Some(schemars_settings) = &params.settings.schemars08 {
             generate_schemars_impl(
@@ -106,8 +95,10 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
             quote! {}
         };
 
-        let expanded = quote! {
-            #kind_name_def
+        let expanded = quote_spanned! {root_ident.span() =>
+            #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+            #(#attrs)*
+            pub enum #kind_name_ident {}
 
             impl ::#newtype_uuid_crate::TypedUuidKind for #kind_name_ident {
                 #[inline]
@@ -120,7 +111,8 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
 
             #schemars_impl
 
-            #alias_def
+            #[allow(unused)]
+            pub type #alias_ident = ::#newtype_uuid_crate::TypedUuid<#kind_name_ident>;
         };
 
         out.extend(expanded);
