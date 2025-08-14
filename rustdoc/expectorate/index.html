@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="This library is for comparing multi-line output to data stored in version controlled files. It makes it easy to update the contents when should be updated to match the new results."><title>expectorate - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-84e720fa.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="expectorate" data-themes="" data-resource-suffix="" data-rustdoc-version="1.89.0 (29483883e 2025-08-04)" data-channel="1.89.0" data-search-js="search-92309212.js" data-settings-js="settings-5514c975.js" ><script src="../static.files/storage-4e99c027.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-fd3af306.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-32bb7600.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../expectorate/index.html">expectorate</a><span class="version">1.2.0</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#predicates-feature" title="`predicates` feature"><code>predicates</code> feature</a></li><li><a href="#predicates-feature-predicates" title="Predicates (feature: predicates)">Predicates (feature: predicates)</a></li></ul><h3><a href="#functions">Crate Items</a></h3><ul class="block"><li><a href="#functions" title="Functions">Functions</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>expectorate</span><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/expectorate/lib.rs.html#3-200">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>This library is for comparing multi-line output to data stored in version
+controlled files. It makes it easy to update the contents when should be
+updated to match the new results.</p>
+<p>Use it like this:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>actual: <span class="kw-2">&amp;</span>str = compose();
+expectorate::assert_contents(<span class="string">"lyrics.txt"</span>, actual);</code></pre></div>
+<p>If the output doesn’t match, the program will panic! and emit the
+color-coded diffs.</p>
+<p>To accept the changes from <code>compose()</code>, run with <code>EXPECTORATE=overwrite</code>.
+Assuming <code>lyrics.txt</code> is checked in, <code>git diff</code> will show you something
+like this:</p>
+<div class="example-wrap"><pre class="language-diff"><code>diff --git a/examples/lyrics.txt b/examples/lyrics.txt
+index e4104c1..ea6beaf 100644
+--- a/examples/lyrics.txt
++++ b/examples/lyrics.txt
+@@ -1,5 +1,2 @@
+-No one hits like Gaston
+-Matches wits like Gaston
+-In a spitting match nobody spits like Gaston
++In a testing match nobody tests like Gaston
+I&#39;m especially good at expectorating
+-Ten points for Gaston</code></pre></div><h2 id="predicates-feature"><a class="doc-anchor" href="#predicates-feature">§</a><code>predicates</code> feature</h2>
+<p>Enable the <code>predicates</code> feature for compatibility with <code>predicates</code> via
+[<code>eq_file</code>] and [<code>eq_file_or_panic</code>].</p>
+<h2 id="predicates-feature-predicates"><a class="doc-anchor" href="#predicates-feature-predicates">§</a>Predicates (feature: predicates)</h2>
+<p>Expectorate can be used in places where you might use the <a href="https://crates.io/crates/predicates"><code>predicates</code>
+crate</a>. If you’re using
+<code>predicates::path::eq_file</code> you can instead use <code>expectorate::eq_file</code> or
+<code>expectorate::eq_file_or_panic</code>. Populate or update the specified file as
+above.</p>
+</div></details><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.assert_contents.html" title="fn expectorate::assert_contents">assert_<wbr>contents</a></dt><dd>Compare the contents of the file to the string provided</dd></dl></section></div></main></body></html>
