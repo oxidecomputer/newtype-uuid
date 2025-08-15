@@ -107,6 +107,10 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
                     const TAG: ::#newtype_uuid_crate::TypedUuidTag = ::#newtype_uuid_crate::TypedUuidTag::new(#tag_name);
                     TAG
                 }
+
+                fn alias() -> Option<&'static str> {
+                    Some(stringify!(#alias_ident))
+                }
             }
 
             #schemars_impl

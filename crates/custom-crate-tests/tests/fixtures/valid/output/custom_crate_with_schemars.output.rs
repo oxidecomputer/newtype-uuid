@@ -8,6 +8,9 @@ impl ::my_custom_uuid::TypedUuidKind for AccountKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(AccountUuid))
+    }
 }
 #[cfg(feature = "internal-schemars08-tests")]
 impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for AccountKind {
@@ -53,6 +56,9 @@ impl ::my_custom_uuid::TypedUuidKind for TransactionKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(TransactionUuid))
+    }
 }
 #[cfg(feature = "internal-schemars08-tests")]
 impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for TransactionKind {
@@ -97,6 +103,9 @@ impl ::my_custom_uuid::TypedUuidKind for ApiKeyKind {
             "api_key",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(ApiKeyUuid))
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]

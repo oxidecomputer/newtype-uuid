@@ -8,6 +8,9 @@ impl ::nonexistent_crate::TypedUuidKind for UserKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(UserUuid))
+    }
 }
 #[allow(unused)]
 pub type UserUuid = ::nonexistent_crate::TypedUuid<UserKind>;

@@ -8,6 +8,9 @@ impl ::newtype_uuid::TypedUuidKind for HTTPClientKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(HTTPClientUuid))
+    }
 }
 #[allow(unused)]
 pub type HTTPClientUuid = ::newtype_uuid::TypedUuid<HTTPClientKind>;
@@ -20,6 +23,9 @@ impl ::newtype_uuid::TypedUuidKind for XMLParserKind {
             "xml_parser",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(XMLParserUuid))
     }
 }
 #[allow(unused)]
@@ -34,6 +40,9 @@ impl ::newtype_uuid::TypedUuidKind for APIKeyKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(APIKeyUuid))
+    }
 }
 #[allow(unused)]
 pub type APIKeyUuid = ::newtype_uuid::TypedUuid<APIKeyKind>;
@@ -46,6 +55,9 @@ impl ::newtype_uuid::TypedUuidKind for IOHandlerKind {
             "io_handler",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(IOHandlerUuid))
     }
 }
 #[allow(unused)]
@@ -60,6 +72,9 @@ impl ::newtype_uuid::TypedUuidKind for UserAccountKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(UserAccountUuid))
+    }
 }
 #[allow(unused)]
 pub type UserAccountUuid = ::newtype_uuid::TypedUuid<UserAccountKind>;
@@ -72,6 +87,9 @@ impl ::newtype_uuid::TypedUuidKind for ProjectTaskKind {
             "project_task",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(ProjectTaskUuid))
     }
 }
 #[allow(unused)]

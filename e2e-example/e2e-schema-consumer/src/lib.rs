@@ -17,7 +17,11 @@ import_types!(
         // `crates` is a map from crate name to version. The version can be a
         // specfic version or `*` to match any version. As long as this version
         // matches what's in the schema, the types will be compatible.
-        "newtype-uuid" = "*",
+        //
+        // Because of the way automatic replacement works, the only crate that
+        // needs to be specified is `e2e-kinds`. Each type will automatically be
+        // replaced with the corresponding type *alias* from `e2e-kinds`
+        // (typically `SomethingUuid`).
         "e2e-kinds" = "*",
     }
 );

@@ -8,6 +8,9 @@ impl ::newtype_uuid::TypedUuidKind for UserKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(UserUuid))
+    }
 }
 #[cfg(feature = "internal-schemars08-tests")]
 impl ::newtype_uuid::macro_support::schemars08::JsonSchema for UserKind {
@@ -53,6 +56,9 @@ impl ::newtype_uuid::TypedUuidKind for OrganizationKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(OrganizationUuid))
+    }
 }
 #[cfg(feature = "internal-schemars08-tests")]
 impl ::newtype_uuid::macro_support::schemars08::JsonSchema for OrganizationKind {
@@ -97,6 +103,9 @@ impl ::newtype_uuid::TypedUuidKind for ProjectKind {
             "project",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(ProjectUuid))
     }
 }
 #[cfg(feature = "internal-schemars08-tests")]

@@ -8,6 +8,9 @@ impl ::my_custom_uuid::TypedUuidKind for UserKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(UserUuid))
+    }
 }
 #[allow(unused)]
 pub type UserUuid = ::my_custom_uuid::TypedUuid<UserKind>;
@@ -21,6 +24,9 @@ impl ::my_custom_uuid::TypedUuidKind for OrganizationKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(OrganizationUuid))
+    }
 }
 #[allow(unused)]
 pub type OrganizationUuid = ::my_custom_uuid::TypedUuid<OrganizationKind>;
@@ -33,6 +39,9 @@ impl ::my_custom_uuid::TypedUuidKind for ProductKind {
             "product",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(ProductUuid))
     }
 }
 #[allow(unused)]

@@ -8,6 +8,9 @@ impl ::newtype_uuid::TypedUuidKind for UserKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(UserUuid))
+    }
 }
 #[allow(unused)]
 pub type UserUuid = ::newtype_uuid::TypedUuid<UserKind>;
@@ -20,6 +23,9 @@ impl ::newtype_uuid::TypedUuidKind for CustomKind {
             "custom",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(CustomUuid))
     }
 }
 #[allow(unused)]

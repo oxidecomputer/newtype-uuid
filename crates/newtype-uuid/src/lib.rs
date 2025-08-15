@@ -502,8 +502,8 @@ impl<T: TypedUuidKind> From<TypedUuid<T>> for alloc::vec::Vec<u8> {
 mod schemars08_imp {
     use super::*;
     use schemars::{
-        schema::{InstanceType, SchemaObject},
-        JsonSchema,
+        schema::{InstanceType, Schema, SchemaObject},
+        schema_for, JsonSchema, SchemaGenerator,
     };
 
     const CRATE_NAME: &str = "newtype-uuid";
@@ -522,7 +522,12 @@ mod schemars08_imp {
     {
         #[inline]
         fn schema_name() -> String {
-            format!("TypedUuidFor{}", T::schema_name())
+            // Use the alias if available, otherwise generate our own schema name.
+            if let Some(alias) = T::alias() {
+                alias.to_owned()
+            } else {
+                format!("TypedUuidFor{}", T::schema_name())
+            }
         }
 
         #[inline]
@@ -531,7 +536,18 @@ mod schemars08_imp {
         }
 
         #[inline]
-        fn json_schema(generator: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
+        fn json_schema(generator: &mut SchemaGenerator) -> Schema {
+            // Look at the schema for `T`. If it has `x-rust-type`, *and* if an
+            // alias is available, we can lift up the `x-rust-type` into our own schema.
+            //
+            // We use a new schema generator for `T` to avoid T's schema being
+            // added to the list of schemas in `generator` in case the lifting
+            // is successful.
+            let t_schema = schema_for!(T);
+            if let Some(schema) = lift_json_schema(&t_schema.schema, T::alias()) {
+                return schema.into();
+            }
+
             SchemaObject {
                 instance_type: Some(InstanceType::String.into()),
                 format: Some("uuid".to_string()),
@@ -550,6 +566,50 @@ mod schemars08_imp {
             }
             .into()
         }
+    }
+
+    fn lift_json_schema(schema: &SchemaObject, alias: Option<&str>) -> Option<SchemaObject> {
+        let Some(alias) = alias else {
+            return None;
+        };
+
+        let Some(v) = schema.extensions.get("x-rust-type") else {
+            return None;
+        };
+
+        // The crate, version and path must all be present.
+        let Some(crate_) = v.get("crate") else {
+            return None;
+        };
+        let Some(version) = v.get("version") else {
+            return None;
+        };
+        let Some(path) = v.get("path").and_then(|p| p.as_str()) else {
+            return None;
+        };
+        let Some((module_path, _)) = path.rsplit_once("::") else {
+            return None;
+        };
+
+        // The preconditions are all met. We can lift the schema by appending
+        // the alias to the module path.
+        let alias_path = format!("{module_path}::{alias}");
+
+        Some(SchemaObject {
+            instance_type: Some(InstanceType::String.into()),
+            format: Some("uuid".to_string()),
+            extensions: [(
+                "x-rust-type".to_string(),
+                serde_json::json!({
+                    "crate": crate_,
+                    "version": version,
+                    "path": alias_path,
+                }),
+            )]
+            .into_iter()
+            .collect(),
+            ..Default::default()
+        })
     }
 }
 
@@ -640,6 +700,15 @@ pub trait TypedUuidKind: Send + Sync + 'static {
     ///
     /// The tag is required to be a static string.
     fn tag() -> TypedUuidTag;
+
+    /// Returns an alias for `TypedUuid<Self>`, if one is defined.
+    ///
+    /// The alias must be defined in the same module as `Self`. This alias is
+    /// used by schemars integration to refer to `TypedUuid<Self>` if available.
+    #[inline]
+    fn alias() -> Option<&'static str> {
+        None
+    }
 }
 
 /// Describes what kind of [`TypedUuid`] something is.

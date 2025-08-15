@@ -8,6 +8,9 @@ impl ::newtype_uuid::TypedUuidKind for UserKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(UserUuid))
+    }
 }
 impl ::newtype_uuid::macro_support::schemars08::JsonSchema for UserKind {
     fn schema_name() -> ::std::string::String {
@@ -52,6 +55,9 @@ impl ::newtype_uuid::TypedUuidKind for OrganizationKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(OrganizationUuid))
+    }
 }
 impl ::newtype_uuid::macro_support::schemars08::JsonSchema for OrganizationKind {
     fn schema_name() -> ::std::string::String {
@@ -95,6 +101,9 @@ impl ::newtype_uuid::TypedUuidKind for ProjectKind {
             "project",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(ProjectUuid))
     }
 }
 impl ::newtype_uuid::macro_support::schemars08::JsonSchema for ProjectKind {

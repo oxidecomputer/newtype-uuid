@@ -8,6 +8,9 @@ impl ::newtype_uuid::TypedUuidKind for UserKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(UserUuid))
+    }
 }
 #[allow(unused)]
 pub type UserUuid = ::newtype_uuid::TypedUuid<UserKind>;
@@ -21,6 +24,9 @@ impl ::newtype_uuid::TypedUuidKind for OrganizationKind {
         );
         TAG
     }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(OrganizationUuid))
+    }
 }
 #[allow(unused)]
 pub type OrganizationUuid = ::newtype_uuid::TypedUuid<OrganizationKind>;
@@ -33,6 +39,9 @@ impl ::newtype_uuid::TypedUuidKind for ProjectKind {
             "project",
         );
         TAG
+    }
+    fn alias() -> Option<&'static str> {
+        Some(stringify!(ProjectUuid))
     }
 }
 #[allow(unused)]

@@ -9,54 +9,28 @@
   ],
   "properties": {
     "organization_id": {
-      "$ref": "#/definitions/TypedUuidForOrganizationKind"
+      "$ref": "#/definitions/OrganizationUuid"
     },
     "user_id": {
-      "$ref": "#/definitions/TypedUuidForUserKind"
+      "$ref": "#/definitions/UserUuid"
     }
   },
   "definitions": {
-    "OrganizationKind": {
-      "not": true,
+    "OrganizationUuid": {
+      "type": "string",
+      "format": "uuid",
       "x-rust-type": {
         "crate": "e2e-kinds",
-        "path": "e2e_kinds::OrganizationKind",
+        "path": "e2e_kinds::OrganizationUuid",
         "version": "*"
       }
     },
-    "TypedUuidForOrganizationKind": {
+    "UserUuid": {
       "type": "string",
       "format": "uuid",
-      "x-rust-type": {
-        "crate": "newtype-uuid",
-        "parameters": [
-          {
-            "$ref": "#/definitions/OrganizationKind"
-          }
-        ],
-        "path": "newtype_uuid::TypedUuid",
-        "version": "1"
-      }
-    },
-    "TypedUuidForUserKind": {
-      "type": "string",
-      "format": "uuid",
-      "x-rust-type": {
-        "crate": "newtype-uuid",
-        "parameters": [
-          {
-            "$ref": "#/definitions/UserKind"
-          }
-        ],
-        "path": "newtype_uuid::TypedUuid",
-        "version": "1"
-      }
-    },
-    "UserKind": {
-      "not": true,
       "x-rust-type": {
         "crate": "e2e-kinds",
-        "path": "e2e_kinds::UserKind",
+        "path": "e2e_kinds::UserUuid",
         "version": "*"
       }
     }
