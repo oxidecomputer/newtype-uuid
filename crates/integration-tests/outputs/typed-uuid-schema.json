@@ -7,30 +7,17 @@
   ],
   "properties": {
     "id": {
-      "$ref": "#/definitions/TypedUuidForMyKind"
+      "$ref": "#/definitions/MyUuid"
     }
   },
   "definitions": {
-    "MyKind": {
-      "not": true,
-      "x-rust-type": {
-        "crate": "my-crate",
-        "path": "my_crate::types::MyKind",
-        "version": "1.0.0"
-      }
-    },
-    "TypedUuidForMyKind": {
+    "MyUuid": {
       "type": "string",
       "format": "uuid",
       "x-rust-type": {
-        "crate": "newtype-uuid",
-        "parameters": [
-          {
-            "$ref": "#/definitions/MyKind"
-          }
-        ],
-        "path": "newtype_uuid::TypedUuid",
-        "version": "1"
+        "crate": "my-crate",
+        "path": "my_crate::types::MyUuid",
+        "version": "1.0.0"
       }
     }
   }

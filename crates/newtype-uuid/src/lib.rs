@@ -568,6 +568,9 @@ mod schemars08_imp {
         }
     }
 
+    // ? on Option is too easy to make mistakes with, so we use `let Some(..) =
+    // .. else` instead.
+    #[expect(clippy::question_mark)]
     fn lift_json_schema(schema: &SchemaObject, alias: Option<&str>) -> Option<SchemaObject> {
         let Some(alias) = alias else {
             return None;
