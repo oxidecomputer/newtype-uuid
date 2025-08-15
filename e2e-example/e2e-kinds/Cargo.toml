@@ -1,0 +1,15 @@
+[package]
+name = "e2e-kinds"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+newtype-uuid = { workspace = true, features = ["schemars08", "serde", "v4"] }
+newtype-uuid-macros.workspace = true
+serde = { workspace = true, features = ["derive"] }
+
+[features]
+schemars08 = ["newtype-uuid/schemars08"]

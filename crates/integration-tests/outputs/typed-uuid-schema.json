@@ -7,13 +7,18 @@
   ],
   "properties": {
     "id": {
-      "$ref": "#/definitions/TypedUuidForMyKind"
+      "$ref": "#/definitions/MyUuid"
     }
   },
   "definitions": {
-    "TypedUuidForMyKind": {
+    "MyUuid": {
       "type": "string",
-      "format": "uuid"
+      "format": "uuid",
+      "x-rust-type": {
+        "crate": "my-crate",
+        "path": "my_crate::types::MyUuid",
+        "version": "1.0.0"
+      }
     }
   }
 }
