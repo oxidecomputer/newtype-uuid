@@ -41,7 +41,7 @@
 //! ```
 //!
 //! If you have a large number of UUID kinds, consider using
-//! [`newtype-uuid-macros`] which comes with several convenience features:
+//! [`newtype-uuid-macros`] which comes with several convenience features.
 //!
 //! ```
 //! use newtype_uuid_macros::impl_typed_uuid_kinds;
@@ -151,6 +151,7 @@ extern crate alloc;
 /// This module re-exports types needed for [`newtype-uuid-macros`] to work.
 ///
 /// [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
+#[doc(hidden)]
 pub mod macro_support {
     #[cfg(feature = "schemars08")]
     pub use schemars as schemars08;
@@ -664,37 +665,25 @@ mod proptest1_imp {
 /// If the `schemars08` feature is enabled, and [`JsonSchema`] is implemented for a kind `T`, then
 /// [`TypedUuid`]`<T>` will also implement [`JsonSchema`].
 ///
-/// # Notes
-///
-/// If you have a large number of UUID kinds, it can be repetitive to implement this trait for each
-/// kind. Here's a template for a macro that can help:
+/// If you have a large number of UUID kinds, consider using
+/// [`newtype-uuid-macros`] which comes with several convenience features.
 ///
 /// ```
-/// use newtype_uuid::{TypedUuidKind, TypedUuidTag};
-///
-/// macro_rules! impl_typed_uuid_kind {
-///     ($($kind:ident => $tag:literal),* $(,)?) => {
-///         $(
-///             pub enum $kind {}
-///
-///             impl TypedUuidKind for $kind {
-///                 #[inline]
-///                 fn tag() -> TypedUuidTag {
-///                     const TAG: TypedUuidTag = TypedUuidTag::new($tag);
-///                     TAG
-///                 }
-///             }
-///         )*
-///     };
-/// }
+/// use newtype_uuid_macros::impl_typed_uuid_kinds;
 ///
 /// // Invoke this macro with:
-/// impl_typed_uuid_kind! {
-///     Kind1 => "kind1",
-///     Kind2 => "kind2",
+/// impl_typed_uuid_kinds! {
+///     kinds = {
+///         User = {},
+///         Project = {},
+///         // ...
+///     },
 /// }
 /// ```
 ///
+/// See [`newtype-uuid-macros`] for more information.
+///
+/// [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
 /// [`JsonSchema`]: schemars::JsonSchema
 pub trait TypedUuidKind: Send + Sync + 'static {
     /// Returns the corresponding tag for this kind.
@@ -704,10 +693,16 @@ pub trait TypedUuidKind: Send + Sync + 'static {
     /// The tag is required to be a static string.
     fn tag() -> TypedUuidTag;
 
-    /// Returns an alias for `TypedUuid<Self>`, if one is defined.
+    /// Returns a string that corresponds to a type alias for `TypedUuid<Self>`,
+    /// if one is defined.
     ///
-    /// The alias must be defined in the same module as `Self`. This alias is
-    /// used by schemars integration to refer to `TypedUuid<Self>` if available.
+    /// The type alias must be defined in the same module as `Self`. This
+    /// function is used by the schemars integration to refer to embed a
+    /// reference to that alias in the schema, if available.
+    ///
+    /// This is usually defined by the [`newtype-uuid-macros`] crate.
+    ///
+    /// [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
     #[inline]
     fn alias() -> Option<&'static str> {
         None

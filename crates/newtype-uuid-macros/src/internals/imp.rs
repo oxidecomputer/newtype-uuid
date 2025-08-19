@@ -409,7 +409,6 @@ fn generate_schemars_impl(
                 use ::#newtype_uuid_crate::macro_support::schemars08::schema::*;
 
                 let mut schema = SchemaObject {
-                    instance_type: ::std::option::Option::None,
                     subschemas: ::std::option::Option::Some(Box::new(SubschemaValidation {
                         not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
                         ..::std::default::Default::default()

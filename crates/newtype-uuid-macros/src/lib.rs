@@ -56,7 +56,7 @@ use quote::ToTokens;
 ///
 /// By default, for a kind `Foo`, this macro generates:
 ///
-/// * A `FooKind` type that implements `TypedUuidKind`: `pub type FooKind {}`.
+/// * A `FooKind` type that implements `TypedUuidKind`: `pub enum FooKind {}`.
 /// * A `FooUuid` type alias: `pub type FooUuid = TypedUuid<FooKind>;`.
 ///
 /// ## Examples
@@ -68,26 +68,27 @@ use quote::ToTokens;
 /// impl_typed_uuid_kinds! {
 ///     kinds = {
 ///         User = {},
-///         Organization = {},
+///         BusinessUnit = {},
 ///     },
 /// }
 ///
-/// // This generates empty UserKind and OrganizationKind enums implementing
-/// // TypedUuidKind, with the tags "user" and "organization" respectively.
+/// // This generates empty UserKind and BusinessUnitKind enums implementing
+/// // TypedUuidKind, with the tags "user" and "business_unit" respectively.
 /// // Tags are snake_case versions of type names.
 /// assert_eq!(UserKind::tag().as_str(), "user");
-/// assert_eq!(OrganizationKind::tag().as_str(), "organization");
+/// assert_eq!(BusinessUnitKind::tag().as_str(), "business_unit");
 ///
-/// // The macro also generates UserUuid and OrganizationUuid type aliases.
+/// // The macro also generates UserUuid and BusinessUnitUuid type aliases.
 /// let user_uuid = UserUuid::new_v4();
-/// let organization_uuid = OrganizationUuid::new_v4();
+/// let business_unit_uuid = BusinessUnitUuid::new_v4();
 /// ```
 ///
 /// * The generated `Kind` types always implement `Clone`, `Copy`, `Debug`,
 ///   `Eq`, and `PartialEq`.
-/// * The `Kind` types are all empty (uninhabited) enums, which means that
-///   values for these types cannot be created. (Using empty enums is the
-///   recommended approach for `newtype-uuid`).
+/// * The `Kind` types are all empty enums, also known as *marker* or
+///   *uninhabited* enums. This means that values for these types cannot be
+///   created. (Using empty enums is the recommended approach for
+///   `newtype-uuid`).
 ///
 /// # Per-kind settings
 ///
@@ -154,14 +155,15 @@ use quote::ToTokens;
 /// If the `schemars08` global setting is defined, the macro generates JSON
 /// Schema support for the `Kind` instances using [schemars 0.8].
 ///
-/// **To enable JSON Schema support, you'll need to turn on `newtype-uuid`'s
+/// **To enable JSON Schema support, you'll need to enable `newtype-uuid`'s
 /// `schemars08` feature.**
 ///
 /// Within `settings.schemars08`, the options are:
 ///
 /// - `attrs`: A list of attributes to apply to all generated `JsonSchema`
-///   implementations. This will often be something like `[#cfg(feature =
-///   "schemars-feature-name")]]`.
+///   implementations. For example, if `schemars` is an optional dependency
+///   for the crate where the macro is being invoked, you might specify something
+///   like `[#cfg(feature = "schemars")]`.
 /// - `rust_type`: If defined, adds the `x-rust-type` extension to the schema,
 ///   enabling automatic replacement with [`typify`] and other tools that
 ///   support it. *Optional, defaults to not adding the extension.*
@@ -201,7 +203,7 @@ use quote::ToTokens;
 ///             attrs = [#[cfg(feature = "schemars")]],
 ///             rust_type = {
 ///                 crate = "my-crate",
-///                 version = "*",
+///                 version = "0.1.0",
 ///                 path = "my_crate::types",
 ///             },
 ///         },
