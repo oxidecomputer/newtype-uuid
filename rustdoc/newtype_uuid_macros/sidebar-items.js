@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":["impl_typed_uuid_kinds"]};

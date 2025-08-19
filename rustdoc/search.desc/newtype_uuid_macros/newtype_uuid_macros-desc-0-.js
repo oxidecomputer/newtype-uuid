@@ -1,0 +1,1 @@
+searchState.loadedDescShard("newtype_uuid_macros", 0, "Procedural macro for <code>newtype-uuid</code>.\nA function-like procedural macro for implementing typed …")

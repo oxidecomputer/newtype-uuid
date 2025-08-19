@@ -1,0 +1,1 @@
+searchState.loadedDescShard("e2e_schema_producer", 0, "End-to-end schema producer crate.\nA simple type which uses the <code>UserUuid</code> and <code>OrganizationUuid</code> …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

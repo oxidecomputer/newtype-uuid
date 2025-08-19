@@ -1,0 +1,1 @@
+searchState.loadedDescShard("e2e_kinds", 0, "End-to-end UUID kinds definitions.\nReturns the argument unchanged.\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nCalls <code>U::from(self)</code>.")

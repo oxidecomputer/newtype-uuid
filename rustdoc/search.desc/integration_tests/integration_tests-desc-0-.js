@@ -1,0 +1,1 @@
+searchState.loadedDescShard("integration_tests", 0, "Integration tests.\nCommon utilities for snapshot testing proc macros.\nSnapshot tests for invalid inputs.\nSnapshot tests for valid inputs.")

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["OrganizationKind","UserKind"],"type":["OrganizationUuid","UserUuid"]};
