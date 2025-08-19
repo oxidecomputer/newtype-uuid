@@ -7,8 +7,8 @@ on:
       - "*"
 
 jobs:
-  create-release:
-    if: github.repository_owner == 'oxidecomputer'
+  newtype-uuid-release:
+    if: github.repository_owner == 'oxidecomputer' && startsWith(github.ref_name, 'newtype-uuid-1')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -20,7 +20,7 @@ jobs:
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-release@0.25
-      - run: just ci-cargo-release
+      - run: just ci-cargo-release newtype-uuid
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
       - uses: taiki-e/create-gh-release-action@26b80501670402f1999aff4b934e1574ef2d3705 # v1
@@ -29,5 +29,29 @@ jobs:
           title: newtype-uuid $version
           branch: main
           prefix: newtype-uuid
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  newtype-uuid-macros-release:
+    if: github.repository_owner == 'oxidecomputer' && startsWith(github.ref_name, 'newtype-uuid-macros-')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+      - uses: taiki-e/install-action@just
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-release@0.25
+      - run: just ci-cargo-release newtype-uuid-macros
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+      - uses: taiki-e/create-gh-release-action@26b80501670402f1999aff4b934e1574ef2d3705 # v1
+        with:
+          changelog: crates/newtype-uuid-macros/CHANGELOG.md
+          title: newtype-uuid-macros $version
+          branch: main
+          prefix: newtype-uuid-macros
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

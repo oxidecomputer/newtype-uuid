@@ -5,6 +5,7 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+publish = false
 
 [dependencies]
 e2e-kinds = { path = "../e2e-kinds" }
@@ -15,3 +16,6 @@ typify.workspace = true
 
 [dev-dependencies]
 expectorate.workspace = true
+
+[package.metadata.release]
+release = false

@@ -131,7 +131,7 @@
 //! * Version **1.0.x**: Rust 1.60.
 //! * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 //! * Version **1.2.x**: Rust 1.67, required by some dependency updates.
-//! * Unreleased: Rust 1.79, required by some dependency updates.
+//! * Version **1.3.x**: Rust 1.79, required by some dependency updates.
 //!
 //! # Alternatives
 //!

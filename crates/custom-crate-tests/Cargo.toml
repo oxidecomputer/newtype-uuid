@@ -25,3 +25,6 @@ internal-schemars08-tests = [
     "dep:serde_json",
     "integration-tests/internal-schemars08-tests",
 ]
+
+[package.metadata.release]
+release = false

@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.3.0] - 2025-08-19
+
+### Added
+
+- For schemars integration, automatic replacement support with [`typify`] and [`progenitor`] via the new `x-rust-type` extension.
+- The `TypedUuidKind` trait has a new optional method called `alias`, which represents a type alias. `alias` is used by schemars integration in a few ways: for the schema name of `TypedUuid<T>`, as well as for automatic replacement support.
+
+[`typify`]: https://github.com/oxidecomputer/typify
+[`progenitor`]: https://github.com/oxidecomputer/progenitor
+
+### Changed
+
+- MSRV updated to Rust 1.79.
+
 ## [1.2.4] - 2025-06-17
 
 ### Added
@@ -108,6 +122,7 @@ Documentation improvements.
 
 Initial release.
 
+[1.3.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.0
 [1.2.4]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.4
 [1.2.3]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.3
 [1.2.2]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.2

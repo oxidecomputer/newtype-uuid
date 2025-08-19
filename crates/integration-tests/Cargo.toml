@@ -45,3 +45,6 @@ internal-proptest1-tests = [
 # Snapshot tests use datatest-stable.
 name = "snapshot"
 harness = false
+
+[package.metadata.release]
+release = false

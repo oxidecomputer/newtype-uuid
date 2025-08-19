@@ -44,12 +44,12 @@ coverage:
 
 # Generate README.md files using `cargo-sync-rdme`.
 generate-readmes:
-    cargo sync-rdme --toolchain nightly --workspace --all-features
+    cargo sync-rdme --toolchain nightly-2025-06-21 --workspace --all-features
 
 # Run cargo release in CI.
-ci-cargo-release:
+ci-cargo-release package:
     # cargo-release requires a release off a branch.
     git checkout -B to-release
-    cargo release publish --publish --execute --no-confirm --workspace
+    cargo release publish --publish --execute --no-confirm --package {{package}}
     git checkout -
     git branch -D to-release

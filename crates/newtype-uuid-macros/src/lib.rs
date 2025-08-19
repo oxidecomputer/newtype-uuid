@@ -16,19 +16,19 @@
 //! impl_typed_uuid_kinds! {
 //!     kinds = {
 //!         User = {},
-//!         Organization = {},
+//!         BusinessUnit = {},
 //!     },
 //! }
 //!
-//! // This generates empty UserKind and OrganizationKind enums implementing
-//! // TypedUuidKind, with the tags "user" and "organization" respectively.
+//! // This generates empty UserKind and BusinessUnitKind enums implementing
+//! // TypedUuidKind, with the tags "user" and "business_unit" respectively.
 //! // Tags are snake_case versions of type names.
 //! assert_eq!(UserKind::tag().as_str(), "user");
-//! assert_eq!(OrganizationKind::tag().as_str(), "organization");
+//! assert_eq!(BusinessUnitKind::tag().as_str(), "business_unit");
 //!
-//! // The macro also generates UserUuid and OrganizationUuid type aliases.
+//! // The macro also generates UserUuid and BusinessUnitUuid type aliases.
 //! let user_uuid = UserUuid::new_v4();
-//! let organization_uuid = OrganizationUuid::new_v4();
+//! let business_unit_uuid = BusinessUnitUuid::new_v4();
 //! ```
 //!
 //! For more details and examples, see the documentation for
