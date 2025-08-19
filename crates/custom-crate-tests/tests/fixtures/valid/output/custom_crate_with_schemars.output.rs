@@ -25,7 +25,6 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for AccountKind {
     ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
-            instance_type: ::std::option::Option::None,
             subschemas: ::std::option::Option::Some(
                 Box::new(SubschemaValidation {
                     not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
@@ -73,7 +72,6 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for TransactionKind
     ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
-            instance_type: ::std::option::Option::None,
             subschemas: ::std::option::Option::Some(
                 Box::new(SubschemaValidation {
                     not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
@@ -121,7 +119,6 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for ApiKeyKind {
     ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
-            instance_type: ::std::option::Option::None,
             subschemas: ::std::option::Option::Some(
                 Box::new(SubschemaValidation {
                     not: ::std::option::Option::Some(Box::new(Schema::Bool(true))),
