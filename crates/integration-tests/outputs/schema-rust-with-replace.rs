@@ -43,7 +43,7 @@ pub mod error {
 ///  ],
 ///  "properties": {
 ///    "id": {
-///      "$ref": "#/definitions/TypedUuidForMyKind"
+///      "$ref": "#/definitions/MyUuid"
 ///    }
 ///  }
 ///}
@@ -51,7 +51,7 @@ pub mod error {
 /// </details>
 #[derive(::serde::Deserialize, ::serde::Serialize, Clone, Debug)]
 pub struct MyPathStruct {
-    pub id: ::newtype_uuid::TypedUuid<::my_crate::MyKind>,
+    pub id: ::my_crate::types::MyUuid,
 }
 impl ::std::convert::From<&MyPathStruct> for MyPathStruct {
     fn from(value: &MyPathStruct) -> Self {

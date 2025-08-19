@@ -1,0 +1,16 @@
+error[E0433]: failed to resolve: could not find `nonexistent_crate` in the list of imported crates
+ --> tests/fixtures/invalid/nonexistent_crate.rs:5:30
+  |
+5 |         newtype_uuid_crate = nonexistent_crate,
+  |                              ^^^^^^^^^^^^^^^^^ could not find `nonexistent_crate` in the list of imported crates
+
+error[E0433]: failed to resolve: could not find `nonexistent_crate` in the list of imported crates
+ --> tests/fixtures/invalid/nonexistent_crate.rs:5:30
+  |
+5 |         newtype_uuid_crate = nonexistent_crate,
+  |                              ^^^^^^^^^^^^^^^^^ could not find `nonexistent_crate` in the list of imported crates
+  |
+help: consider importing this struct
+  |
+1 + use my_custom_uuid::TypedUuidTag;
+  |

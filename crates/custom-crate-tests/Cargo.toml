@@ -1,0 +1,27 @@
+[package]
+name = "custom-crate-tests"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+publish = false
+
+[dependencies]
+integration-tests.workspace = true
+my-custom-uuid.workspace = true
+newtype-uuid-macros.workspace = true
+serde_json = { workspace = true, optional = true }
+
+[dev-dependencies]
+datatest-stable.workspace = true
+trybuild.workspace = true
+
+[[test]]
+# Snapshot tests use datatest-stable.
+name = "snapshot"
+harness = false
+
+[features]
+internal-schemars08-tests = [
+    "dep:serde_json",
+    "integration-tests/internal-schemars08-tests",
+]

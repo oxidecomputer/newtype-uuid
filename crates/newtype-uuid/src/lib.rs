@@ -11,7 +11,7 @@
 //!
 //! # Example
 //!
-//! ```rust
+//! ```
 //! use newtype_uuid::{GenericUuid, TypedUuid, TypedUuidKind, TypedUuidTag};
 //!
 //! // First, define a type that represents the kind of UUID this is.
@@ -40,12 +40,32 @@
 //! );
 //! ```
 //!
-//! If you have a large number of UUID kinds, consider defining a macro for your purposes. An
-//! example macro:
+//! If you have a large number of UUID kinds, consider using
+//! [`newtype-uuid-macros`] which comes with several convenience features.
+//!
+//! ```
+//! use newtype_uuid_macros::impl_typed_uuid_kinds;
+//!
+//! // Invoke this macro with:
+//! impl_typed_uuid_kinds! {
+//!     kinds = {
+//!         User = {},
+//!         Project = {},
+//!         // ...
+//!     },
+//! }
+//! ```
+//!
+//! See [`newtype-uuid-macros`] for more information.
+//!
+//! [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
+//!
+//! For simpler cases, you can also write your own declarative macro. Use this
+//! template to get started:
 //!
 //! ```rust
 //! # use newtype_uuid::{TypedUuidKind, TypedUuidTag};
-//! macro_rules! impl_typed_uuid_kind {
+//! macro_rules! impl_kinds {
 //!     ($($kind:ident => $tag:literal),* $(,)?) => {
 //!         $(
 //!             pub enum $kind {}
@@ -62,9 +82,9 @@
 //! }
 //!
 //! // Invoke this macro with:
-//! impl_typed_uuid_kind! {
-//!     Kind1 => "kind1",
-//!     Kind2 => "kind2",
+//! impl_kinds! {
+//!     UserKind => "user",
+//!     ProjectKind => "project",
 //! }
 //! ```
 //!
@@ -102,7 +122,7 @@
 //!
 //! # Minimum supported Rust version (MSRV)
 //!
-//! The MSRV of this crate is **Rust 1.67.** In general, this crate will follow the MSRV of the
+//! The MSRV of this crate is **Rust 1.79.** In general, this crate will follow the MSRV of the
 //! underlying `uuid` crate or of dependencies, with an aim to be conservative.
 //!
 //! Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
@@ -111,6 +131,7 @@
 //! * Version **1.0.x**: Rust 1.60.
 //! * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 //! * Version **1.2.x**: Rust 1.67, required by some dependency updates.
+//! * Unreleased: Rust 1.79, required by some dependency updates.
 //!
 //! # Alternatives
 //!
@@ -124,6 +145,19 @@
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
+
+/// Macro support for [`newtype-uuid-macros`].
+///
+/// This module re-exports types needed for [`newtype-uuid-macros`] to work.
+///
+/// [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
+#[doc(hidden)]
+pub mod macro_support {
+    #[cfg(feature = "schemars08")]
+    pub use schemars as schemars08;
+    #[cfg(feature = "schemars08")]
+    pub use serde_json;
+}
 
 use core::{
     cmp::Ordering,
@@ -468,20 +502,33 @@ impl<T: TypedUuidKind> From<TypedUuid<T>> for alloc::vec::Vec<u8> {
 #[cfg(feature = "schemars08")]
 mod schemars08_imp {
     use super::*;
-    use schemars::JsonSchema;
+    use schemars::{
+        schema::{InstanceType, Schema, SchemaObject},
+        schema_for, JsonSchema, SchemaGenerator,
+    };
+
+    const CRATE_NAME: &str = "newtype-uuid";
+    const CRATE_VERSION: &str = "1";
+    const CRATE_PATH: &str = "newtype_uuid::TypedUuid";
 
     /// Implements `JsonSchema` for `TypedUuid<T>`, if `T` implements `JsonSchema`.
     ///
     /// * `schema_name` is set to `"TypedUuidFor"`, concatenated by the schema name of `T`.
     /// * `schema_id` is set to `format!("newtype_uuid::TypedUuid<{}>", T::schema_id())`.
-    /// * `json_schema` is the same as the one for `Uuid`.
+    /// * `json_schema` is the same as the one for `Uuid`, with the `x-rust-type` extension
+    ///   to allow automatic replacement in typify and progenitor.
     impl<T> JsonSchema for TypedUuid<T>
     where
         T: TypedUuidKind + JsonSchema,
     {
         #[inline]
         fn schema_name() -> String {
-            format!("TypedUuidFor{}", T::schema_name())
+            // Use the alias if available, otherwise generate our own schema name.
+            if let Some(alias) = T::alias() {
+                alias.to_owned()
+            } else {
+                format!("TypedUuidFor{}", T::schema_name())
+            }
         }
 
         #[inline]
@@ -490,9 +537,83 @@ mod schemars08_imp {
         }
 
         #[inline]
-        fn json_schema(gen: &mut schemars::gen::SchemaGenerator) -> schemars::schema::Schema {
-            Uuid::json_schema(gen)
+        fn json_schema(generator: &mut SchemaGenerator) -> Schema {
+            // Look at the schema for `T`. If it has `x-rust-type`, *and* if an
+            // alias is available, we can lift up the `x-rust-type` into our own schema.
+            //
+            // We use a new schema generator for `T` to avoid T's schema being
+            // added to the list of schemas in `generator` in case the lifting
+            // is successful.
+            let t_schema = schema_for!(T);
+            if let Some(schema) = lift_json_schema(&t_schema.schema, T::alias()) {
+                return schema.into();
+            }
+
+            SchemaObject {
+                instance_type: Some(InstanceType::String.into()),
+                format: Some("uuid".to_string()),
+                extensions: [(
+                    "x-rust-type".to_string(),
+                    serde_json::json!({
+                        "crate": CRATE_NAME,
+                        "version": CRATE_VERSION,
+                        "path": CRATE_PATH,
+                        "parameters": [generator.subschema_for::<T>()]
+                    }),
+                )]
+                .into_iter()
+                .collect(),
+                ..Default::default()
+            }
+            .into()
         }
+    }
+
+    // ? on Option is too easy to make mistakes with, so we use `let Some(..) =
+    // .. else` instead.
+    #[allow(clippy::question_mark)]
+    fn lift_json_schema(schema: &SchemaObject, alias: Option<&str>) -> Option<SchemaObject> {
+        let Some(alias) = alias else {
+            return None;
+        };
+
+        let Some(v) = schema.extensions.get("x-rust-type") else {
+            return None;
+        };
+
+        // The crate, version and path must all be present.
+        let Some(crate_) = v.get("crate") else {
+            return None;
+        };
+        let Some(version) = v.get("version") else {
+            return None;
+        };
+        let Some(path) = v.get("path").and_then(|p| p.as_str()) else {
+            return None;
+        };
+        let Some((module_path, _)) = path.rsplit_once("::") else {
+            return None;
+        };
+
+        // The preconditions are all met. We can lift the schema by appending
+        // the alias to the module path.
+        let alias_path = format!("{module_path}::{alias}");
+
+        Some(SchemaObject {
+            instance_type: Some(InstanceType::String.into()),
+            format: Some("uuid".to_string()),
+            extensions: [(
+                "x-rust-type".to_string(),
+                serde_json::json!({
+                    "crate": crate_,
+                    "version": version,
+                    "path": alias_path,
+                }),
+            )]
+            .into_iter()
+            .collect(),
+            ..Default::default()
+        })
     }
 }
 
@@ -544,37 +665,25 @@ mod proptest1_imp {
 /// If the `schemars08` feature is enabled, and [`JsonSchema`] is implemented for a kind `T`, then
 /// [`TypedUuid`]`<T>` will also implement [`JsonSchema`].
 ///
-/// # Notes
-///
-/// If you have a large number of UUID kinds, it can be repetitive to implement this trait for each
-/// kind. Here's a template for a macro that can help:
+/// If you have a large number of UUID kinds, consider using
+/// [`newtype-uuid-macros`] which comes with several convenience features.
 ///
 /// ```
-/// use newtype_uuid::{TypedUuidKind, TypedUuidTag};
-///
-/// macro_rules! impl_typed_uuid_kind {
-///     ($($kind:ident => $tag:literal),* $(,)?) => {
-///         $(
-///             pub enum $kind {}
-///
-///             impl TypedUuidKind for $kind {
-///                 #[inline]
-///                 fn tag() -> TypedUuidTag {
-///                     const TAG: TypedUuidTag = TypedUuidTag::new($tag);
-///                     TAG
-///                 }
-///             }
-///         )*
-///     };
-/// }
+/// use newtype_uuid_macros::impl_typed_uuid_kinds;
 ///
 /// // Invoke this macro with:
-/// impl_typed_uuid_kind! {
-///     Kind1 => "kind1",
-///     Kind2 => "kind2",
+/// impl_typed_uuid_kinds! {
+///     kinds = {
+///         User = {},
+///         Project = {},
+///         // ...
+///     },
 /// }
 /// ```
 ///
+/// See [`newtype-uuid-macros`] for more information.
+///
+/// [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
 /// [`JsonSchema`]: schemars::JsonSchema
 pub trait TypedUuidKind: Send + Sync + 'static {
     /// Returns the corresponding tag for this kind.
@@ -583,6 +692,21 @@ pub trait TypedUuidKind: Send + Sync + 'static {
     ///
     /// The tag is required to be a static string.
     fn tag() -> TypedUuidTag;
+
+    /// Returns a string that corresponds to a type alias for `TypedUuid<Self>`,
+    /// if one is defined.
+    ///
+    /// The type alias must be defined in the same module as `Self`. This
+    /// function is used by the schemars integration to refer to embed a
+    /// reference to that alias in the schema, if available.
+    ///
+    /// This is usually defined by the [`newtype-uuid-macros`] crate.
+    ///
+    /// [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
+    #[inline]
+    fn alias() -> Option<&'static str> {
+        None
+    }
 }
 
 /// Describes what kind of [`TypedUuid`] something is.

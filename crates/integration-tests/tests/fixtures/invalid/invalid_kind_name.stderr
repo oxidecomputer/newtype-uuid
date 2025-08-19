@@ -1,0 +1,48 @@
+error: expected identifier
+ --> tests/fixtures/invalid/invalid_kind_name.rs:5:9
+  |
+5 |         123Invalid = {},
+  |         ^^^^^^^^^^
+
+error: tag name `non_åscii` must consist of ASCII alphanumeric characters or underscores
+       (hint: tag name `non_åscii` derived from kind name -- specify `tag = "..." for a custom tag name`)
+ --> tests/fixtures/invalid/invalid_kind_name.rs:6:9
+  |
+6 |         NonÅscii = {},
+  |         ^^^^^^^^
+
+error: tag name `Hellö` must consist of ASCII alphanumeric characters or underscores
+  --> tests/fixtures/invalid/invalid_kind_name.rs:10:25
+   |
+10 |         Hello = { tag = "Hellö" },
+   |                         ^^^^^^^
+
+error: expected `{`
+  --> tests/fixtures/invalid/invalid_kind_name.rs:11:15
+   |
+11 |         Tag = "hi",
+   |               ^^^^
+
+error: expected `{`
+  --> tests/fixtures/invalid/invalid_kind_name.rs:12:17
+   |
+12 |         Youre = [ "it" ],
+   |                 ^^^^^^^^
+
+error: expected identifier
+  --> tests/fixtures/invalid/invalid_kind_name.rs:15:25
+   |
+15 |             type_name = 42,
+   |                         ^^
+
+error: expected identifier
+  --> tests/fixtures/invalid/invalid_kind_name.rs:16:21
+   |
+16 |             alias = 13,
+   |                     ^^
+
+error: expected identifier
+  --> tests/fixtures/invalid/invalid_kind_name.rs:18:9
+   |
+18 |         "" = {},
+   |         ^^

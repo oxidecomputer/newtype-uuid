@@ -35,8 +35,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        # 1.67 is the MSRV
-        rust-version: ["1.67", stable]
+        # 1.79 is the MSRV
+        rust-version: ["1.79", stable]
       fail-fast: false
     env:
       RUSTFLAGS: -D warnings
@@ -52,7 +52,7 @@ jobs:
       - name: Build
         run: just powerset build --all-targets
       - name: Test
-        run: just powerset nextest run --all-targets --no-tests=pass
+        run: just powerset nextest run --all-targets --no-tests=pass -E 'not (test(ui) or test(snapshot))'
       - name: Run extended tests (only on stable)
         if: matrix.rust-version == 'stable'
         run: cargo nextest run --all-targets --all-features

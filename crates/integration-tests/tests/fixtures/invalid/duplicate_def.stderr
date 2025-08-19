@@ -1,0 +1,21 @@
+error[E0428]: the name `UserUuid` is defined multiple times
+ --> tests/fixtures/invalid/duplicate_def.rs:8:9
+  |
+4 | struct UserUuid;
+  | ---------------- previous definition of the type `UserUuid` here
+...
+8 |         User = {},
+  |         ^^^^ `UserUuid` redefined here
+  |
+  = note: `UserUuid` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `UserKind` is defined multiple times
+ --> tests/fixtures/invalid/duplicate_def.rs:8:9
+  |
+3 | enum UserKind {}
+  | ------------- previous definition of the type `UserKind` here
+...
+8 |         User = {},
+  |         ^^^^ `UserKind` redefined here
+  |
+  = note: `UserKind` must be defined only once in the type namespace of this module

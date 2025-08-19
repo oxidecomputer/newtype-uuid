@@ -5,7 +5,7 @@
 ![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/newtype-uuid.svg?)
 [![crates.io](https://img.shields.io/crates/v/newtype-uuid.svg?logo=rust)](https://crates.io/crates/newtype-uuid)
 [![docs.rs](https://img.shields.io/docsrs/newtype-uuid.svg?logo=docs.rs)](https://docs.rs/newtype-uuid)
-[![Rust: ^1.67.0](https://img.shields.io/badge/rust-^1.67.0-93450a.svg?logo=rust)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
+[![Rust: ^1.79.0](https://img.shields.io/badge/rust-^1.79.0-93450a.svg?logo=rust)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
 <!-- cargo-sync-rdme ]] -->
 <!-- cargo-sync-rdme rustdoc [[ -->
 A newtype wrapper around [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
@@ -50,11 +50,29 @@ assert_eq!(
 );
 ````
 
-If you have a large number of UUID kinds, consider defining a macro for your purposes. An
-example macro:
+If you have a large number of UUID kinds, consider using
+[`newtype-uuid-macros`] which comes with several convenience features:
 
 ````rust
-macro_rules! impl_typed_uuid_kind {
+use newtype_uuid_macros::impl_typed_uuid_kinds;
+
+// Invoke this macro with:
+impl_typed_uuid_kinds! {
+    kinds = {
+        User = {},
+        Project = {},
+        // ...
+    },
+}
+````
+
+See [`newtype-uuid-macros`] for more information.
+
+For simpler cases, you can also write your own declarative macro. Use this
+template to get started:
+
+````rust
+macro_rules! impl_kinds {
     ($($kind:ident => $tag:literal),* $(,)?) => {
         $(
             pub enum $kind {}
@@ -71,25 +89,25 @@ macro_rules! impl_typed_uuid_kind {
 }
 
 // Invoke this macro with:
-impl_typed_uuid_kind! {
-    Kind1 => "kind1",
-    Kind2 => "kind2",
+impl_kinds! {
+    UserKind => "user",
+    ProjectKind => "project",
 }
 ````
 
 ## Implementations
 
-In general, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/struct.TypedUuid.html) uses the same wire and serialization formats as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html). This means
-that persistent representations of [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/struct.TypedUuid.html) are the same as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html); [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/struct.TypedUuid.html) is
+In general, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) uses the same wire and serialization formats as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html). This means
+that persistent representations of [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) are the same as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html); [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) is
 intended to be helpful within Rust code, not across serialization boundaries.
 
 * The `Display` and `FromStr` impls are forwarded to the underlying [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
 * If the `serde` feature is enabled, `TypedUuid` will serialize and deserialize using the same
   format as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
-* If the `schemars08` feature is enabled, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/struct.TypedUuid.html) will implement `JsonSchema` if the
-  corresponding [`TypedUuidKind`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/trait.TypedUuidKind.html) implements `JsonSchema`.
+* If the `schemars08` feature is enabled, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) will implement `JsonSchema` if the
+  corresponding [`TypedUuidKind`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/trait.TypedUuidKind.html) implements `JsonSchema`.
 
-To abstract over typed and untyped UUIDs, the [`GenericUuid`](https://docs.rs/newtype-uuid/1.2.2/newtype_uuid/trait.GenericUuid.html) trait is provided. This trait also
+To abstract over typed and untyped UUIDs, the [`GenericUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/trait.GenericUuid.html) trait is provided. This trait also
 permits conversions between typed and untyped UUIDs.
 
 ## Dependencies
@@ -111,7 +129,7 @@ permits conversions between typed and untyped UUIDs.
 
 ## Minimum supported Rust version (MSRV)
 
-The MSRV of this crate is **Rust 1.67.** In general, this crate will follow the MSRV of the
+The MSRV of this crate is **Rust 1.79.** In general, this crate will follow the MSRV of the
 underlying `uuid` crate or of dependencies, with an aim to be conservative.
 
 Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
@@ -120,11 +138,14 @@ each minor version are:
 * Version **1.0.x**: Rust 1.60.
 * Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
 * Version **1.2.x**: Rust 1.67, required by some dependency updates.
+* Unreleased: Rust 1.79, required by some dependency updates.
 
 ## Alternatives
 
 * [`typed-uuid`](https://crates.io/crates/typed-uuid): generally similar, but with a few design
   decisions that are different.
+
+[`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
 <!-- cargo-sync-rdme ]] -->
 
 ## License
