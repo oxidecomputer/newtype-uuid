@@ -163,7 +163,7 @@ use quote::ToTokens;
 /// - `attrs`: A list of attributes to apply to all generated `JsonSchema`
 ///   implementations. For example, if `schemars` is an optional dependency
 ///   for the crate where the macro is being invoked, you might specify something
-///   like `[#cfg(feature = "schemars")]`.
+///   like `[#[cfg(feature = "schemars")]]`.
 /// - `rust_type`: If defined, adds the `x-rust-type` extension to the schema,
 ///   enabling automatic replacement with [`typify`] and other tools that
 ///   support it. *Optional, defaults to not adding the extension.*
