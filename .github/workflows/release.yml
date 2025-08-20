@@ -11,7 +11,7 @@ jobs:
     if: github.repository_owner == 'oxidecomputer' && startsWith(github.ref_name, 'newtype-uuid-1')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
         with:
           persist-credentials: false
       - name: Install Rust
@@ -35,7 +35,7 @@ jobs:
     if: github.repository_owner == 'oxidecomputer' && startsWith(github.ref_name, 'newtype-uuid-macros-')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
         with:
           persist-credentials: false
       - name: Install Rust
