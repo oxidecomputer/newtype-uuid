@@ -22,7 +22,7 @@ serde_tokenstream.workspace = true
 syn = { workspace = true, features = ["full"] }
 
 [dev-dependencies]
-newtype-uuid = { workspace = true, features = ["v4"] }
+newtype-uuid = { workspace = true, features = ["v4", "v7"] }
 serde = { workspace = true, features = ["derive"] }
 static_assertions.workspace = true
 
