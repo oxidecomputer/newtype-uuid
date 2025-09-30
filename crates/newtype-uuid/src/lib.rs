@@ -166,6 +166,8 @@ use core::{
     marker::PhantomData,
     str::FromStr,
 };
+#[cfg(feature = "v7")]
+pub use uuid::Timestamp;
 use uuid::{Uuid, Version};
 
 /// A UUID with type-level information about what it's used for.
@@ -300,6 +302,14 @@ impl<T: TypedUuidKind> TypedUuid<T> {
     #[must_use]
     pub fn new_v4() -> Self {
         Self::from_untyped_uuid(Uuid::new_v4())
+    }
+
+    /// Creates a new, random UUID v7 of this type.
+    #[inline]
+    #[cfg(feature = "v7")]
+    #[must_use]
+    pub fn new_v7(ts: uuid::Timestamp) -> Self {
+        Self::from_untyped_uuid(Uuid::new_v7(ts))
     }
 
     /// Returns the version number of the UUID.
