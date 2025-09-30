@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.1] - 2025-09-30
+
+### Added
+
+- New `v7` feature allows for v7 UUIDs to be created. Thanks [davidbarsky](https://github.com/davidbarsky) for your first contribution!
+
+### Fixed
+
+Replaced obsolete `doc_auto_cfg` with `doc_cfg`, to fix Rust nightly builds with the `doc_cfg` flag enabled.
+
 ## [1.3.0] - 2025-08-19
 
 ### Added
@@ -122,6 +132,7 @@ Documentation improvements.
 
 Initial release.
 
+[1.3.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.1
 [1.3.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.0
 [1.2.4]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.4
 [1.2.3]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.3
