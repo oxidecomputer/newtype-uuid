@@ -7,7 +7,7 @@ help:
     just --list
 
 excluded_features_default := "internal-schemars08-tests internal-proptest1-tests"
-excluded_features_no_std := "schemars08 serde default std alloc v4 proptest1"
+excluded_features_no_std := "schemars08 serde default std alloc v4 v7 proptest1"
 
 # Run `cargo hack --feature-powerset` on crates
 powerset *args:

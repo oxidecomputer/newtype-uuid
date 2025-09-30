@@ -166,10 +166,9 @@ use core::{
     marker::PhantomData,
     str::FromStr,
 };
-use uuid::{Uuid, Version};
-
 #[cfg(feature = "v7")]
 pub use uuid::Timestamp;
+use uuid::{Uuid, Version};
 
 /// A UUID with type-level information about what it's used for.
 ///
