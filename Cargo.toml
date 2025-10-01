@@ -16,7 +16,7 @@ integration-tests = { path = "crates/integration-tests" }
 my-custom-uuid = { path = "crates/newtype-uuid", package = "newtype-uuid" }
 newtype-uuid = { path = "crates/newtype-uuid" }
 newtype-uuid-macros = { path = "crates/newtype-uuid-macros" }
-prettyplease = "0.2.35"
+prettyplease = "0.2.37"
 proc-macro2 = "1.0"
 quote = "1.0"
 # Ideally we'd let you use no-std proptest, but proptest requires either the std
