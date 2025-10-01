@@ -24,7 +24,7 @@ quote = "1.0"
 proptest = { version = "1.7.0", features = ["std"], default-features = false }
 schemars = "0.8.17"
 serde = "1"
-serde_json = "1.0.140"
+serde_json = "1.0.145"
 serde_tokenstream = "0.2.2"
 static_assertions = "1.1.0"
 syn = "2.0.104"
