@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.2] - 2025-11-06
+
+### Added
+
+- `as_fields`, `to_fields_le`, `as_u128`, `to_u128_le`, `as_u64_pair`, `as_bytes`, `into_bytes`, `to_bytes_le`, `is_nil`, and `is_max` methods to mirror corresponding methods on upstream `Uuid`.
+
 ## [1.3.1] - 2025-09-30
 
 ### Added
@@ -132,6 +138,7 @@ Documentation improvements.
 
 Initial release.
 
+[1.3.2]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.2
 [1.3.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.1
 [1.3.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.0
 [1.2.4]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.2.4
