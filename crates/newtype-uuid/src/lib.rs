@@ -342,6 +342,278 @@ impl<T: TypedUuidKind> TypedUuid<T> {
         self.uuid.get_version()
     }
 
+    /// Returns true if the UUID is nil (all zeros).
+    #[inline]
+    pub const fn is_nil(&self) -> bool {
+        self.uuid.is_nil()
+    }
+
+    /// Returns true if the UUID is the max value (all ones).
+    #[inline]
+    pub const fn is_max(&self) -> bool {
+        self.uuid.is_max()
+    }
+
+    /// Returns the four field values of the UUID.
+    ///
+    /// These values can be passed to [`Self::from_fields`] to reconstruct the
+    /// original UUID. The first field represents the initial eight hex digits
+    /// as a big-endian `u32`. The second and third fields represent subsequent
+    /// hex digit groups as `u16` values. The final field contains the last two
+    /// groups of hex digits as an 8-byte array.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use newtype_uuid::TypedUuid;
+    /// # enum ExampleKind {}
+    /// # impl newtype_uuid::TypedUuidKind for ExampleKind {
+    /// #     fn tag() -> newtype_uuid::TypedUuidTag {
+    /// #         const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new("example");
+    /// #         TAG
+    /// #     }
+    /// # }
+    /// let uuid: TypedUuid<ExampleKind> =
+    ///     "a1a2a3a4-b1b2-c1c2-d1d2-d3d4d5d6d7d8".parse().unwrap();
+    ///
+    /// assert_eq!(
+    ///     uuid.as_fields(),
+    ///     (
+    ///         0xa1a2a3a4,
+    ///         0xb1b2,
+    ///         0xc1c2,
+    ///         &[0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8],
+    ///     )
+    /// );
+    /// ```
+    #[inline]
+    pub fn as_fields(&self) -> (u32, u16, u16, &[u8; 8]) {
+        self.uuid.as_fields()
+    }
+
+    /// Returns the four field values in little-endian order.
+    ///
+    /// The bytes within integer fields are converted from big-endian order.
+    /// This is based on the endianness of the UUID rather than the target
+    /// environment, so bytes will be flipped on both big and little endian
+    /// machines.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use newtype_uuid::TypedUuid;
+    /// # enum ExampleKind {}
+    /// # impl newtype_uuid::TypedUuidKind for ExampleKind {
+    /// #     fn tag() -> newtype_uuid::TypedUuidTag {
+    /// #         const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new("example");
+    /// #         TAG
+    /// #     }
+    /// # }
+    /// let uuid: TypedUuid<ExampleKind> =
+    ///     "a1a2a3a4-b1b2-c1c2-d1d2-d3d4d5d6d7d8".parse().unwrap();
+    ///
+    /// assert_eq!(
+    ///     uuid.to_fields_le(),
+    ///     (
+    ///         0xa4a3a2a1,
+    ///         0xb2b1,
+    ///         0xc2c1,
+    ///         &[0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8],
+    ///     )
+    /// );
+    /// ```
+    #[inline]
+    pub fn to_fields_le(&self) -> (u32, u16, u16, &[u8; 8]) {
+        self.uuid.to_fields_le()
+    }
+
+    /// Returns a 128-bit value containing the UUID bytes.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use newtype_uuid::TypedUuid;
+    /// # enum ExampleKind {}
+    /// # impl newtype_uuid::TypedUuidKind for ExampleKind {
+    /// #     fn tag() -> newtype_uuid::TypedUuidTag {
+    /// #         const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new("example");
+    /// #         TAG
+    /// #     }
+    /// # }
+    /// let uuid: TypedUuid<ExampleKind> =
+    ///     "a1a2a3a4-b1b2-c1c2-d1d2-d3d4d5d6d7d8".parse().unwrap();
+    ///
+    /// assert_eq!(
+    ///     uuid.as_u128(),
+    ///     0xa1a2a3a4b1b2c1c2d1d2d3d4d5d6d7d8u128,
+    /// );
+    /// ```
+    #[inline]
+    pub const fn as_u128(&self) -> u128 {
+        self.uuid.as_u128()
+    }
+
+    /// Returns a 128-bit little-endian value.
+    ///
+    /// The bytes in the `u128` will be flipped to convert into big-endian order.
+    /// This is based on the endianness of the UUID, rather than the target
+    /// environment so bytes will be flipped on both big and little endian
+    /// machines.
+    ///
+    /// Note that this will produce a different result than
+    /// [`Self::to_fields_le`], because the entire UUID is reversed, rather than
+    /// reversing the individual fields in-place.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use newtype_uuid::TypedUuid;
+    /// # enum ExampleKind {}
+    /// # impl newtype_uuid::TypedUuidKind for ExampleKind {
+    /// #     fn tag() -> newtype_uuid::TypedUuidTag {
+    /// #         const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new("example");
+    /// #         TAG
+    /// #     }
+    /// # }
+    /// let uuid: TypedUuid<ExampleKind> =
+    ///     "a1a2a3a4-b1b2-c1c2-d1d2-d3d4d5d6d7d8".parse().unwrap();
+    ///
+    /// assert_eq!(
+    ///     uuid.to_u128_le(),
+    ///     0xd8d7d6d5d4d3d2d1c2c1b2b1a4a3a2a1u128,
+    /// );
+    /// ```
+    #[inline]
+    pub fn to_u128_le(&self) -> u128 {
+        self.uuid.to_u128_le()
+    }
+
+    /// Returns two 64-bit values representing the UUID.
+    ///
+    /// The first `u64` contains the most significant 64 bits; the second
+    /// contains the least significant bits.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use newtype_uuid::TypedUuid;
+    /// # enum ExampleKind {}
+    /// # impl newtype_uuid::TypedUuidKind for ExampleKind {
+    /// #     fn tag() -> newtype_uuid::TypedUuidTag {
+    /// #         const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new("example");
+    /// #         TAG
+    /// #     }
+    /// # }
+    /// let uuid: TypedUuid<ExampleKind> =
+    ///     "a1a2a3a4-b1b2-c1c2-d1d2-d3d4d5d6d7d8".parse().unwrap();
+    ///
+    /// assert_eq!(
+    ///     uuid.as_u64_pair(),
+    ///     (0xa1a2a3a4b1b2c1c2, 0xd1d2d3d4d5d6d7d8),
+    /// );
+    /// ```
+    #[inline]
+    pub const fn as_u64_pair(&self) -> (u64, u64) {
+        self.uuid.as_u64_pair()
+    }
+
+    /// Returns a slice of 16 octets containing the value.
+    ///
+    /// This method borrows the underlying byte value of the UUID.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use newtype_uuid::TypedUuid;
+    /// # enum ExampleKind {}
+    /// # impl newtype_uuid::TypedUuidKind for ExampleKind {
+    /// #     fn tag() -> newtype_uuid::TypedUuidTag {
+    /// #         const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new("example");
+    /// #         TAG
+    /// #     }
+    /// # }
+    /// let bytes = [
+    ///     0xa1, 0xa2, 0xa3, 0xa4,
+    ///     0xb1, 0xb2,
+    ///     0xc1, 0xc2,
+    ///     0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8,
+    /// ];
+    ///
+    /// let uuid = TypedUuid::<ExampleKind>::from_bytes(bytes);
+    /// let bytes2 = uuid.as_bytes();
+    ///
+    /// assert_eq!(&bytes, bytes2);
+    /// ```
+    #[inline]
+    pub const fn as_bytes(&self) -> &uuid::Bytes {
+        self.uuid.as_bytes()
+    }
+
+    /// Consumes self and returns the underlying byte value of the UUID.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use newtype_uuid::TypedUuid;
+    /// # enum ExampleKind {}
+    /// # impl newtype_uuid::TypedUuidKind for ExampleKind {
+    /// #     fn tag() -> newtype_uuid::TypedUuidTag {
+    /// #         const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new("example");
+    /// #         TAG
+    /// #     }
+    /// # }
+    /// let bytes = [
+    ///     0xa1, 0xa2, 0xa3, 0xa4,
+    ///     0xb1, 0xb2,
+    ///     0xc1, 0xc2,
+    ///     0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8,
+    /// ];
+    ///
+    /// let uuid = TypedUuid::<ExampleKind>::from_bytes(bytes);
+    ///
+    /// assert_eq!(bytes, uuid.into_bytes());
+    /// ```
+    #[inline]
+    #[must_use]
+    pub const fn into_bytes(self) -> uuid::Bytes {
+        self.uuid.into_bytes()
+    }
+
+    /// Returns the bytes of the UUID in little-endian order.
+    ///
+    /// The bytes will be flipped to convert into little-endian order. This is
+    /// based on the endianness of the UUID, rather than the target environment
+    /// so bytes will be flipped on both big and little endian machines.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use newtype_uuid::TypedUuid;
+    /// # enum ExampleKind {}
+    /// # impl newtype_uuid::TypedUuidKind for ExampleKind {
+    /// #     fn tag() -> newtype_uuid::TypedUuidTag {
+    /// #         const TAG: newtype_uuid::TypedUuidTag = newtype_uuid::TypedUuidTag::new("example");
+    /// #         TAG
+    /// #     }
+    /// # }
+    /// let uuid: TypedUuid<ExampleKind> =
+    ///     "a1a2a3a4-b1b2-c1c2-d1d2-d3d4d5d6d7d8".parse().unwrap();
+    ///
+    /// assert_eq!(
+    ///     uuid.to_bytes_le(),
+    ///     [
+    ///         0xa4, 0xa3, 0xa2, 0xa1,
+    ///         0xb2, 0xb1,
+    ///         0xc2, 0xc1,
+    ///         0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8,
+    ///     ]
+    /// );
+    /// ```
+    #[inline]
+    pub fn to_bytes_le(&self) -> uuid::Bytes {
+        self.uuid.to_bytes_le()
+    }
+
     /// Converts the UUID to one with looser semantics.
     ///
     /// By default, UUID kinds are considered independent, and conversions
