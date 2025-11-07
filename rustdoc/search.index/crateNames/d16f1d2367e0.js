@@ -1,0 +1,1 @@
+rd_("Abcustom_crate_testsie2e_kindsAce2e_schema_consumerAce2e_schema_producerAaintegration_testslnewtype_uuidAcnewtype_uuid_macroseserdejserde_jsonftypify")

@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Typify"><title>typify - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="typify" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate typify</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../typify/index.html">typify</a><span class="version">0.4.2</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#typify" title="Typify">Typify</a></li><li><a href="#altering-conversion" title="Altering Conversion">Altering Conversion</a><ul><li><a href="#renames-and-additional-derivations" title="Renames and additional derivations">Renames and additional derivations</a></li><li><a href="#replacement-types" title="Replacement types">Replacement types</a></li><li><a href="#conversion-overrides" title="Conversion overrides">Conversion overrides</a></li></ul></li><li><a href="#macro-vs-buildrs" title="Macro vs. `build.rs`">Macro vs. <code>build.rs</code></a><ul><li><a href="#builder-interface" title="Builder interface">Builder interface</a></li></ul></li><li><a href="#mapping-json-schema-to-rust" title="Mapping JSON Schema to Rust">Mapping JSON Schema to Rust</a></li></ul><h3><a href="#macros">Crate Items</a></h3><ul class="block"><li><a href="#macros" title="Macros">Macros</a></li><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#enums" title="Enums">Enums</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><h1>Crate <span>typify</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/typify/lib.rs.html#3-167">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><h2 id="typify"><a class="doc-anchor" href="#typify">§</a>Typify</h2>
+<p>Typify lets you convert JSON Schema documents into Rust types. It can be
+used via a macro <a href="macro.import_types.html" title="macro typify::import_types"><code>import_types!</code></a> or a <code>build.rs</code> file.</p>
+<p>A typical use looks like this:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">import_types!</span>(<span class="string">"../example.json"</span>);</code></pre></div>
+<p>This expands to type definitions corresponding to the types from the file
+<code>example.json</code>. The types are <code>pub</code> and have a number of useful associated
+<code>impl</code>s including <a href="https://doc.rust-lang.org/1.91.0/core/fmt/macros/derive.Debug.html" title="derive core::fmt::macros::Debug">Debug</a>, <a href="https://doc.rust-lang.org/1.91.0/core/clone/trait.Clone.html" title="trait core::clone::Clone">Clone</a>,
+<a href="https://docs.rs/serde/latest/serde/trait.Serialize.html">Serialize</a>, and
+<a href="https://docs.rs/serde/latest/serde/trait.Deserialize.html">Deserialize</a>.</p>
+<p>Alternatively, you may use the expanded form:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">import_types!</span>(schema = <span class="string">"../example.json"</span>);</code></pre></div>
+<p>If you want to add additional derives for the generated types, you can
+specify them with the <code>derives</code> property of the expanded form:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">import_types!</span>(
+    schema = <span class="string">"../example.json"</span>,
+    derives = [schemars::JsonSchema],
+);</code></pre></div>
+<p>Generated structs can optionally include a builder-style interface:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">import_types!</span>(
+    schema = <span class="string">"../example.json"</span>,
+    struct_builder = <span class="bool-val">true</span>,
+);</code></pre></div>
+<p>With this set, consumers can construct a struct <code>Veggie</code> as follows:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">let </span>veggie: Veggie = Veggie::builder()
+    .veggie_name(<span class="string">"radish"</span>)
+    .veggie_like(<span class="bool-val">true</span>)
+    .try_into()
+    .unwrap();</code></pre></div><h2 id="altering-conversion"><a class="doc-anchor" href="#altering-conversion">§</a>Altering Conversion</h2><h3 id="renames-and-additional-derivations"><a class="doc-anchor" href="#renames-and-additional-derivations">§</a>Renames and additional derivations</h3>
+<p>You can specify renames types or add additional derive macros for generated
+types using the <code>patch</code> syntax:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">import_types!</span>(
+    schema = <span class="string">"../example.json"</span>,
+    patch = {
+        Veggie = {
+            rename = <span class="string">"Vegetable"</span>,
+            derives = [ schemars::JsonSchema ],
+        }
+    }
+);</code></pre></div><h3 id="replacement-types"><a class="doc-anchor" href="#replacement-types">§</a>Replacement types</h3>
+<p>You can replace a generated type with an existing type by specifying an
+association between the name of a type with the type to use in its place:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">import_types!</span>(
+    schema = <span class="string">"../example.json"</span>,
+    replace = {
+        Ipv6Cidr = my_fancy_networking_crate::Ipv6Cidr,
+    }
+);</code></pre></div><h3 id="conversion-overrides"><a class="doc-anchor" href="#conversion-overrides">§</a>Conversion overrides</h3>
+<p>You can override a conversion for a particular JSON schema construct by
+specifying an association between the schema and the type.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="macro">import_types!</span>(
+    schema = <span class="string">"../example.json"</span>,
+    convert = {
+        {
+            <span class="kw">type </span>= <span class="string">"string"</span>,
+            format = <span class="string">"uuid"</span>,
+        } = my_fancy_uuid_crate::MyUuid,
+    }
+);</code></pre></div><h2 id="macro-vs-buildrs"><a class="doc-anchor" href="#macro-vs-buildrs">§</a>Macro vs. <code>build.rs</code></h2>
+<p>While using the <a href="macro.import_types.html" title="macro typify::import_types"><code>import_types!</code></a> macro is quite a bit simpler, you can
+also construct output in a <code>build.rs</code> script. Doing so requires a little
+more work to process the JSON Schema document and write out the file to
+your intended location. The biggest benefit is that the generated type
+definitions are significantly easier to inspect. The macro-generated types
+can be viewed with <code>cargo expand</code> and they (like <code>build.rs</code>-derived types)
+have generated documentation, but if you find that you’d like to see the
+actual code generated you may prefer a <code>build.rs</code>.</p>
+<h3 id="builder-interface"><a class="doc-anchor" href="#builder-interface">§</a>Builder interface</h3>
+<p>Typify exports a <a href="struct.TypeSpace.html" title="struct typify::TypeSpace">TypeSpace</a> interface that is intended for programmatic
+construction of types. This can be for something simple like a <code>build.rs</code>
+script or something more complex like a generator whose input includes JSON
+schema type definitions.</p>
+<h2 id="mapping-json-schema-to-rust"><a class="doc-anchor" href="#mapping-json-schema-to-rust">§</a>Mapping JSON Schema to Rust</h2>
+<p>JSON Schema allows for extreme flexibility. As such, there are some schemas
+that Typify isn’t able to interpret (please file an issue!). In general,
+though, Typify does a pretty job of mapping JSON Schema types to Rust. For
+more information, see the project’s
+<a href="https://github.com/oxidecomputer/typify">README.md</a>.</p>
+</div></details><h2 id="macros" class="section-header">Macros<a href="#macros" class="anchor">§</a></h2><dl class="item-table"><dt><a class="macro" href="macro.import_types.html" title="macro typify::import_types">import_<wbr>types</a></dt><dd>Import types from a schema file. This may be invoked with simply a pathname
+for a JSON Schema file (relative to <code>$CARGO_MANIFEST_DIR</code>), or it may be
+invoked with a structured form:</dd></dl><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Type.html" title="struct typify::Type">Type</a></dt><dd>Representation of a type which may have a definition or may be built-in.</dd><dt><a class="struct" href="struct.TypeEnum.html" title="struct typify::TypeEnum">Type<wbr>Enum</a></dt><dd>Enum type details.</dd><dt><a class="struct" href="struct.TypeId.html" title="struct typify::TypeId">TypeId</a></dt><dd>Type identifier returned from type creation and used to lookup types.</dd><dt><a class="struct" href="struct.TypeNewtype.html" title="struct typify::TypeNewtype">Type<wbr>Newtype</a></dt><dd>Newtype details.</dd><dt><a class="struct" href="struct.TypeSpace.html" title="struct typify::TypeSpace">Type<wbr>Space</a></dt><dd>A collection of types.</dd><dt><a class="struct" href="struct.TypeSpacePatch.html" title="struct typify::TypeSpacePatch">Type<wbr>Space<wbr>Patch</a></dt><dd>Contains a set of modifications that may be applied to an existing type.</dd><dt><a class="struct" href="struct.TypeSpaceSettings.html" title="struct typify::TypeSpaceSettings">Type<wbr>Space<wbr>Settings</a></dt><dd>Settings that alter type generation.</dd><dt><a class="struct" href="struct.TypeStruct.html" title="struct typify::TypeStruct">Type<wbr>Struct</a></dt><dd>Struct type details.</dd><dt><a class="struct" href="struct.TypeStructPropInfo.html" title="struct typify::TypeStructPropInfo">Type<wbr>Struct<wbr>Prop<wbr>Info</a></dt><dd>Full information pertaining to a struct property.</dd></dl><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.CrateVers.html" title="enum typify::CrateVers">Crate<wbr>Vers</a></dt><dd>Specify the version for a named crate to consider for type use (rather than
+generating types) in the presense of a schema extension.</dd><dt><a class="enum" href="enum.Error.html" title="enum typify::Error">Error</a></dt><dt><a class="enum" href="enum.TypeDetails.html" title="enum typify::TypeDetails">Type<wbr>Details</a></dt><dd>Type details returned by Type::details() to inspect a type.</dd><dt><a class="enum" href="enum.TypeEnumVariant.html" title="enum typify::TypeEnumVariant">Type<wbr>Enum<wbr>Variant</a></dt><dd>Enum variant details.</dd><dt><a class="enum" href="enum.TypeSpaceImpl.html" title="enum typify::TypeSpaceImpl">Type<wbr>Space<wbr>Impl</a></dt><dt><a class="enum" href="enum.UnknownPolicy.html" title="enum typify::UnknownPolicy">Unknown<wbr>Policy</a></dt><dd>Policy to apply to external types described by schema extensions whose
+crates are not explicitly specified.</dd></dl></section></div></main></body></html>

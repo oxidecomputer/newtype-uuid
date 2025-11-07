@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A function-like procedural macro for implementing typed UUID kinds."><title>impl_typed_uuid_kinds in newtype_uuid_macros - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="newtype_uuid_macros" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">impl_typed_uuid_kinds</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../newtype_uuid_macros/index.html">newtype_<wbr>uuid_<wbr>macros</a><span class="version">0.1.0</span></h2></div><div class="sidebar-elems"><section id="rustdoc-toc"><h2 class="location"><a href="#">impl_<wbr>typed_<wbr>uuid_<wbr>kinds</a></h2><h3><a href="#">Sections</a></h3><ul class="block top-toc"><li><a href="#basic-usage" title="Basic usage">Basic usage</a><ul><li><a href="#examples" title="Examples">Examples</a></li></ul></li><li><a href="#per-kind-settings" title="Per-kind settings">Per-kind settings</a><ul><li><a href="#examples-1" title="Examples">Examples</a></li></ul></li><li><a href="#global-settings" title="Global settings">Global settings</a><ul><li><a href="#json-schema-support" title="JSON Schema support">JSON Schema support</a></li><li><a href="#examples-2" title="Examples">Examples</a></li></ul></li></ul></section><div id="rustdoc-modnav"><h2 class="in-crate"><a href="index.html">In crate newtype_<wbr>uuid_<wbr>macros</a></h2></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">newtype_uuid_macros</a></div><h1>Macro <span class="macro">impl_<wbr>typed_<wbr>uuid_<wbr>kinds</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/newtype_uuid_macros/lib.rs.html#227-231">Source</a> </span></div><pre class="rust item-decl"><code>impl_typed_uuid_kinds!() { <span class="comment">/* proc-macro */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A function-like procedural macro for implementing typed UUID kinds.</p>
+<p>This macro generates types that implement <code>TypedUuidKind</code> and corresponding
+type aliases for <code>TypedUuid&lt;T&gt;</code>. The macro provides an easy way to generate
+typed UUID kinds in bulk, and also to implement <code>JsonSchema</code> support with
+schemars 0.8.</p>
+<h2 id="basic-usage"><a class="doc-anchor" href="#basic-usage">§</a>Basic usage</h2>
+<p>Invoke the <code>impl_typed_uuid_kinds!</code> macro within a path that’s publicly
+visible. A dedicated crate for UUID kinds is recommended.</p>
+<p>By default, for a kind <code>Foo</code>, this macro generates:</p>
+<ul>
+<li>A <code>FooKind</code> type that implements <code>TypedUuidKind</code>: <code>pub enum FooKind {}</code>.</li>
+<li>A <code>FooUuid</code> type alias: <code>pub type FooUuid = TypedUuid&lt;FooKind&gt;;</code>.</li>
+</ul>
+<h3 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h3>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>newtype_uuid::TypedUuidKind;
+<span class="kw">use </span>newtype_uuid_macros::impl_typed_uuid_kinds;
+
+<span class="macro">impl_typed_uuid_kinds!</span> {
+    kinds = {
+        User = {},
+        BusinessUnit = {},
+    },
+}
+
+<span class="comment">// This generates empty UserKind and BusinessUnitKind enums implementing
+// TypedUuidKind, with the tags "user" and "business_unit" respectively.
+// Tags are snake_case versions of type names.
+</span><span class="macro">assert_eq!</span>(UserKind::tag().as_str(), <span class="string">"user"</span>);
+<span class="macro">assert_eq!</span>(BusinessUnitKind::tag().as_str(), <span class="string">"business_unit"</span>);
+
+<span class="comment">// The macro also generates UserUuid and BusinessUnitUuid type aliases.
+</span><span class="kw">let </span>user_uuid = UserUuid::new_v4();
+<span class="kw">let </span>business_unit_uuid = BusinessUnitUuid::new_v4();</code></pre></div>
+<ul>
+<li>The generated <code>Kind</code> types always implement <code>Clone</code>, <code>Copy</code>, <code>Debug</code>,
+<code>Eq</code>, and <code>PartialEq</code>.</li>
+<li>The <code>Kind</code> types are all empty enums, also known as <em>marker</em> or
+<em>uninhabited</em> enums. This means that values for these types cannot be
+created. (Using empty enums is the recommended approach for
+<code>newtype-uuid</code>).</li>
+</ul>
+<h2 id="per-kind-settings"><a class="doc-anchor" href="#per-kind-settings">§</a>Per-kind settings</h2>
+<p>Kinds can be customized with the following settings:</p>
+<ul>
+<li><code>attrs</code>: Attributes to apply to the kind enum, such as
+<code>#[derive(SomeTrait)]</code> or <code>#[cfg(feature = "some-feature")]</code>. <em>Optional,
+defaults to the global <code>attrs</code>.</em></li>
+<li><code>tag</code>: The tag to use for the kind (a string literal). <em>Optional, defaults
+to the snake_case version of the type name.</em></li>
+<li><code>type_name</code>: The name of the type to use for the kind (a Rust identifier).
+<em>Optional, defaults to <code>{Name}Kind</code></em>.</li>
+<li><code>alias</code>: The name of the type alias to use for the kind (a Rust
+identifier). <em>Optional, defaults to <code>{Name}Uuid</code></em>.</li>
+</ul>
+<p>Per-kind customizations should generally be unnecessary; the conventionally
+generated type names should be sufficient for most use cases.</p>
+<h3 id="examples-1"><a class="doc-anchor" href="#examples-1">§</a>Examples</h3>
+<p>In this example, we derive <code>PartialOrd</code> and <code>Ord</code> for <code>MyUserKind</code>.</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>newtype_uuid::TypedUuidKind;
+<span class="kw">use </span>newtype_uuid_macros::impl_typed_uuid_kinds;
+
+<span class="macro">impl_typed_uuid_kinds!</span> {
+    kinds = {
+        User = {
+            <span class="comment">// This is a list of attributes surrounded by square brackets.
+            </span>attrs = [<span class="attr">#[derive(PartialOrd, Ord)]</span>],
+            tag = <span class="string">"user"</span>,
+            type_name = MyUserKind,
+        },
+        Organization = { tag = <span class="string">"org"</span>, alias = OrgUuid },
+    },
+}
+
+<span class="comment">// This generates types with the specified names:
+</span><span class="macro">assert_eq!</span>(MyUserKind::tag().as_str(), <span class="string">"user"</span>);
+<span class="macro">assert_eq!</span>(OrganizationKind::tag().as_str(), <span class="string">"org"</span>);
+
+<span class="kw">let </span>user_uuid = UserUuid::new_v4();
+<span class="kw">let </span>org_uuid = OrgUuid::new_v4();
+
+<span class="comment">// MyUserKind also implements `Ord`.
+</span><span class="macro">static_assertions::assert_impl_all!</span>(MyUserKind: Ord);</code></pre></div><h2 id="global-settings"><a class="doc-anchor" href="#global-settings">§</a>Global settings</h2>
+<p>This macro accepts global settings under a top-level <code>settings</code> map:</p>
+<ul>
+<li><code>attrs</code>: A list of attributes to apply to all generated <code>Kind</code> types.
+Per-kind attributes, if provided, will override these. <em>Optional, defaults
+to the empty list.</em></li>
+<li><code>newtype_uuid_crate</code>: The name of the <code>newtype-uuid</code> crate (a Rust
+identifier). <em>Optional, defaults to <code>newtype_uuid</code>.</em></li>
+<li><code>schemars08</code>: If defined, generates JSON Schema support for the given
+types using <a href="https://docs.rs/schemars/0.8/schemars/"><code>schemars</code> 0.8</a>. <em>Optional.</em></li>
+</ul>
+<h3 id="json-schema-support"><a class="doc-anchor" href="#json-schema-support">§</a>JSON Schema support</h3>
+<p>If the <code>schemars08</code> global setting is defined, the macro generates JSON
+Schema support for the <code>Kind</code> instances using [schemars 0.8].</p>
+<p><strong>To enable JSON Schema support, you’ll need to enable <code>newtype-uuid</code>’s
+<code>schemars08</code> feature.</strong></p>
+<p>Within <code>settings.schemars08</code>, the options are:</p>
+<ul>
+<li>
+<p><code>attrs</code>: A list of attributes to apply to all generated <code>JsonSchema</code>
+implementations. For example, if <code>schemars</code> is an optional dependency
+for the crate where the macro is being invoked, you might specify something
+like <code>[#[cfg(feature = "schemars")]]</code>.</p>
+</li>
+<li>
+<p><code>rust_type</code>: If defined, adds the <code>x-rust-type</code> extension to the schema,
+enabling automatic replacement with <a href="https://docs.rs/typify"><code>typify</code></a> and other tools that
+support it. <em>Optional, defaults to not adding the extension.</em></p>
+<p>Automatic replacement enables an end-to-end workflow where the same UUID
+kinds can be shared between servers and clients.</p>
+<p><code>rust_type</code> is a map of the following options:</p>
+<ul>
+<li><code>crate</code>: The crate name consumers will use to access these types.
+<em>Required.</em></li>
+<li><code>version</code>: The versions of the crate that automatic replacement is
+supported for. <em>Required.</em></li>
+<li><code>path</code>: The path to the module these types can be accessed from,
+including the crate name. <em>Required.</em></li>
+</ul>
+<p>For more about <code>x-rust-type</code>, see the <a href="https://github.com/oxidecomputer/typify#rust---schema---rust"><code>typify</code> documentation</a>.</p>
+</li>
+</ul>
+<h3 id="examples-2"><a class="doc-anchor" href="#examples-2">§</a>Examples</h3>
+<p>An example with all global settings defined:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>newtype_uuid::TypedUuidKind;
+<span class="kw">use </span>newtype_uuid_macros::impl_typed_uuid_kinds;
+
+<span class="macro">impl_typed_uuid_kinds!</span> {
+    settings = {
+        attrs = [<span class="attr">#[derive(PartialOrd, Ord)]</span>],
+        newtype_uuid_crate = newtype_uuid,
+        schemars08 = {
+            attrs = [<span class="attr">#[cfg(feature = <span class="string">"schemars"</span>)]</span>],
+            rust_type = {
+                <span class="kw">crate </span>= <span class="string">"my-crate"</span>,
+                version = <span class="string">"0.1.0"</span>,
+                path = <span class="string">"my_crate::types"</span>,
+            },
+        },
+    },
+    kinds = {
+        User = {},
+        Organization = {},
+        Project = {},
+    },
+}
+
+<span class="kw">let </span>user_uuid = UserUuid::new_v4();
+<span class="kw">let </span>org_uuid = OrganizationUuid::new_v4();
+<span class="kw">let </span>project_uuid = ProjectUuid::new_v4();</code></pre></div>
+<p>For a working end-to-end example, see the
+<a href="https://github.com/oxidecomputer/newtype-uuid/tree/main/e2e-example"><code>e2e-example</code></a>
+directory in the newtype-uuid repository.</p>
+</div></details></section></div></main></body></html>

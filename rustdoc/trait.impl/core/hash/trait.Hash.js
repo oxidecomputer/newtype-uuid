@@ -1,0 +1,9 @@
+(function() {
+    var implementors = Object.fromEntries([["newtype_uuid",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.91.0/core/hash/trait.Hash.html\" title=\"trait core::hash::Hash\">Hash</a> for <a class=\"struct\" href=\"newtype_uuid/struct.TypedUuidTag.html\" title=\"struct newtype_uuid::TypedUuidTag\">TypedUuidTag</a>"],["impl&lt;T: <a class=\"trait\" href=\"newtype_uuid/trait.TypedUuidKind.html\" title=\"trait newtype_uuid::TypedUuidKind\">TypedUuidKind</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.91.0/core/hash/trait.Hash.html\" title=\"trait core::hash::Hash\">Hash</a> for <a class=\"struct\" href=\"newtype_uuid/struct.TypedUuid.html\" title=\"struct newtype_uuid::TypedUuid\">TypedUuid</a>&lt;T&gt;"]]],["serde_json",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.91.0/core/hash/trait.Hash.html\" title=\"trait core::hash::Hash\">Hash</a> for <a class=\"enum\" href=\"serde_json/enum.Value.html\" title=\"enum serde_json::Value\">Value</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.91.0/core/hash/trait.Hash.html\" title=\"trait core::hash::Hash\">Hash</a> for <a class=\"struct\" href=\"serde_json/struct.Map.html\" title=\"struct serde_json::Map\">Map</a>&lt;<a class=\"struct\" href=\"https://doc.rust-lang.org/1.91.0/alloc/string/struct.String.html\" title=\"struct alloc::string::String\">String</a>, <a class=\"enum\" href=\"serde_json/enum.Value.html\" title=\"enum serde_json::Value\">Value</a>&gt;"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.91.0/core/hash/trait.Hash.html\" title=\"trait core::hash::Hash\">Hash</a> for <a class=\"struct\" href=\"serde_json/struct.Number.html\" title=\"struct serde_json::Number\">Number</a>"]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":57,"fragment_lengths":[696,992]}

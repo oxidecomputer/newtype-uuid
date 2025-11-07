@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CrateVers","Error","TypeDetails","TypeEnumVariant","TypeSpaceImpl","UnknownPolicy"],"macro":["import_types"],"struct":["Type","TypeEnum","TypeId","TypeNewtype","TypeSpace","TypeSpacePatch","TypeSpaceSettings","TypeStruct","TypeStructPropInfo"]};

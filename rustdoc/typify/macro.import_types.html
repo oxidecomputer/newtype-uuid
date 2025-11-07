@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Import types from a schema file. This may be invoked with simply a pathname for a JSON Schema file (relative to `$CARGO_MANIFEST_DIR`), or it may be invoked with a structured form:"><title>import_types in typify - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../static.files/rustdoc-e56847b5.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="typify" data-themes="" data-resource-suffix="" data-rustdoc-version="1.91.0 (f8297e351 2025-10-28)" data-channel="1.91.0" data-search-js="search-e256b49e.js" data-stringdex-js="stringdex-c3e638e9.js" data-settings-js="settings-c38705f0.js" ><script src="../static.files/storage-e2aeef58.js"></script><script defer src="sidebar-items.js"></script><script defer src="../static.files/main-6dc2a7f3.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-263c88ec.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-044be391.svg"></head><body class="rustdoc macro"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">import_types</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../typify/index.html">typify</a><span class="version">0.4.2</span></h2></div><div class="sidebar-elems"><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content"><div class="main-heading"><div class="rustdoc-breadcrumbs"><a href="index.html">typify</a></div><h1>Macro <span class="macro">import_<wbr>types</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"></span></div><pre class="rust item-decl"><code>import_types!() { <span class="comment">/* proc-macro */</span> }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Import types from a schema file. This may be invoked with simply a pathname
+for a JSON Schema file (relative to <code>$CARGO_MANIFEST_DIR</code>), or it may be
+invoked with a structured form:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>typify_macro::import_types;
+<span class="macro">import_types!</span>(
+    schema = <span class="string">"../example.json"</span>,
+    derives = [schemars::JsonSchema],
+);</code></pre></div>
+<ul>
+<li>
+<p><code>schema</code>: string literal; the JSON schema file</p>
+</li>
+<li>
+<p><code>derives</code>: optional array of derive macro paths; the derive macros to be
+applied to all generated types</p>
+</li>
+<li>
+<p><code>struct_builder</code>: optional boolean; (if true) generates a <code>::builder()</code>
+method for each generated struct that can be used to specify each
+property and construct the struct</p>
+</li>
+<li>
+<p><code>unknown_crates</code>: optional policy regarding the handling of schemas that
+contain the <code>x-rust-type</code> extension whose crates are not explicitly named
+in the <code>crates</code> section. The options are <code>Generate</code> to ignore the
+extension and generate a <em>de novo</em> type, <code>Allow</code> to use the named type
+(which may require the addition of a new dependency to compile, and which
+ignores version compatibility checks), or <code>Deny</code> to produce a
+compile-time error (requiring the user to specify the crate’s disposition
+in the <code>crates</code> section).</p>
+</li>
+<li>
+<p><code>crates</code>: optional map from crate name to the version of the crate in
+use. Types encountered with the Rust type extension (<code>x-rust-type</code>) will
+use types from the specified crates rather than generating them (within
+the constraints of type compatibility).</p>
+</li>
+<li>
+<p><code>patch</code>: optional map from type to an object with the optional members
+<code>rename</code> and <code>derives</code>. This may be used to renamed generated types or
+to apply additional (non-default) derive macros to them.</p>
+</li>
+<li>
+<p><code>replace</code>: optional map from definition name to a replacement type. This
+may be used to skip generation of the named type and use a existing Rust
+type.</p>
+</li>
+<li>
+<p><code>convert</code>: optional map from a JSON schema type defined in <code>$defs</code> to a
+replacement type. This may be used to skip generation of the schema and
+use an existing Rust type.</p>
+</li>
+</ul>
+</div></details></section></div></main></body></html>

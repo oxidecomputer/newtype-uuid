@@ -1,0 +1,2 @@
+window.ALL_CRATES = ["custom_crate_tests","e2e_kinds","e2e_schema_consumer","e2e_schema_producer","integration_tests","newtype_uuid","newtype_uuid_macros","serde","serde_json","typify"];
+//{"start":21,"fragment_lengths":[20,12,22,22,20,15,22,8,13,9]}
