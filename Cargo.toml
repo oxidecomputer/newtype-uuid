@@ -9,7 +9,7 @@ repository = "https://github.com/oxidecomputer/newtype-uuid"
 rust-version = "1.79"
 
 [workspace.dependencies]
-datatest-stable = "0.3.2"
+datatest-stable = "0.3.3"
 expectorate = "1.2.0"
 heck = "0.5"
 integration-tests = { path = "crates/integration-tests" }
