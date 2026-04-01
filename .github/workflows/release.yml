@@ -10,10 +10,16 @@ jobs:
   newtype-uuid-release:
     if: github.repository_owner == 'oxidecomputer' && startsWith(github.ref_name, 'newtype-uuid-1')
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write     # Required for OIDC token exchange
+      contents: write     # Required for creating releases
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
+      - uses: rust-lang/crates-io-auth-action@v1
+        id: auth
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
       - uses: taiki-e/install-action@just
@@ -22,7 +28,7 @@ jobs:
           tool: cargo-release@0.25
       - run: just ci-cargo-release newtype-uuid
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
       - uses: taiki-e/create-gh-release-action@26b80501670402f1999aff4b934e1574ef2d3705 # v1
         with:
           changelog: CHANGELOG.md
@@ -34,10 +40,16 @@ jobs:
   newtype-uuid-macros-release:
     if: github.repository_owner == 'oxidecomputer' && startsWith(github.ref_name, 'newtype-uuid-macros-')
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write     # Required for OIDC token exchange
+      contents: write     # Required for creating releases
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
+      - uses: rust-lang/crates-io-auth-action@v1
+        id: auth
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
       - uses: taiki-e/install-action@just
@@ -46,7 +58,7 @@ jobs:
           tool: cargo-release@0.25
       - run: just ci-cargo-release newtype-uuid-macros
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
       - uses: taiki-e/create-gh-release-action@26b80501670402f1999aff4b934e1574ef2d3705 # v1
         with:
           changelog: crates/newtype-uuid-macros/CHANGELOG.md
