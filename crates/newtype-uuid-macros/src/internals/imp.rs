@@ -34,7 +34,7 @@ pub fn impl_typed_uuid_kinds(input: TokenStream) -> ImplKindsOutput {
         .settings
         .newtype_uuid_crate
         .as_ref()
-        .map_or_else(|| &newtype_uuid_ident, |crate_name| crate_name);
+        .map_or_else(|| &newtype_uuid_ident, |crate_name| &**crate_name);
 
     let mut out = quote! {};
 
