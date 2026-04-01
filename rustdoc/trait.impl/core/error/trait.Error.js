@@ -1,0 +1,9 @@
+(function() {
+    const implementors = Object.fromEntries([["e2e_schema_consumer",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/error/trait.Error.html\" title=\"trait core::error::Error\">Error</a> for <a class=\"struct\" href=\"e2e_schema_consumer/error/struct.ConversionError.html\" title=\"struct e2e_schema_consumer::error::ConversionError\">ConversionError</a>",0]]],["newtype_uuid",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/error/trait.Error.html\" title=\"trait core::error::Error\">Error</a> for <a class=\"struct\" href=\"newtype_uuid/struct.ParseError.html\" title=\"struct newtype_uuid::ParseError\">ParseError</a>",0],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/error/trait.Error.html\" title=\"trait core::error::Error\">Error</a> for <a class=\"struct\" href=\"newtype_uuid/struct.TagError.html\" title=\"struct newtype_uuid::TagError\">TagError</a>",0]]],["serde",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/error/trait.Error.html\" title=\"trait core::error::Error\">Error</a> for <a class=\"struct\" href=\"serde/de/value/struct.Error.html\" title=\"struct serde::de::value::Error\">Error</a>",0]]],["serde_json",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.94.1/core/error/trait.Error.html\" title=\"trait core::error::Error\">Error</a> for <a class=\"struct\" href=\"serde_json/struct.Error.html\" title=\"struct serde_json::Error\">Error</a>",0]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":59,"fragment_lengths":[338,555,274,269]}
