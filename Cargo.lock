@@ -232,8 +232,6 @@ name = "e2e-schema-consumer"
 version = "0.1.0"
 dependencies = [
  "e2e-kinds",
- "e2e-schema-producer",
- "expectorate",
  "newtype-uuid",
  "serde",
  "typify",

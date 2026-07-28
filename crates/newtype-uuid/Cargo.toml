@@ -10,7 +10,6 @@ readme = "README.md"
 keywords = ["uuid", "unique", "guid", "newtype"]
 categories = ["data-structures", "no-std"]
 rust-version.workspace = true
-exclude = [".cargo/**/*", ".github/**/*", "scripts/**/*"]
 
 [lints]
 workspace = true

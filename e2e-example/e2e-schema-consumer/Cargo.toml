@@ -9,13 +9,9 @@ publish = false
 
 [dependencies]
 e2e-kinds = { path = "../e2e-kinds" }
-e2e-schema-producer = { path = "../e2e-schema-producer" }
 newtype-uuid = { workspace = true, features = ["serde", "v4"] }
 serde = { workspace = true, features = ["derive"] }
 typify.workspace = true
-
-[dev-dependencies]
-expectorate.workspace = true
 
 [package.metadata.release]
 release = false
