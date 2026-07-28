@@ -5,7 +5,7 @@
 ![License: MIT OR Apache-2.0](https://img.shields.io/crates/l/newtype-uuid-macros.svg?)
 [![crates.io](https://img.shields.io/crates/v/newtype-uuid-macros.svg?logo=rust)](https://crates.io/crates/newtype-uuid-macros)
 [![docs.rs](https://img.shields.io/docsrs/newtype-uuid-macros.svg?logo=docs.rs)](https://docs.rs/newtype-uuid-macros)
-[![Rust: ^1.79.0](https://img.shields.io/badge/rust-^1.79.0-93450a.svg?logo=rust)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
+[![Rust: ^1.85.0](https://img.shields.io/badge/rust-^1.85.0-93450a.svg?logo=rust)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
 <!-- cargo-sync-rdme ]] -->
 <!-- cargo-sync-rdme rustdoc [[ -->
 Procedural macro for [`newtype-uuid`](https://docs.rs/newtype-uuid).
