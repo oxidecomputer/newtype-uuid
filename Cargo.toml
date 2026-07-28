@@ -30,7 +30,7 @@ static_assertions = "1.1.0"
 syn = "3.0.3"
 test-strategy = "0.4.1"
 trybuild = "1.0"
-typify = "0.4.2"
+typify = "0.7.0"
 uuid = { version = "1.18.1", default-features = false }
 
 [workspace.lints.rust]
