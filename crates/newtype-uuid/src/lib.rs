@@ -786,8 +786,9 @@ impl<T: TypedUuidKind> From<TypedUuid<T>> for alloc::vec::Vec<u8> {
 mod schemars08_imp {
     use super::*;
     use schemars::{
+        JsonSchema, SchemaGenerator,
         schema::{InstanceType, Schema, SchemaObject},
-        schema_for, JsonSchema, SchemaGenerator,
+        schema_for,
     };
 
     const CRATE_NAME: &str = "newtype-uuid";
@@ -904,7 +905,7 @@ mod schemars08_imp {
 mod proptest1_imp {
     use super::*;
     use proptest::{
-        arbitrary::{any, Arbitrary},
+        arbitrary::{Arbitrary, any},
         strategy::{BoxedStrategy, Strategy},
     };
 

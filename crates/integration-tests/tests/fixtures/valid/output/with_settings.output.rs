@@ -21,7 +21,7 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for UserKind {
         ::std::borrow::Cow::Borrowed("my_service::types::UserKind")
     }
     fn json_schema(
-        _gen: &mut ::newtype_uuid::macro_support::schemars08::gen::SchemaGenerator,
+        _gen: &mut ::newtype_uuid::macro_support::schemars08::r#gen::SchemaGenerator,
     ) -> ::newtype_uuid::macro_support::schemars08::schema::Schema {
         use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
@@ -68,7 +68,7 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for OrganizationKind 
         ::std::borrow::Cow::Borrowed("my_service::types::OrganizationKind")
     }
     fn json_schema(
-        _gen: &mut ::newtype_uuid::macro_support::schemars08::gen::SchemaGenerator,
+        _gen: &mut ::newtype_uuid::macro_support::schemars08::r#gen::SchemaGenerator,
     ) -> ::newtype_uuid::macro_support::schemars08::schema::Schema {
         use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
@@ -115,7 +115,7 @@ impl ::newtype_uuid::macro_support::schemars08::JsonSchema for ProjectKind {
         ::std::borrow::Cow::Borrowed("my_service::types::ProjectKind")
     }
     fn json_schema(
-        _gen: &mut ::newtype_uuid::macro_support::schemars08::gen::SchemaGenerator,
+        _gen: &mut ::newtype_uuid::macro_support::schemars08::r#gen::SchemaGenerator,
     ) -> ::newtype_uuid::macro_support::schemars08::schema::Schema {
         use ::newtype_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
