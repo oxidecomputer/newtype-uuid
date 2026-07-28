@@ -1106,8 +1106,7 @@ impl fmt::Display for TagError {
     }
 }
 
-#[cfg(feature = "std")]
-impl std::error::Error for TagError {}
+impl core::error::Error for TagError {}
 
 /// An error that occurred while parsing a [`TypedUuid`].
 #[derive(Clone, Debug)]
@@ -1126,9 +1125,8 @@ impl fmt::Display for ParseError {
     }
 }
 
-#[cfg(feature = "std")]
-impl std::error::Error for ParseError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+impl core::error::Error for ParseError {
+    fn source(&self) -> Option<&(dyn core::error::Error + 'static)> {
         Some(&self.error)
     }
 }
