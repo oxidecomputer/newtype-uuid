@@ -49,10 +49,19 @@ jobs:
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@cargo-hack
       - uses: taiki-e/install-action@nextest
-      - name: Build
+      - name: Build (stable)
+        if: matrix.rust-version == 'stable'
         run: just powerset build --all-targets
-      - name: Test
+      - name: Test (stable)
+        if: matrix.rust-version == 'stable'
         run: just powerset nextest run --all-targets --no-tests=pass -E 'not (test(ui) or test(snapshot))'
+      # (e2e-schema-consumer is excluded for the MSRV build -- see the Justfile.)
+      - name: Build (MSRV)
+        if: matrix.rust-version != 'stable'
+        run: just powerset-msrv build --all-targets
+      - name: Test (MSRV)
+        if: matrix.rust-version != 'stable'
+        run: just powerset-msrv nextest run --all-targets --no-tests=pass -E 'not (test(ui) or test(snapshot))'
       - name: Run extended tests (only on stable)
         if: matrix.rust-version == 'stable'
         run: cargo nextest run --all-targets --all-features

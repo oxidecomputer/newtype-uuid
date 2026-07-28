@@ -15,6 +15,17 @@ powerset *args:
     excluded_features="{{excluded_features_default}}"
     NEXTEST_NO_TESTS=pass cargo hack --feature-powerset --workspace --exclude-features "${excluded_features// /,}" "$@"
 
+# Run `cargo hack --feature-powerset` on crates that build at the MSRV
+powerset-msrv *args:
+    #!/usr/bin/env bash
+
+    # e2e-schema-consumer depends on typify, whose regress dependency
+    # potentially needs a newer Rust than the MSRV. It isn't actually published,
+    # so it is only built on stable.
+    excluded_features="{{excluded_features_default}}"
+    NEXTEST_NO_TESTS=pass cargo hack --feature-powerset --workspace --exclude e2e-schema-consumer \
+        --exclude-features "${excluded_features// /,}" "$@"
+
 # Run `cargo hack` with no-std-compatible features
 powerset-no-std *args:
     #!/usr/bin/env bash
