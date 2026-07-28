@@ -53,8 +53,3 @@ pub mod error {
 pub struct MyPathStruct {
     pub id: ::my_crate::types::MyUuid,
 }
-impl ::std::convert::From<&MyPathStruct> for MyPathStruct {
-    fn from(value: &MyPathStruct) -> Self {
-        value.clone()
-    }
-}
