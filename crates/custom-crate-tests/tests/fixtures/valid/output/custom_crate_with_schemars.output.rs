@@ -21,7 +21,7 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for AccountKind {
         ::std::borrow::Cow::Borrowed("my_api_service::models::AccountKind")
     }
     fn json_schema(
-        _gen: &mut ::my_custom_uuid::macro_support::schemars08::gen::SchemaGenerator,
+        _gen: &mut ::my_custom_uuid::macro_support::schemars08::r#gen::SchemaGenerator,
     ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
@@ -68,7 +68,7 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for TransactionKind
         ::std::borrow::Cow::Borrowed("my_api_service::models::TransactionKind")
     }
     fn json_schema(
-        _gen: &mut ::my_custom_uuid::macro_support::schemars08::gen::SchemaGenerator,
+        _gen: &mut ::my_custom_uuid::macro_support::schemars08::r#gen::SchemaGenerator,
     ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {
@@ -115,7 +115,7 @@ impl ::my_custom_uuid::macro_support::schemars08::JsonSchema for ApiKeyKind {
         ::std::borrow::Cow::Borrowed("my_api_service::models::ApiKeyKind")
     }
     fn json_schema(
-        _gen: &mut ::my_custom_uuid::macro_support::schemars08::gen::SchemaGenerator,
+        _gen: &mut ::my_custom_uuid::macro_support::schemars08::r#gen::SchemaGenerator,
     ) -> ::my_custom_uuid::macro_support::schemars08::schema::Schema {
         use ::my_custom_uuid::macro_support::schemars08::schema::*;
         let mut schema = SchemaObject {

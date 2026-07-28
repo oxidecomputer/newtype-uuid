@@ -1,10 +1,10 @@
 use super::error_store::{ErrorSink, ErrorStore};
 use heck::ToSnakeCase;
 use proc_macro2::{Delimiter, Span, TokenStream, TokenTree};
-use quote::{format_ident, quote, quote_spanned, ToTokens};
+use quote::{ToTokens, format_ident, quote, quote_spanned};
 use serde::Deserialize;
 use serde_tokenstream::{
-    from_tokenstream, from_tokenstream_spanned, OrderedMap, ParseWrapper, TokenStreamWrapper,
+    OrderedMap, ParseWrapper, TokenStreamWrapper, from_tokenstream, from_tokenstream_spanned,
 };
 use syn::spanned::Spanned;
 
@@ -404,7 +404,7 @@ fn generate_schemars_impl(
             }
 
             fn json_schema(
-                _gen: &mut ::#newtype_uuid_crate::macro_support::schemars08::gen::SchemaGenerator,
+                _gen: &mut ::#newtype_uuid_crate::macro_support::schemars08::r#gen::SchemaGenerator,
             ) -> ::#newtype_uuid_crate::macro_support::schemars08::schema::Schema {
                 use ::#newtype_uuid_crate::macro_support::schemars08::schema::*;
 
