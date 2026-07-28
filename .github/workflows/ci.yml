@@ -37,6 +37,12 @@ jobs:
         os: [ubuntu-latest]
         # 1.85 is the MSRV
         rust-version: ["1.85", stable]
+        include:
+          # (e2e-schema-consumer is excluded at the MSRV -- see the Justfile.)
+          - rust-version: "1.85"
+            powerset: powerset-msrv
+          - rust-version: stable
+            powerset: powerset
       fail-fast: false
     env:
       RUSTFLAGS: -D warnings
@@ -49,19 +55,10 @@ jobs:
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@cargo-hack
       - uses: taiki-e/install-action@nextest
-      - name: Build (stable)
-        if: matrix.rust-version == 'stable'
-        run: just powerset build --all-targets
-      - name: Test (stable)
-        if: matrix.rust-version == 'stable'
-        run: just powerset nextest run --all-targets --no-tests=pass -E 'not (test(ui) or test(snapshot))'
-      # (e2e-schema-consumer is excluded for the MSRV build -- see the Justfile.)
-      - name: Build (MSRV)
-        if: matrix.rust-version != 'stable'
-        run: just powerset-msrv build --all-targets
-      - name: Test (MSRV)
-        if: matrix.rust-version != 'stable'
-        run: just powerset-msrv nextest run --all-targets --no-tests=pass -E 'not (test(ui) or test(snapshot))'
+      - name: Build
+        run: just ${{ matrix.powerset }} build --all-targets
+      - name: Test
+        run: just ${{ matrix.powerset }} nextest run --all-targets --no-tests=pass -E 'not (test(ui) or test(snapshot))'
       - name: Run extended tests (only on stable)
         if: matrix.rust-version == 'stable'
         run: cargo nextest run --all-targets --all-features
