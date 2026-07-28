@@ -1,5 +1,17 @@
 # Changelog
 
+<!-- next-header -->
+## Unreleased - ReleaseDate
+
+### Added
+
+- `TagError` and `ParseError` now implement `core::error::Error` rather than merely `std::error::Error`.
+
+### Changed
+
+- MSRV updated to Rust 1.85.
+- The minimum supported `uuid` version is now 1.21.0.
+
 ## [1.3.2] - 2025-11-06
 
 ### Added
@@ -138,6 +150,7 @@ Documentation improvements.
 
 Initial release.
 
+<!-- next-url -->
 [1.3.2]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.2
 [1.3.1]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.1
 [1.3.0]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-1.3.0
