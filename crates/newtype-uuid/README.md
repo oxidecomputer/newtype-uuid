@@ -8,15 +8,15 @@
 [![Rust: ^1.85.0](https://img.shields.io/badge/rust-^1.85.0-93450a.svg?logo=rust)](https://doc.rust-lang.org/cargo/reference/manifest.html#the-rust-version-field)
 <!-- cargo-sync-rdme ]] -->
 <!-- cargo-sync-rdme rustdoc [[ -->
-A newtype wrapper around [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
+A newtype wrapper around [`Uuid`].
 
 ## Motivation
 
-Many large systems use UUIDs as unique identifiers for various entities. However, the [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html)
+Many large systems use UUIDs as unique identifiers for various entities. However, the [`Uuid`]
 type does not carry information about the kind of entity it identifies, which can lead to mixing
 up different types of UUIDs at runtime.
 
-This crate provides a wrapper type around [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html) that allows you to specify the kind of entity
+This crate provides a wrapper type around [`Uuid`] that allows you to specify the kind of entity
 the UUID identifies.
 
 ## Example
@@ -97,22 +97,22 @@ impl_kinds! {
 
 ## Implementations
 
-In general, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) uses the same wire and serialization formats as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html). This means
-that persistent representations of [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) are the same as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html); [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) is
+In general, [`TypedUuid`] uses the same wire and serialization formats as [`Uuid`]. This means
+that persistent representations of [`TypedUuid`] are the same as [`Uuid`]; [`TypedUuid`] is
 intended to be helpful within Rust code, not across serialization boundaries.
 
-* The `Display` and `FromStr` impls are forwarded to the underlying [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
+* The `Display` and `FromStr` impls are forwarded to the underlying [`Uuid`].
 * If the `serde` feature is enabled, `TypedUuid` will serialize and deserialize using the same
-  format as [`Uuid`](https://docs.rs/uuid/1.17.0/uuid/struct.Uuid.html).
-* If the `schemars08` feature is enabled, [`TypedUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/struct.TypedUuid.html) will implement `JsonSchema` if the
-  corresponding [`TypedUuidKind`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/trait.TypedUuidKind.html) implements `JsonSchema`.
+  format as [`Uuid`].
+* If the `schemars08` feature is enabled, [`TypedUuid`] will implement `JsonSchema` if the
+  corresponding [`TypedUuidKind`] implements `JsonSchema`.
 
-To abstract over typed and untyped UUIDs, the [`GenericUuid`](https://docs.rs/newtype-uuid/1.2.4/newtype_uuid/trait.GenericUuid.html) trait is provided. This trait also
+To abstract over typed and untyped UUIDs, the [`GenericUuid`] trait is provided. This trait also
 permits conversions between typed and untyped UUIDs.
 
 ## Dependencies
 
-* The only required dependency is the [`uuid`](https://docs.rs/uuid/1.17.0/uuid/index.html) crate. Optional features may add further
+* The only required dependency is the [`uuid`][uuid@1] crate. Optional features may add further
   dependencies.
 
 ## Features
@@ -146,7 +146,12 @@ each minor version are:
 * [`typed-uuid`](https://crates.io/crates/typed-uuid): generally similar, but with a few design
   decisions that are different.
 
+[`Uuid`]: https://docs.rs/uuid/1.24.0/uuid/struct.Uuid.html "struct uuid::Uuid"
 [`newtype-uuid-macros`]: https://docs.rs/newtype-uuid-macros
+[`TypedUuid`]: https://docs.rs/newtype-uuid/1.4.0/newtype_uuid/struct.TypedUuid.html "struct newtype_uuid::TypedUuid"
+[`TypedUuidKind`]: https://docs.rs/newtype-uuid/1.4.0/newtype_uuid/trait.TypedUuidKind.html "trait newtype_uuid::TypedUuidKind"
+[`GenericUuid`]: https://docs.rs/newtype-uuid/1.4.0/newtype_uuid/trait.GenericUuid.html "trait newtype_uuid::GenericUuid"
+[uuid@1]: https://docs.rs/uuid/1.24.0/uuid/index.html "module uuid"
 <!-- cargo-sync-rdme ]] -->
 
 ## License
