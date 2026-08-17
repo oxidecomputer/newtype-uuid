@@ -13,7 +13,7 @@ Procedural macro for [`newtype-uuid`](https://docs.rs/newtype-uuid).
 This crate provides a procedural macro to help with creating
 [`newtype-uuid`](https://docs.rs/newtype-uuid) instances.
 
-For more information, see the documentation for [`impl_typed_uuid_kinds!`](https://docs.rs/newtype-uuid-macros/0.1.0/newtype_uuid_macros/macro.impl_typed_uuid_kinds.html).
+For more information, see the documentation for [`impl_typed_uuid_kinds!`].
 
 ## Examples
 
@@ -42,7 +42,9 @@ let business_unit_uuid = BusinessUnitUuid::new_v4();
 ````
 
 For more details and examples, see the documentation for
-[`impl_typed_uuid_kinds!`](https://docs.rs/newtype-uuid-macros/0.1.0/newtype_uuid_macros/macro.impl_typed_uuid_kinds.html).
+[`impl_typed_uuid_kinds!`].
+
+[`impl_typed_uuid_kinds!`]: https://docs.rs/newtype-uuid-macros/0.1.1/newtype_uuid_macros/macro.impl_typed_uuid_kinds.html "macro newtype_uuid_macros::impl_typed_uuid_kinds"
 <!-- cargo-sync-rdme ]] -->
 
 ## License
