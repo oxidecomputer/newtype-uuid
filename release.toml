@@ -6,3 +6,6 @@ tag-message = "[{{crate_name}}] version {{version}}"
 tag-name = "{{crate_name}}-{{version}}"
 publish = false
 dependent-version = "upgrade"
+
+# Regenerate READMEs so docs.rs links pick up the new version.
+pre-release-hook = ["just", "generate-readmes"]
