@@ -62,7 +62,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust-version }}
-      - uses: Swatinem/rust-cache@9d47c6ad4b02e050fd481d890b2ea34778fd09d6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@cargo-hack
       - uses: taiki-e/install-action@nextest
@@ -92,7 +92,7 @@ jobs:
         with:
           toolchain: ${{ matrix.rust-version }}
           targets: ${{ matrix.target }}
-      - uses: Swatinem/rust-cache@9d47c6ad4b02e050fd481d890b2ea34778fd09d6 # v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2
       - uses: taiki-e/install-action@just
       - uses: taiki-e/install-action@cargo-hack
       - run: just powerset-no-std build --target ${{ matrix.target }}
