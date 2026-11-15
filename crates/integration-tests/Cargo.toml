@@ -9,7 +9,6 @@ publish = false
 datatest-stable.workspace = true
 expectorate.workspace = true
 heck.workspace = true
-newtype-uuid-macros.workspace = true
 newtype-uuid.workspace = true
 prettyplease.workspace = true
 proc-macro2.workspace = true
@@ -22,10 +21,11 @@ serde_tokenstream.workspace = true
 syn = { workspace = true, features = ["full"] }
 test-strategy = { workspace = true, optional = true }
 typify = { workspace = true, optional = true }
-uuid.workspace = true
 
 [dev-dependencies]
+newtype-uuid-macros.workspace = true
 trybuild.workspace = true
+uuid.workspace = true
 
 [features]
 internal-schemars08-tests = [
@@ -48,3 +48,6 @@ harness = false
 
 [package.metadata.release]
 release = false
+
+[lints]
+workspace = true

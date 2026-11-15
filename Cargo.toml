@@ -6,10 +6,10 @@ members = ["crates/*", "e2e-example/*"]
 edition = "2024"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/oxidecomputer/newtype-uuid"
-rust-version = "1.85"
+rust-version = "1.88"
 
 [workspace.dependencies]
-datatest-stable = "0.3.2"
+datatest-stable = "0.3.3"
 expectorate = "1.2.0"
 heck = "0.5"
 integration-tests = { path = "crates/integration-tests" }

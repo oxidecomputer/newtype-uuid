@@ -21,3 +21,6 @@ schemars08 = ["dep:schemars", "e2e-kinds/schemars08"]
 
 [package.metadata.release]
 release = false
+
+[lints]
+workspace = true

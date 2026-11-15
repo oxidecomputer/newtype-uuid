@@ -17,3 +17,6 @@ schemars08 = ["newtype-uuid/schemars08"]
 
 [package.metadata.release]
 release = false
+
+[lints]
+workspace = true

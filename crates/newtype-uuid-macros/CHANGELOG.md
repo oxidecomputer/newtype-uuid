@@ -3,6 +3,10 @@
 <!-- next-header -->
 ## Unreleased - ReleaseDate
 
+### Changed
+
+- MSRV updated to Rust 1.88.
+
 ## [0.1.1] - 2026-07-28
 
 ### Changed

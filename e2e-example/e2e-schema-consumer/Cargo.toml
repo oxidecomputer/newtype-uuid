@@ -15,3 +15,6 @@ typify.workspace = true
 
 [package.metadata.release]
 release = false
+
+[lints]
+workspace = true

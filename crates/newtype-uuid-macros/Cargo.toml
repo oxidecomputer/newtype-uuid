@@ -39,3 +39,6 @@ pre-release-replacements = [
     { file = "CHANGELOG.md", search = "<!-- next-header -->", replace = "<!-- next-header -->\n## Unreleased - ReleaseDate\n", exactly = 1 },
     { file = "CHANGELOG.md", search = "<!-- next-url -->", replace = "<!-- next-url -->\n[{{version}}]: https://github.com/oxidecomputer/newtype-uuid/releases/newtype-uuid-macros-{{version}}", exactly = 1 },
 ]
+
+[lints]
+workspace = true
