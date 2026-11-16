@@ -1,4 +1,4 @@
-error[E0433]: cannot find `nonexistent_crate` in the crate root
+error[E0433]: cannot find `nonexistent_crate` in the list of imported crates
  --> tests/fixtures/invalid/nonexistent_crate.rs:5:30
   |
 5 |         newtype_uuid_crate = nonexistent_crate,

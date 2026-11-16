@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RUSTFLAGS: -D warnings
+      CARGO_BUILD_WARNINGS: deny
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: dtolnay/rust-toolchain@stable
@@ -46,17 +47,18 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        # 1.85 is the MSRV
-        rust-version: ["1.85", stable]
+        # 1.88 is the MSRV
+        rust-version: ["1.88", stable]
         include:
           # (e2e-schema-consumer is excluded at the MSRV -- see the Justfile.)
-          - rust-version: "1.85"
+          - rust-version: "1.88"
             powerset: powerset-msrv
           - rust-version: stable
             powerset: powerset
       fail-fast: false
     env:
       RUSTFLAGS: -D warnings
+      CARGO_BUILD_WARNINGS: deny
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@master
@@ -86,6 +88,9 @@ jobs:
           - thumbv7m-none-eabi
         rust-version: [stable]
       fail-fast: false
+    env:
+      RUSTFLAGS: -D warnings
+      CARGO_BUILD_WARNINGS: deny
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@master
