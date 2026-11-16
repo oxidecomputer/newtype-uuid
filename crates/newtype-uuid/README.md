@@ -135,11 +135,11 @@ underlying `uuid` crate or of dependencies, with an aim to be conservative.
 Within the 1.x series, MSRV updates will be accompanied by a minor version bump. The MSRVs for
 each minor version are:
 
-* Version **1.0.x**: Rust 1.60.
-* Version **1.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
-* Version **1.2.x**: Rust 1.67, required by some dependency updates.
-* Version **1.3.x**: Rust 1.79, required by some dependency updates.
-* Version **1.4.x**: Rust 1.85, required by some dependency updates.
+* Version **1\.0.x**: Rust 1.60.
+* Version **1\.1.x**: Rust 1.61. This permits `TypedUuid<T>` to have `const fn` methods.
+* Version **1\.2.x**: Rust 1.67, required by some dependency updates.
+* Version **1\.3.x**: Rust 1.79, required by some dependency updates.
+* Version **1\.4.x**: Rust 1.85, required by some dependency updates.
 
 ## Alternatives
 
@@ -151,7 +151,7 @@ each minor version are:
 [`TypedUuid`]: https://docs.rs/newtype-uuid/1.4.0/newtype_uuid/struct.TypedUuid.html "struct newtype_uuid::TypedUuid"
 [`TypedUuidKind`]: https://docs.rs/newtype-uuid/1.4.0/newtype_uuid/trait.TypedUuidKind.html "trait newtype_uuid::TypedUuidKind"
 [`GenericUuid`]: https://docs.rs/newtype-uuid/1.4.0/newtype_uuid/trait.GenericUuid.html "trait newtype_uuid::GenericUuid"
-[uuid@1]: https://docs.rs/uuid/1.24.0/uuid/index.html "module uuid"
+[uuid@1]: https://docs.rs/uuid/1.24.0/uuid/index.html "mod uuid"
 <!-- cargo-sync-rdme ]] -->
 
 ## License
