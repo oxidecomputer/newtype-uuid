@@ -314,6 +314,15 @@ impl<T: TypedUuidKind> TypedUuid<T> {
         Self::from_untyped_uuid(Uuid::new_v7(ts))
     }
 
+    /// Creates a new, random UUID v7 of this type, using the current system time.
+    #[inline]
+    #[cfg(feature = "v7")]
+    #[must_use]
+    pub fn now_v7() -> Self {
+        Self::from_untyped_uuid(Uuid::now_v7())
+    }
+
+
     /// Returns the version number of the UUID.
     ///
     /// This represents the algorithm used to generate the value.
